@@ -1,0 +1,240 @@
+<template>
+  <div>
+    <div class="header">
+      <div class="container flex align-center justify-between">
+        <img class="logo" src="@/assets/images/index/logo.png" />
+        <div class="nav-block">
+          <router-link to="" class="nav-item" :class="{ active: path == '/' }">Home</router-link>
+          <router-link to="" class="nav-item" :class="{ active: path == '/Forums' }">Forums</router-link>
+          <router-link to="" class="nav-item" :class="{ active: path == '/Courses' }">Courses</router-link>
+        </div>
+        <div class="search-block">
+          <el-input placeholder="What do you want to ask?" v-model="keyWord">
+            <el-select v-model="keySelect" slot="prepend" placeholder="请选择">
+              <el-option label="Forums" value="1"></el-option>
+              <el-option label="Courses" value="2"></el-option>
+            </el-select>
+          </el-input>
+        </div>
+        <div class="remind-block">
+          <img src="../../assets/icon/icon-tx.png" alt="">
+        </div>
+        <div class="login-block align-center">
+          <el-popover placement="bottom" trigger="hover" :offset="-24" :visible-arrow="false"
+            popper-class="popover-class">
+            <img slot="reference" class="avatar" src="@/assets/icon/user.png" />
+            <div class="popover-box">
+              <div class="popover-item" v-for="(item, index) in popoverList" :key="index" @mousemove="persionMouse(index)"
+                :class="{ 'active-class': mouseNum == index, 'persion-class': index == 0, 'out-class': index == 1 }">
+                <img :src="item.imgSrc" alt="">
+                <span>{{ item.label }}</span>
+              </div>
+
+            </div>
+          </el-popover>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+  
+<script>
+import persionImg from "../../assets/icon/persion.png"
+import persionActiveImg from "../../assets/icon/persion-active.png"
+import outImg from "../../assets/icon/out.png"
+import outActiveImg from "../../assets/icon/out-active.png"
+
+export default {
+  watch: {
+    $route(route) {
+      this.path = route.path;
+    },
+  },
+  data() {
+    return {
+      path: "/",
+      activeMenu: "/",
+      keyWord: "",
+      keySelect: "1",
+      isTop: true,
+      popoverList: [{
+        label: 'My Profile', imgSrc: persionActiveImg,
+      }, { label: 'Log out', imgSrc: outActiveImg }],
+      mouseNum: -1
+    };
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      // 设置背景颜色的透明度
+      if (scrollTop) {
+        this.isTop = false; // scrollTop + 多少根据自己的需求设置
+      } else if (scrollTop === 0) {
+        this.isTop = true; // 设置回到顶部时，背景颜色为透明
+      }
+    },
+    // 滚动之前重置
+    beforeDestroy() {
+      window.removeEventListener("scroll", this.handleScroll);
+    },
+    persionMouse(num) {
+    this.mouseNum = num
+    if (this.mouseNum == 0) {
+      this.popoverList[0].imgSrc = persionImg
+      this.popoverList[1].imgSrc = outActiveImg
+    } else {
+      this.popoverList[1].imgSrc = outImg
+      this.popoverList[0].imgSrc = persionActiveImg
+    }
+
+  },
+  },
+};
+</script>
+<style lang="scss">
+.popover-class {
+  padding: 0 !important;
+  width: 120px;
+  min-width: 120px;
+  background: #FFFFFF;
+  box-shadow: 0px 2px 4px 0px rgba(6, 4, 0, 0.2);
+  border-radius: 6px;
+  border: none !important;
+
+}
+
+.popover-box {
+
+  .popover-item {
+    padding: 8px;
+
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+
+    img {
+      margin-right: 9px;
+    }
+  }
+
+  .active-class {
+    color: #fff;
+    background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
+  }
+
+  .persion-class {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+
+  .out-class {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+
+}
+
+</style>
+<style lang="scss" scoped>
+.header {
+  width: 100%;
+  height: 77px;
+  background: #ffffff;
+
+  .container {
+    padding: 14px 0
+  }
+
+  .logo {
+    width: 164px;
+    height: 50px;
+    margin-right: 38px;
+  }
+
+  .nav-block {
+    .nav-item {
+      font-size: 16px;
+      font-weight: bold;
+      color: #191919;
+      padding: 8px 16px;
+      margin: 0 12px;
+      border-radius: 30px;
+      text-decoration: none;
+
+      &.active {
+        background: linear-gradient(131deg, #ff8f00 0%, #dc0025 100%);
+        color: #ffffff;
+      }
+      &:hover{
+        color: #DC0025;
+      }
+    }
+  }
+
+  .search-block {
+    margin: 0 0 0 40px;
+    width: 489px;
+    background: #f9f7f7;
+    border-radius: 12px;
+    overflow: hidden;
+
+    ::v-deep .el-input__inner {
+      border: none;
+      background-color: #f9f7f7;
+    }
+
+    ::v-deep .el-select .el-input .el-select__caret {
+      color: #3e454e;
+      font-weight: 600;
+    }
+
+    ::v-deep .el-input-group__prepend {
+      border: none;
+      width: 64px;
+      background-color: #f9f7f7;
+      border-right: 1px solid #c8c8c8;
+      color: #3e454e;
+    }
+  }
+
+  .remind-block{
+    margin: 0 42px;
+    cursor: pointer;
+  }
+
+  .login-block {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 22px;
+    background: linear-gradient(131deg, #ff8f00 0%, #dc0025 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+::v-deep.el-popover{
+  padding: 0;
+  border: none;
+
+}
+
+
+    .avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    margin-top: 5px;
+    }
+  }
+}
+
+.header-zhan {
+  height: 77px;
+}
+</style>

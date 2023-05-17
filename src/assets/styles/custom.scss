@@ -1,0 +1,99 @@
+/* ==================
+    公共样式
+==================== */
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    min-width: 1200px;
+}
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+/* ==================
+      文字裁剪
+==================== */
+.text-cut {
+    display: -webkit-box;
+    word-break: break-all;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-cut1 {
+    -webkit-line-clamp: 1;
+}
+
+.text-cut2 {
+    -webkit-line-clamp: 2;
+}
+
+.text-cut3 {
+    -webkit-line-clamp: 3;
+}
+
+
+/* ==================
+      flex弹性布局
+ ==================== */
+.flex {
+    display: flex;
+}
+
+.flex-sub {
+    flex: 1;
+}
+
+.flex-direction {
+    flex-direction: column;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.align-start {
+    align-items: flex-start;
+}
+
+.align-end {
+    align-items: flex-end;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.justify-start {
+    justify-content: flex-start;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-around {
+    justify-content: space-around;
+}
+
+.text-black {
+    color: #333333;
+}
+
+.text-grey {
+    color: #999999;
+}
