@@ -30,6 +30,11 @@ const routes = [
     name: 'forgotPassword',
     component: () => import('@/views/login/forgotPassword')
   },
+  {
+    path: '/person',
+    name: 'person',
+    component: () => import('@/views/person')
+  },
   // {
   //   path: '/about',
   //   name: 'about',

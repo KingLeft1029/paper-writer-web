@@ -4,8 +4,10 @@
     <el-carousel trigger="click" height="340px" :interval="10000" loop>
       <el-carousel-item v-for="item in 4" :key="item">
         <div class="carousel-item">
-          <img class="item-img"
-            src="https://img1.baidu.com/it/u=1571832728,1330971037&fm=253&fmt=auto&app=138&f=JPEG?w=790&h=490" />
+          <img
+            class="item-img"
+            src="https://img1.baidu.com/it/u=1571832728,1330971037&fm=253&fmt=auto&app=138&f=JPEG?w=790&h=490"
+          />
           <div class="container flex align-center">
             <div class="flex-sub text-black">
               <div class="title flex align-center">
@@ -39,7 +41,13 @@
                   index == 0 ? "Paid" : "Free"
                 }}</span>
               </div>
-              <div class="item-content flex-sub flex flex-direction justify-between">
+              <div
+                class="
+                  item-content
+                  flex-sub flex flex-direction
+                  justify-between
+                "
+              >
                 <div class="item-title">
                   Course Name Course name course name…
                 </div>
@@ -59,14 +67,20 @@
       <!-- 文章 -->
       <div class="article-block">
         <Title title="Forums">
-          <div class="article-block-list" v-for="(item, index) in 4" :key="index">
+          <div
+            class="article-block-list"
+            v-for="(item, index) in 4"
+            :key="index"
+          >
             <div class="article-block-item">
               <div class="item-left">
                 <div class="item-title">
-                  Post Name Post Name Post Name Post Name Post Name Post Name Post Name Post Name
+                  Post Name Post Name Post Name Post Name Post Name Post Name
+                  Post Name Post Name
                 </div>
                 <div class="item-content">
-                  Article descriptionArticle descriptionArticle descriptionArticle descriptionArticle descriptiona Article
+                  Article descriptionArticle descriptionArticle
+                  descriptionArticle descriptionArticle descriptiona Article
                   descriptionArticle descriptionArticle …
                 </div>
                 <div class="item-user-box">
@@ -80,31 +94,69 @@
                 </div>
                 <div class="button-group">
                   <div class="reward group">
-                    <div class="icon"><img src="@/assets/icon/logo.png" width="15px" height="15px" /></div>
+                    <div class="icon">
+                      <img
+                        src="@/assets/icon/logo.png"
+                        width="15px"
+                        height="15px"
+                      />
+                    </div>
                     <div class="num">2000</div>
                   </div>
                   <div class="up group">
-                    <div class="icon"><img src="@/assets/icon/logo.png" width="15px" height="15px" /></div>
+                    <div class="icon">
+                      <img
+                        src="@/assets/icon/logo.png"
+                        width="15px"
+                        height="15px"
+                      />
+                    </div>
                     <div class="num">3258</div>
                   </div>
                   <div class="collect group">
-                    <div class="icon"><img src="@/assets/icon/logo.png" width="15px" height="15px" /></div>
+                    <div class="icon">
+                      <img
+                        src="@/assets/icon/logo.png"
+                        width="15px"
+                        height="15px"
+                      />
+                    </div>
                     <div class="num">1.68k</div>
                   </div>
                   <div class="comment group">
-                    <div class="icon"><img src="@/assets/icon/logo.png" width="15px" height="15px" /></div>
+                    <div class="icon">
+                      <img
+                        src="@/assets/icon/logo.png"
+                        width="15px"
+                        height="15px"
+                      />
+                    </div>
                     <div class="num">2158</div>
                   </div>
                   <div class="forward group">
-                    <div class="icon"><img src="@/assets/icon/logo.png" width="15px" height="15px" /></div>
+                    <div class="icon">
+                      <img
+                        src="@/assets/icon/logo.png"
+                        width="15px"
+                        height="15px"
+                      />
+                    </div>
                     <div class="num">2158</div>
                   </div>
                 </div>
               </div>
               <div class="item-right" v-if="index % 2 == 0">
-                <img src="@/assets/images/index/article.png" width="130px" height="142px" />
+                <img
+                  src="@/assets/images/index/article.png"
+                  width="130px"
+                  height="142px"
+                />
               </div>
             </div>
+          </div>
+          <div class="more-box">
+            More
+            <img src="../assets/icon/right.png" alt="" />
           </div>
         </Title>
       </div>
@@ -119,13 +171,23 @@
         </div>
         <div class="right-list">
           <div class="item-first">
-            <div class="item-first-main" v-for="(item, index) in 1" :key="index">
+            <div
+              class="item-first-main"
+              v-for="(item, index) in 1"
+              :key="index"
+            >
               <div class="item-img">
                 <span class="left-tag" :class="{ active: index == 0 }">{{
                   index == 0 ? "Paid" : "Free"
                 }}</span>
               </div>
-              <div class="item-content flex-sub flex flex-direction justify-between">
+              <div
+                class="
+                  item-content
+                  flex-sub flex flex-direction
+                  justify-between
+                "
+              >
                 <div class="item-title">
                   Course Name Course name course name…
                 </div>
@@ -152,19 +214,20 @@
           <div class="right-item"></div>
         </div>
         <div class="msg-inter">
-          <img src="@/assets/images/index/msg.png" width="358px" height="78px" />
+          <img
+            src="@/assets/images/index/msg.png"
+            width="358px"
+            height="78px"
+          />
         </div>
       </div>
-
     </div>
-
   </div>
 </template>
 
 <script>
 import Title from "@/components/Title";
 export default {
-
   components: {
     Title,
   },
@@ -245,7 +308,6 @@ export default {
       border-radius: 6px;
       border: 1px solid rgba(151, 151, 151, 0.18);
 
-
       &-main {
         padding: 15px 20px 15px 20px;
         position: relative;
@@ -317,13 +379,12 @@ export default {
         }
       }
 
-      &:hover{
-        border-color: #DC0025;
+      &:hover {
+        border-color: #dc0025;
       }
     }
   }
 }
-
 
 //文章
 .article-block {
@@ -340,8 +401,8 @@ export default {
     margin-bottom: 20px;
     height: 184px;
     display: flex;
-    &:hover{
-      border-color: #DC0025;
+    &:hover {
+      border-color: #dc0025;
     }
 
     .item-left {
@@ -349,7 +410,7 @@ export default {
 
       .item-title {
         font-weight: bold;
-        color: #262B3A;
+        color: #262b3a;
         line-height: 24px;
         font-size: 18px;
         overflow: hidden;
@@ -437,6 +498,18 @@ export default {
       padding: 21px 20px 21px 0;
     }
   }
+
+  .more-box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    img{
+      width: 17px;
+      margin-top: 1px;
+    }
+  }
 }
 
 .right-block {
@@ -447,7 +520,7 @@ export default {
   .right-title {
     font-size: 36px;
     font-weight: bold;
-    color: #3F464F;
+    color: #3f464f;
     display: flex;
     margin-top: 20px;
     align-items: center;
@@ -478,7 +551,7 @@ export default {
         padding: 11px 20px 11px 20px;
         position: relative;
         display: flex;
-        background: #FBFBFB;
+        background: #fbfbfb;
         border-radius: 4px;
 
         .item-img {
@@ -540,14 +613,14 @@ export default {
 
     .item-left {
       padding: 8px 20px 8px 20px;
-      background: #FBFBFB;
+      background: #fbfbfb;
       border-radius: 4px;
       margin-top: 15px;
       height: 126px;
 
       .item-title {
         font-weight: bold;
-        color: #262B3A;
+        color: #262b3a;
         line-height: 22px;
         font-size: 16px;
         overflow: hidden;

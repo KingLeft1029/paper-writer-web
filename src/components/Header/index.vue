@@ -4,9 +4,21 @@
       <div class="container flex align-center justify-between">
         <img class="logo" src="@/assets/images/index/logo.png" />
         <div class="nav-block">
-          <router-link to="" class="nav-item" :class="{ active: path == '/' }">Home</router-link>
-          <router-link to="" class="nav-item" :class="{ active: path == '/Forums' }">Forums</router-link>
-          <router-link to="" class="nav-item" :class="{ active: path == '/Courses' }">Courses</router-link>
+          <router-link to="" class="nav-item" :class="{ active: path == '/' }"
+            >Home</router-link
+          >
+          <router-link
+            to=""
+            class="nav-item"
+            :class="{ active: path == '/Forums' }"
+            >Forums</router-link
+          >
+          <router-link
+            to=""
+            class="nav-item"
+            :class="{ active: path == '/Courses' }"
+            >Courses</router-link
+          >
         </div>
         <div class="search-block">
           <el-input placeholder="What do you want to ask?" v-model="keyWord">
@@ -17,22 +29,37 @@
           </el-input>
         </div>
         <div class="remind-block">
-          <img src="../../assets/icon/icon-tx.png" alt="">
+          <img src="../../assets/icon/icon-tx.png" alt="" />
         </div>
         <div class="login-block align-center">
-          <el-popover placement="bottom" trigger="hover" :offset="-24" :visible-arrow="false"
-            popper-class="popover-class">
+          <el-popover
+            placement="bottom"
+            trigger="click"
+            :offset="-24"
+            :visible-arrow="false"
+            popper-class="popover-class"
+          >
             <img slot="reference" class="avatar" src="@/assets/icon/user.png" />
             <div class="popover-box">
-              <div class="popover-item" v-for="(item, index) in popoverList" :key="index" @mousemove="persionMouse(index)"
-                :class="{ 'active-class': mouseNum == index, 'persion-class': index == 0, 'out-class': index == 1 }">
-                <img :src="item.imgSrc" alt="">
-                <span>{{ item.label }}</span>
+              <div :key="index" v-for="(item, index) in popoverList">
+                <router-link :to="item.pathTo">
+                  <div
+                    class="popover-item"
+                
+                    @mousemove="popoverMouse(index)"
+                    :class="{
+                      'active-class': mouseNum == index,
+                      'persion-class': index == 0,
+                      'out-class': index == 1,
+                    }"
+                  >
+                    <img :src="item.imgSrc" alt="" />
+                    <span>{{ item.label }}</span>
+                  </div>
+                </router-link>
               </div>
-
             </div>
           </el-popover>
-
         </div>
       </div>
     </div>
@@ -40,10 +67,10 @@
 </template>
   
 <script>
-import persionImg from "../../assets/icon/persion.png"
-import persionActiveImg from "../../assets/icon/persion-active.png"
-import outImg from "../../assets/icon/out.png"
-import outActiveImg from "../../assets/icon/out-active.png"
+import persionImg from "../../assets/icon/persion.png";
+import persionActiveImg from "../../assets/icon/persion-active.png";
+import outImg from "../../assets/icon/out.png";
+import outActiveImg from "../../assets/icon/out-active.png";
 
 export default {
   watch: {
@@ -58,10 +85,15 @@ export default {
       keyWord: "",
       keySelect: "1",
       isTop: true,
-      popoverList: [{
-        label: 'My Profile', imgSrc: persionActiveImg,
-      }, { label: 'Log out', imgSrc: outActiveImg }],
-      mouseNum: -1
+      popoverList: [
+        {
+          label: "My Profile",
+          imgSrc: persionActiveImg,
+          pathTo:'/person'
+        },
+        { label: "Log out", imgSrc: outActiveImg ,pathTo:'/person'},
+      ],
+      mouseNum: -1,
     };
   },
   mounted() {
@@ -84,17 +116,16 @@ export default {
     beforeDestroy() {
       window.removeEventListener("scroll", this.handleScroll);
     },
-    persionMouse(num) {
-    this.mouseNum = num
-    if (this.mouseNum == 0) {
-      this.popoverList[0].imgSrc = persionImg
-      this.popoverList[1].imgSrc = outActiveImg
-    } else {
-      this.popoverList[1].imgSrc = outImg
-      this.popoverList[0].imgSrc = persionActiveImg
-    }
-
-  },
+    popoverMouse(num) {
+      this.mouseNum = num;
+      if (this.mouseNum == 0) {
+        this.popoverList[0].imgSrc = persionImg;
+        this.popoverList[1].imgSrc = outActiveImg;
+      } else {
+        this.popoverList[1].imgSrc = outImg;
+        this.popoverList[0].imgSrc = persionActiveImg;
+      }
+    },
   },
 };
 </script>
@@ -103,15 +134,13 @@ export default {
   padding: 0 !important;
   width: 120px;
   min-width: 120px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 2px 4px 0px rgba(6, 4, 0, 0.2);
   border-radius: 6px;
   border: none !important;
-
 }
 
 .popover-box {
-
   .popover-item {
     padding: 8px;
 
@@ -123,10 +152,14 @@ export default {
       margin-right: 9px;
     }
   }
+  a {
+    text-decoration: none;
+    color: #3e454e;
+  }
 
   .active-class {
     color: #fff;
-    background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
+    background: linear-gradient(131deg, #ff8f00 0%, #dc0025 100%);
   }
 
   .persion-class {
@@ -138,9 +171,7 @@ export default {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
   }
-
 }
-
 </style>
 <style lang="scss" scoped>
 .header {
@@ -149,7 +180,7 @@ export default {
   background: #ffffff;
 
   .container {
-    padding: 14px 0
+    padding: 14px 0;
   }
 
   .logo {
@@ -172,8 +203,8 @@ export default {
         background: linear-gradient(131deg, #ff8f00 0%, #dc0025 100%);
         color: #ffffff;
       }
-      &:hover{
-        color: #DC0025;
+      &:hover {
+        color: #dc0025;
       }
     }
   }
@@ -204,7 +235,7 @@ export default {
     }
   }
 
-  .remind-block{
+  .remind-block {
     margin: 0 42px;
     cursor: pointer;
   }
@@ -218,18 +249,16 @@ export default {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-::v-deep.el-popover{
-  padding: 0;
-  border: none;
-
-}
-
+    ::v-deep.el-popover {
+      padding: 0;
+      border: none;
+    }
 
     .avatar {
       width: 20px;
       height: 20px;
       border-radius: 50%;
-    margin-top: 5px;
+      margin-top: 5px;
     }
   }
 }
