@@ -5365,6 +5365,11 @@ vary@~1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
+vue-cropper@0.5.5:
+  version "0.5.5"
+  resolved "https://registry.npmmirror.com/vue-cropper/-/vue-cropper-0.5.5.tgz#9bd1ba563c7faa268abd52fb2af4c6c28d33c962"
+  integrity sha512-5mGaBlS1EwLxUFwHHX2Q8zOZSiVfBUjOfolR+ZNKwu7Rh3u+GhwHYOyFkgZHhhoQBBNdyVB28O6W+MpMimhCbA==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"

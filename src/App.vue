@@ -53,6 +53,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
 
+
   .theme-picker {
     display: none;
   }
@@ -63,4 +64,6 @@ export default {
   top: 0;
   z-index: 999;
 }
+
+
 </style>

@@ -4,6 +4,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 html {
     min-width: 1200px;
@@ -97,3 +98,46 @@ html {
 .text-grey {
     color: #999999;
 }
+
+.yellow{
+    color: #FF8F00;
+}
+.big-size{
+    font-size: 20px;
+    font-weight: 500;
+}
+.col-line{
+    width: 1px;
+height: 20px;
+background: #DDDDDD;
+}
+
+.grey{
+ 
+    color: #61687C;
+}
+.mt20{
+margin-top: 20px;
+}
+.mb20{
+margin-bottom: 20px;
+}
+.mr20{
+    margin-right: 20px;
+}
+.ml20{
+    margin-left: 20px;
+}
+
+.name{
+    font-size: 16px;
+    font-family: PingFangSC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #3E454E;
+    line-height: 15px;  
+}
+.pointer{
+    cursor: pointer;
+
+}
+
