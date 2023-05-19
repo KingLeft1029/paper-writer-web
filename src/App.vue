@@ -67,3 +67,12 @@ export default {
 
 
 </style>
+<style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+</style>

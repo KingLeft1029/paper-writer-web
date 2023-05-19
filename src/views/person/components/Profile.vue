@@ -1,8 +1,12 @@
 <template>
     <div class="profile-box flex">
-        <div class="profile-left flex flex-direction align-center">
-            <div class="avatar-img" @click="editCropper()">
-                <img v-bind:src="options.img" title="点击上传头像" alt="">
+        <div class="required flex align-center" v-if="editFlag">
+            <span class="red">*</span>
+            <span class="gray">Required</span>
+        </div>
+        <div class="profile-left flex flex-direction align-center" @click="editCropper()">
+            <div class="avatar-img">
+                <img v-bind:src="options.img" title="upload photo as avatar" alt="">
             </div>
             <el-button plain>Avatar</el-button>
             <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"
@@ -25,7 +29,7 @@
                         <el-upload action="#" :http-request="requestUpload" :show-file-list="false"
                             :before-upload="beforeUpload">
                             <el-button size="small">
-                                选择1
+
                                 <i class="el-icon-upload el-icon--right"></i>
                             </el-button>
                         </el-upload>
@@ -43,48 +47,68 @@
                         <el-button icon="el-icon-refresh-right" size="small" @click="rotateRight()"></el-button>
                     </el-col>
                     <el-col :lg="{ span: 2, offset: 6 }" :md="2">
-                        <el-button type="primary" size="small" @click="uploadImg()">提 交</el-button>
+                        <el-button type="primary" size="small" @click="uploadImg()">Submit</el-button>
                     </el-col>
                 </el-row>
             </el-dialog>
         </div>
         <div class="profile-right">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
-                <el-form-item label="Username：" prop="name">
-                    <el-input v-model="ruleForm.name"></el-input>
+                <el-form-item label="Username：" prop="userNameMock">
+                    <el-input v-model="ruleForm.userNameMock" placeholder="Username"></el-input>
                 </el-form-item>
-                <el-form-item label="Email：" prop="name">
-                    <el-input v-model="ruleForm.name"></el-input>
+                <el-form-item label="Email：" prop="emailMock">
+                    <el-input v-model="ruleForm.emailMock" placeholder="Email"></el-input>
                 </el-form-item>
-                <el-form-item label="Gender：">
-                    <div class="gender-box flex align-center">
-                        <div class="flex align-center justify-between" :class="{'active-gender':genderKey==0}" @click="selectGender(0)">
+                <el-form-item v-if="editFlag" label="Verification：" prop="verificationMock" style="position: relative;">
+                    <el-input v-model="ruleForm.verificationMock" placeholder="Verification"></el-input>
+                    <div class="send-class" @click="send">{{ copyText }}</div>
+
+                    <div class="slideverify" v-show="isShowSlide" @mouseleave="hideSlide">
+                        <SlideVerify ref="slideblock" @success="sendSmsCode"></SlideVerify>
+                    </div>
+
+
+                </el-form-item>
+                <el-form-item label="Gender：" prop="genderKeyMock">
+                    <span class="prefer" v-if="!ruleForm.genderKeyMock && ruleForm.genderKeyMock != 0">Prefer not to
+                        say</span>
+                    <div v-else class="gender-box flex align-center">
+                        <div class="flex align-center justify-between"
+                            :class="{ 'active-gender': ruleForm.genderKeyMock == 0 }" @click="selectGender(0)">
                             <span>Male</span>
                             <img src="../../../assets/person/male.png" alt="">
                         </div>
-                        <div class="flex align-center justify-between" :class="{'active-gender':genderKey==1}" @click="selectGender(1)">
+                        <div class="flex align-center justify-between"
+                            :class="{ 'active-gender': ruleForm.genderKeyMock == 1 }" @click="selectGender(1)">
                             <span>Female</span>
                             <img src="../../../assets/person/female.png" alt="">
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item label="Country：" prop="region">
-                    <el-select v-model="ruleForm.region" placeholder="" style="width:100%">
+                <el-form-item label="Country：" prop="countryMock">
+                    <el-select v-model="ruleForm.countryMock" placeholder="Country" style="width:100%">
                         <el-option label="区域一" value="shanghai"></el-option>
                         <el-option label="区域二" value="beijing"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Contact number：" prop="name">
-                    <el-input v-model="ruleForm.name"></el-input>
+                <el-form-item label="Contact number：" prop="numberMock">
+                    <el-input type="number" v-model="ruleForm.numberMock" placeholder="Contact number"></el-input>
                 </el-form-item>
                 <el-form-item label="Birthday：" required>
-                    <el-date-picker type="date" placeholder="Year/Month/Day" v-model="ruleForm.date1"
-                        style="width: 100%;"></el-date-picker>
+                    <el-date-picker type="date" :picker-options="pickerOptions" placeholder="Year/Month/Day"
+                        v-model="ruleForm.BirthdayMock" style="width: 100%;"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="Age：" prop="name">
-                    <el-input v-model="ruleForm.name"></el-input>
+                <el-form-item label="Age：" prop="">
+                    <el-input v-model="ruleForm.ageMock" disabled placeholder="Age"></el-input>
                 </el-form-item>
-              
+                <div class="submit-box" v-if="!editFlag" @click="edit">
+                    Edit
+                </div>
+                <div class="btn-box" v-else>
+                    <el-button size="small" @click="editFlag = false">Cancel</el-button>
+                    <el-button size="small" type="primary" @click="save('ruleForm')"> Save </el-button>
+                </div>
             </el-form>
         </div>
     </div>
@@ -93,9 +117,56 @@
 <script>
 import store from "@/store";
 import { VueCropper } from "vue-cropper";
+import SlideVerify from "@/components/SlideVerify";//引入
+
 export default {
     components: {
-        VueCropper
+        VueCropper,
+        SlideVerify
+    },
+    watch: {
+
+        'ruleForm.BirthdayMock': {
+            handler: function (val) {
+                if (val) {
+                    let birthYear = val.getFullYear()
+                    let birthMonth = val.getMonth() + 1
+                    let birthDay = val.getDate()
+                    let now = new Date()
+                    let nowYear = now.getFullYear()
+                    let nowMonth = now.getMonth() + 1
+                    let nowDay = now.getDate()
+
+                    if (nowYear == birthYear) {
+                        this.ruleForm.ageMock = 0
+                    } else {
+                        let ageDiff = nowYear - birthYear
+                        if (ageDiff > 0) {
+                            if (nowMonth == birthMonth) {
+                                let dayDiff = nowDay - birthDay
+                                if (dayDiff < 0) {
+                                    this.ruleForm.ageMock = ageDiff - 1
+                                } else {
+                                    this.ruleForm.ageMock = ageDiff
+                                }
+                            } else {
+                                let monthDiff = nowMonth - birthMonth
+                                if (monthDiff < 0) {
+                                    this.ruleForm.ageMock = ageDiff - 1
+                                } else {
+                                    this.ruleForm.ageMock = ageDiff
+                                }
+                            }
+                        }
+                    }
+
+                }
+            },
+            deep: true,
+            // 立即以obj.name的当前值触发回调
+            immediate: true
+        }
+
     },
     data() {
         return {
@@ -104,7 +175,7 @@ export default {
             // 是否显示cropper
             visible: false,
             // 弹出层标题
-            title: "修改头像",
+            title: "Modify profile picture",
             options: {
                 img: store.getters.avatar, //裁剪图片的地址
                 autoCrop: true, // 是否默认生成截图框
@@ -114,40 +185,48 @@ export default {
             },
             previews: {},
             ruleForm: {
-                name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
+                userNameMock: '',
+                emailMock: '',
+                verificationMock: '',
+                genderKeyMock: '',
+                countryMock: '',
+                numberMock: '',
+                BirthdayMock: '',
+                ageMock: ''
             },
             rules: {
-                name: [
-                    { required: true, message: '请输入活动名称', trigger: 'blur' },
-                    { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+
+                userNameMock: [
+                    { required: true, message: 'Please enter the user name', trigger: 'blur' },
                 ],
-                region: [
-                    { required: true, message: '请选择活动区域', trigger: 'change' }
+                emailMock: [
+                    { required: true, message: 'Please enter the email address', trigger: 'blur' },
+                    {
+                        pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "Please enter the correct email address",
+                        trigger: "blur"
+                    }
                 ],
-                date1: [
-                    { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                verificationMock: [
+                    { required: true, message: 'Please enter the verification code', trigger: 'blur' },
                 ],
-                date2: [
-                    { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+                countryMock: [
+                    { required: true, message: 'Please select your country', trigger: 'change' }
                 ],
-                type: [
-                    { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-                ],
-                resource: [
-                    { required: true, message: '请选择活动资源', trigger: 'change' }
-                ],
-                desc: [
-                    { required: true, message: '请填写活动形式', trigger: 'blur' }
-                ]
+
+
             },
-            genderKey:null
+
+            editFlag: false,
+            copyText: "Send the verification code",
+            setInterval: null,
+            isShowSlide: false,
+            //限制选择时间为当天之前的
+            pickerOptions: {
+                disabledDate(time) {
+                    return time.getTime() > Date.now() - 8.64e6
+                }
+            },
         };
     },
     methods: {
@@ -210,10 +289,13 @@ export default {
             this.options.img = store.getters.avatar
             this.visible = false;
         },
-        submitForm(formName) {
+        // 保存
+        save(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     alert('submit!');
+                    this.editFlag = false
+                    this.$message.success('save successfully')
                 } else {
                     console.log('error submit!!');
                     return false;
@@ -223,9 +305,69 @@ export default {
         resetForm(formName) {
             this.$refs[formName].resetFields();
         },
-        selectGender(index){
-            this.genderKey=index
-        }
+        // 选择性别
+        selectGender(index) {
+            this.ruleForm.genderKeyMock = index
+        },
+        // 点击编辑
+        edit() {
+            this.editFlag = true
+        },
+        // 发送验证码
+        send() {
+            if (!this.ruleForm.name) {
+                this.$message.warning("Please enter the email address");
+                return;
+            }
+            this.isShowSlide = true
+
+            // if (this.setInterval) {
+            //     this.$message.warning("Do not obtain the verification code repeatedly");
+            //     return;
+            // }
+            // this.copyText = "Try again in 60 seconds";
+            // let num = 59;
+
+            // pwdBackGetCode(this.loginForm.pwdBackNumber).then((res) => {
+            //     this.$message.success("The verification code has been sent");
+            // });
+            // this.setInterval = setInterval(() => {
+            //     this.copyText = `${num--} Second recapture`;
+            //     if (num === 0) {
+            //         this.copyText = "Send the verification code";
+            //         clearInterval(this.setInterval);
+            //         this.setInterval = null;
+            //     }
+            // }, 1000);
+        },
+        hideSlide() {
+            setTimeout(() => {
+                this.isShowSlide = false;
+            }, 500);
+        },
+        sendSmsCode() {
+            setTimeout(() => {
+                this.isShowSlide = false;
+            }, 500)
+            //此处的处理是：图片验证通过后，发送短信验证码，这个要根据具体情况单独处理
+            //   setTimeout(() => {
+            //     this.$api
+            //       .getSendForgetSmsCode({
+            //         mobile: this.form.account,
+            //       })
+            //       .then((res) => {
+            //         this.isShowSlide = false;
+            //         if (res.data.success) {
+            //           this.timeCountDown();
+            //           this.$message.success("短信验证码发送成功");
+            //         } else {
+            //           this.$message.error(res.data);
+            //         }
+            //       })
+            //       .catch((err) => {});
+            //   }, 500);
+        },
+
     }
 };
 </script>
@@ -234,6 +376,26 @@ export default {
 .profile-box {
     margin-top: 30px;
     padding-right: 60px;
+    position: relative;
+
+    .required {
+        position: absolute;
+        right: 0px;
+        top:-62px;
+    }
+
+    .red {
+        color: #E93636;
+        font-size: 14px;
+        line-height: 22px;
+        margin-top: 7px;
+        margin-right: 6px;
+    }
+
+    .gray {
+        line-height: 22px;
+        color: rgba(0, 0, 0, 0.25);
+    }
 
     .avatar-img {
         width: 60px;
@@ -258,9 +420,68 @@ export default {
             margin-top: 21px;
         }
     }
-.profile-right{
-    width: 100%;
-}
+
+    .profile-right {
+        width: 100%;
+
+        .submit-box {
+            width: 74px;
+            height: 32px;
+            background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
+            font-size: 14px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #FFFFFF;
+            line-height: 22px;
+            text-align: center;
+            line-height: 32px;
+            margin: 0 auto;
+            cursor: pointer;
+            margin-top: 40px;
+        }
+
+        .prefer {
+            color: #b4bccc
+        }
+
+        .send-class {
+            width: 164px;
+            height: 26px;
+            color: #fff;
+            text-align: center;
+            line-height: 26px;
+            font-size: 12px;
+            position: absolute;
+            right: 7px;
+            top: 7px;
+            cursor: pointer;
+            background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
+        }
+
+        .slideverify {
+            position: absolute;
+            z-index: 11;
+            top: 40px;
+            right: 0;
+            background-color: #fff;
+
+        }
+
+        .btn-box {
+            display: flex;
+            justify-content: flex-end;
+
+            margin-top: 40px;
+
+            .el-button {
+                margin-left: 24px;
+            }
+
+        }
+
+
+    }
+
     .gender-box {
         div {
             width: 130px;
@@ -273,15 +494,17 @@ export default {
             margin-right: 20px;
             cursor: pointer;
 
-            &:hover{
+            &:hover {
                 border-color: #dc0025;
             }
 
         }
-        .active-gender{
+
+        .active-gender {
             border-color: #dc0025;
         }
     }
+
 
 }
 </style>

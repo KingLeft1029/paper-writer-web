@@ -175,11 +175,12 @@
   .login-form {
     border-radius: 6px;
     background: #ffffff;
-    width: 36.5vw;
-    max-height: 800px;
-    max-width: 700px;
-    height: 74vh;
-    padding: 25px 25px 5px 25px;
+    width: 36.4vw;
+  height:74vh ;
+ min-width: 500px;
+  min-height: 540px;
+ 
+ 
     background: #FFFFFF;
     box-shadow: 0px 2px 13px 4px rgba(0, 0, 0, 0.19);
     border-radius: 24px;
@@ -190,15 +191,17 @@
     }
   
     .el-input {
-      width: 20vh;
-      min-width: 398px;
+      width: 30vw;
       height: 48px;
-  
+      min-width: 326px;
+    max-width: 398px;
       input {
-        border-radius: 24px;
-        height: 48px;
-        border: 1px solid #EDEDED;
-        padding-left: 3.5rem;
+        min-width: 326px;
+      max-width: 398px;
+      border-radius: 24px;
+      height: 48px;
+      border: 1px solid #EDEDED;
+      padding-left: 73px;
       }
   
   
@@ -223,17 +226,24 @@
     .input-icon {
       width: 11px;
       height: 15px;
-      margin-left: 1.8vw;
-      margin-top: 16.5px;
+    margin-left: 32px;
+      // margin-left: 1.8vw;
+      // margin-top: 16.5px;
     }
   
     .user {
       width: 17px;
     }
-  
+    a{
+    text-decoration: none;
+    color: #606266;
+  }
+
     .login-button {
-      margin-top: 2.5vh;
-      width: 396px;
+      margin-top: 3vh;
+      width: 30vw;
+    min-width: 326px;
+    max-width: 398px;
       height: 46px;
       background: linear-gradient(180deg, #F35E0C 0%, #E4201D 100%);
       border-radius: 24px;

@@ -4,21 +4,9 @@
       <div class="container flex align-center justify-between">
         <img class="logo" src="@/assets/images/index/logo.png" />
         <div class="nav-block">
-          <router-link to="" class="nav-item" :class="{ active: path == '/' }"
-            >Home</router-link
-          >
-          <router-link
-            to=""
-            class="nav-item"
-            :class="{ active: path == '/Forums' }"
-            >Forums</router-link
-          >
-          <router-link
-            to=""
-            class="nav-item"
-            :class="{ active: path == '/Courses' }"
-            >Courses</router-link
-          >
+          <router-link to="" class="nav-item" :class="{ active: path == '/' }">Home</router-link>
+          <router-link to="" class="nav-item" :class="{ active: path == '/Forums' }">Forums</router-link>
+          <router-link to="" class="nav-item" :class="{ active: path == '/Courses' }">Courses</router-link>
         </div>
         <div class="search-block">
           <el-input placeholder="What do you want to ask?" v-model="keyWord">
@@ -28,31 +16,21 @@
             </el-select>
           </el-input>
         </div>
-        <div class="remind-block">
+        <div class="remind-block" v-if="token">
           <img src="../../assets/icon/icon-tx.png" alt="" />
         </div>
-        <div class="login-block align-center">
-          <el-popover
-            placement="bottom"
-            trigger="click"
-            :offset="-24"
-            :visible-arrow="false"
-            popper-class="popover-class"
-          >
+        <div class="login-block align-center" v-if="token">
+          <el-popover placement="bottom" trigger="hover" :offset="-24" :visible-arrow="false"
+            popper-class="popover-class">
             <img slot="reference" class="avatar" src="@/assets/icon/user.png" />
             <div class="popover-box">
               <div :key="index" v-for="(item, index) in popoverList">
                 <router-link :to="item.pathTo">
-                  <div
-                    class="popover-item"
-                
-                    @mousemove="popoverMouse(index)"
-                    :class="{
-                      'active-class': mouseNum == index,
-                      'persion-class': index == 0,
-                      'out-class': index == 1,
-                    }"
-                  >
+                  <div class="popover-item" @mousemove="popoverMouse(index)" :class="{
+                    'active-class': mouseNum == index,
+                    'persion-class': index == 0,
+                    'out-class': index == 1,
+                  }">
                     <img :src="item.imgSrc" alt="" />
                     <span>{{ item.label }}</span>
                   </div>
@@ -61,6 +39,12 @@
             </div>
           </el-popover>
         </div>
+       
+          <router-link class="login-block flex align-center" v-if="!token"  to="/login">
+            <img class="avatar-other" src="../../assets/icon/user.png" />
+          <div>log on</div>
+          </router-link>
+     
       </div>
     </div>
   </div>
@@ -71,7 +55,7 @@ import persionImg from "../../assets/icon/persion.png";
 import persionActiveImg from "../../assets/icon/persion-active.png";
 import outImg from "../../assets/icon/out.png";
 import outActiveImg from "../../assets/icon/out-active.png";
-
+import { mapGetters } from 'vuex'
 export default {
   watch: {
     $route(route) {
@@ -89,12 +73,15 @@ export default {
         {
           label: "My Profile",
           imgSrc: persionActiveImg,
-          pathTo:'/person'
+          pathTo: '/person'
         },
-        { label: "Log out", imgSrc: outActiveImg ,pathTo:'/person'},
+        { label: "Log out", imgSrc: outActiveImg, pathTo: '/person' },
       ],
       mouseNum: -1,
     };
+  },
+  computed: {
+    ...mapGetters(["token"]),
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
@@ -152,6 +139,7 @@ export default {
       margin-right: 9px;
     }
   }
+
   a {
     text-decoration: none;
     color: #3e454e;
@@ -203,6 +191,7 @@ export default {
         background: linear-gradient(131deg, #ff8f00 0%, #dc0025 100%);
         color: #ffffff;
       }
+
       &:hover {
         color: #dc0025;
       }
@@ -228,10 +217,11 @@ export default {
 
     ::v-deep .el-input-group__prepend {
       border: none;
-      width: 64px;
+      width: 98px;
       background-color: #f9f7f7;
       border-right: 1px solid #c8c8c8;
       color: #3e454e;
+
     }
   }
 
@@ -259,6 +249,12 @@ export default {
       height: 20px;
       border-radius: 50%;
       margin-top: 5px;
+    }
+    .avatar-other{
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 12px;
     }
   }
 }

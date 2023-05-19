@@ -2,7 +2,7 @@
   <div class="container flex person-box">
     <div class="left-box">
       <div class="avatar-img" @click="editCropper()">
-        <img v-bind:src="options.img" title="点击上传头像" alt="">
+        <img v-bind:src="options.img" title="upload photo as avatar" alt="">
       </div>
       <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"
         @close="closeDialog">
@@ -41,7 +41,7 @@
             <el-button icon="el-icon-refresh-right" size="small" @click="rotateRight()"></el-button>
           </el-col>
           <el-col :lg="{ span: 2, offset: 6 }" :md="2">
-            <el-button type="primary" size="small" @click="uploadImg()">提 交</el-button>
+            <el-button type="primary" size="small" @click="uploadImg()">Submit</el-button>
           </el-col>
         </el-row>
       </el-dialog>
@@ -74,12 +74,9 @@
       </div>
     </div>
     <div class="right-box">
-      <Title :title="MenuTitle" />
-      <div class="required flex align-center" v-if="menuKey == 1">
-        <span class="red">*</span>
-        <span class="gray">Required</span>
-      </div>
-      <div class="row-line"></div>
+      <Title :title="MenuTitle" v-if="menuKey!=3&&menuKey!=4" />
+     
+      <div class="row-line" v-if="menuKey!=3&&menuKey!=4"></div>
       <components :is="currentComponent"></components>
     </div>
   </div>
@@ -107,7 +104,7 @@ export default {
       // 是否显示cropper
       visible: false,
       // 弹出层标题
-      title: "修改头像",
+      title: "Modify profile picture",
       options: {
         img: store.getters.avatar, //裁剪图片的地址
         autoCrop: true, // 是否默认生成截图框
@@ -125,8 +122,8 @@ export default {
         { label: 'Coupon Management', iconSrc: require('../../assets/person/icon-6.png') },
         { label: 'Change Password', iconSrc: require('../../assets/person/icon-7.png') }
       ],
-      menuKey: 1,
-      currentComponent: Profile
+      menuKey: 3,
+      currentComponent: MyCourses
     }
   },
   computed: {
@@ -385,23 +382,6 @@ export default {
 
   }
 
-  .required {
-    position: absolute;
-    right: 20px;
-    top: 66px;
-  }
-
-  .red {
-    color: #E93636;
-    font-size: 14px;
-    line-height: 22px;
-    margin-top: 7px;
-    margin-right: 6px;
-  }
-
-  .gray {
-    line-height: 22px;
-    color: rgba(0, 0, 0, 0.25);
-  }
+  
 }
 </style>

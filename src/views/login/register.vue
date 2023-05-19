@@ -30,7 +30,8 @@
             <span v-else>Register...</span>
           </el-button>
           <div class="register" v-if="register">
-            Already have an account?<router-link class="link-type" :to="'/register'"> <span>Log in</span></router-link>
+           Already have an account?  <router-link class="link-type" to="/login" replace> <span>Log in</span></router-link>
+           
           </div>
         </el-form-item>
       </el-form>
@@ -177,6 +178,8 @@
     width: 36.5vw;
     max-height: 800px;
     max-width: 700px;
+    min-width: 500px;
+    min-height: 600px;
     height: 74vh;
     padding: 25px 25px 5px 25px;
     background: #FFFFFF;
@@ -187,7 +190,10 @@
     .el-form-item {
       margin-bottom: 2.5vh;
     }
-  
+    .el-input__prefix {
+    display: flex;
+    align-items: center;
+  }
     .el-input {
       width: 20vh;
       min-width: 398px;
@@ -197,16 +203,19 @@
         border-radius: 24px;
         height: 48px;
         border: 1px solid #EDEDED;
-        padding-left: 3.5rem;
+        // padding-left: 3.5rem;
+        padding-left: 73px;
       }
   
   
       .send-code {
         min-width: 192px;
         height: 32px;
+        line-height: 32px;
         background: linear-gradient(180deg, #F0540E 0%, #E6271B 100%);
         border-radius: 16px;
         margin-top: 8px;
+        margin-right: 6px;
         color: #fff;
         cursor: pointer;
       }
@@ -222,8 +231,9 @@
     .input-icon {
       width: 11px;
       height: 15px;
-      margin-left: 1.8vw;
-      margin-top: 16.5px;
+      margin-left: 32px;
+      // margin-left: 1.8vw;
+      // margin-top: 16.5px;
     }
   
     .user {
