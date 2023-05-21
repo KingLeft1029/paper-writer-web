@@ -119,37 +119,11 @@ export default {
         margin-top: 20px;
 
 
-        .el-select {
-            width: 120px;
-            height: 22px;
-            border-radius: 4px;
-        
-
-        }
-
-        ::v-deep .el-input {
-            width: 120px;
-            height: 22px;
-            color: #61687C;
-        }
-
-        ::v-deep input {
-            width: 120px;
-            height: 22px;
-            color: #61687C;
-        }
-
-        ::v-deep .el-input__icon {
-            line-height: 21px;
-        }
-
-        ::v-deep .el-input__inner {
-            padding-left: 10px;
-        }
-
+       
         .sort-box {
             width: 118px;
-            height: 20px;
+            height: 32px;
+            // height: 20px;
             background: rgba(238, 77, 17, 0.2);
             border-radius: 3px;
             margin-left: 21px;
@@ -161,7 +135,7 @@ export default {
             line-height: 20px;
 
             img {
-                width: 7px;
+                width: 10px;
                 cursor: pointer;
                 // height: 4px;
             }

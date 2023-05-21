@@ -6,6 +6,8 @@ import Cookies from "js-cookie";
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 import "./assets/styles/element-variables.scss";
+// 分页组件
+import Pagination from "@/components/Pagination"
 // 自定义组件 标题 My Threads >
 import RightTo from "./components/RightTo";
 // 自定义组件 空
@@ -19,11 +21,13 @@ Vue.use(ElementUI,{ locale}, {
 import SlideVerify from 'vue-monoplasty-slide-verify';
  
 Vue.use(SlideVerify);
+Vue.component('Pagination', Pagination)
 Vue.component("RightTo", RightTo);
 
 Vue.component("EmptyBox", EmptyBox);
 
 import "@/assets/styles/custom.scss";
+import "@/assets/styles/index.scss";
 Vue.config.productionTip = false;
 
 new Vue({

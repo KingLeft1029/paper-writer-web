@@ -1,9 +1,10 @@
 <template>
     <div class="mycourse-box">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <TabChange :navList="navList" width="366"></TabChange>
+        <!-- <el-tabs v-model="activeName" @tab-click="handleClick" >
             <el-tab-pane label="Thread Collection" name="first"></el-tab-pane>
             <el-tab-pane label="Course Collection" name="second"></el-tab-pane>
-        </el-tabs>
+        </el-tabs> -->
 
         <div class="mycourse-content">
             <tab-courses-list :collectionFlag="true" btnText="Remove"></tab-courses-list>
@@ -13,14 +14,16 @@
       
 <script>
 import TabCoursesList from '../../components/tab-courses-list.vue'
-
+import TabChange from '../../components/TabChange.vue'
 export default {
     components: {
-        TabCoursesList
+        TabCoursesList,
+        TabChange
     },
     data() {
         return {
-            activeName: 'first',
+            navList:['Thread Collection', 'Course Collection']
+     
 
         };
     },
@@ -32,7 +35,15 @@ export default {
       
 <style lang="scss" scoped>
 .mycourse-box {
-   padding-top: 20px;
+    padding-top: 19px;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // right: 0;
+// height: 40px;
+// background: linear-gradient(131deg, rgba(255, 143, 0,0.2) 0%, rgba(220, 0, 37,0.2) 100%);
+// border-radius: 6px 6px 0px 0px;
+
     .row-line {
         width: 100%;
         height: 1px;
@@ -42,20 +53,19 @@ export default {
 
     }
    ::v-deep .el-tabs {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+
+ 
    }
     ::v-deep .el-tabs__item {
 
         font-size: 14px;
+   
     }
 
     ::v-deep .el-tabs__header {
        
         height: 40px;
-        background: linear-gradient(131deg, rgba(255, 143, 0, 0.2) 0%, rgba(220, 0, 37, 0.2) 100%);
+       
         border-radius: 6px 6px 0px 0px;
         padding-left: 20px;
 
@@ -65,10 +75,15 @@ export default {
         font-size: 18px;
         font-weight: 600;
         color: #969696;
-        line-height: 18px;
+        line-height: 36px;
+     
         background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+    }
+    ::v-deep .el-tabs__active-bar{
+        width: 100px !important;
+        height: 3px;
     }
 
     ::v-deep .el-tabs__nav-wrap::after {

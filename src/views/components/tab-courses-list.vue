@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="btn">
-                    <el-button type="primary" disabled> {{ btnText }}</el-button>
+                    <el-button type="primary" class="common-btn-keep" disabled> {{ btnText }}</el-button>
                 </div>
 
             </div>
@@ -108,12 +108,12 @@ export default {
         .btn {
             margin-top: 8px;
 
-            .el-button {
-                width: 187px;
-                height: 32px;
-                line-height: 0px;
-                background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
-            }
+            // .el-button {
+            //     width: 187px;
+            //     height: 32px;
+            //     line-height: 0px;
+            //     background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
+            // }
 
             .is-disabled {
                 width: 187px;

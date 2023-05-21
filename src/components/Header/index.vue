@@ -117,6 +117,7 @@ export default {
 };
 </script>
 <style lang="scss">
+
 .popover-class {
   padding: 0 !important;
   width: 120px;
@@ -166,6 +167,7 @@ export default {
   width: 100%;
   height: 77px;
   background: #ffffff;
+ 
 
   .container {
     padding: 14px 0;

@@ -1,10 +1,11 @@
 <template>
   <div class="container flex person-box">
-    <div class="left-box">
-      <div class="avatar-img" @click="editCropper()">
+    <div class="left-box" v-if="leftShow">
+      <!-- @click="editCropper()" -->
+      <div class="avatar-img">
         <img v-bind:src="options.img" title="upload photo as avatar" alt="">
       </div>
-      <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"
+      <!-- <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"
         @close="closeDialog">
         <el-row>
           <el-col :xs="24" :md="12" :style="{ height: '350px' }">
@@ -41,10 +42,10 @@
             <el-button icon="el-icon-refresh-right" size="small" @click="rotateRight()"></el-button>
           </el-col>
           <el-col :lg="{ span: 2, offset: 6 }" :md="2">
-            <el-button type="primary" size="small" @click="uploadImg()">Submit</el-button>
+            <el-button type="primary" class="common-btn-submit" @click="uploadImg()">Submit</el-button>
           </el-col>
         </el-row>
-      </el-dialog>
+      </el-dialog> -->
       <span class="left-user-name">Course Name </span>
       <span class="left-user-identity">User</span>
       <div class="left-follow-box">
@@ -53,11 +54,11 @@
         <span>Follers：23</span>
       </div>
       <div class="left-ink">
-        <div class="left-ink-item">
+        <div class="left-ink-item" @click="toWallet(1)">
           <span class="yellow">1009999ink</span>
           <span>Wallet</span>
         </div>
-        <div class="left-ink-item">
+        <div class="left-ink-item" @click="toCoupons(1)">
           <span class="yellow">3</span>
           <span>Coupons</span>
         </div>
@@ -74,9 +75,9 @@
       </div>
     </div>
     <div class="right-box">
-      <Title :title="MenuTitle" v-if="menuKey!=3&&menuKey!=4" />
+      <Title :title="MenuTitle" v-if="titleFlag" />
      
-      <div class="row-line" v-if="menuKey!=3&&menuKey!=4"></div>
+      <div class="row-line" v-if="titleFlag"></div>
       <components :is="currentComponent"></components>
     </div>
   </div>
@@ -94,9 +95,11 @@ import MyCourses from "./components/MyCourses.vue";
 import MyCollections from "./components/MyCollections.vue";
 import CouponManagement from "./components/CouponManagement.vue";
 import ChangePassword from "./components/ChangePassword.vue";
+import CheckCoupons from './components/CheckCoupons.vue';
+import CheckWallet from './components/CheckWallet.vue';
 
 export default {
-  components: { VueCropper, Title, MyDashborad, Profile, Agency, MyCourses, MyCollections, CouponManagement, ChangePassword },
+  components: { VueCropper, Title, MyDashborad, Profile, Agency, MyCourses, MyCollections, CouponManagement, ChangePassword,CheckCoupons,CheckWallet },
   data() {
     return {
       // 是否显示弹出层
@@ -122,9 +125,22 @@ export default {
         { label: 'Coupon Management', iconSrc: require('../../assets/person/icon-6.png') },
         { label: 'Change Password', iconSrc: require('../../assets/person/icon-7.png') }
       ],
-      menuKey: 3,
-      currentComponent: MyCourses
+      menuKey: 0,
+      currentComponent: MyDashborad,
+      leftShow:true,
+      titleFlag:true
     }
+  },
+  watch:{
+    menuKey:{
+      handler: function menuKey(val){
+  
+      // if(val==5){
+      //   this.leftShow=false
+      // }
+    },
+    immediate: true
+   }
   },
   computed: {
     MenuTitle() {
@@ -150,6 +166,12 @@ export default {
           break;
         case 6:
           val = 'Change Password'
+          break;
+          case 7:
+          val = 'Coupons'
+          break;
+          case 8:
+          val = 'Wallet'
           break;
       }
       return val
@@ -221,26 +243,53 @@ export default {
       switch (index) {
         case 0:
           this.currentComponent = MyDashborad
+          this.titleFlag=true
+          this.leftShow=true
           break;
         case 1:
           this.currentComponent = Profile
+          this.titleFlag=true
+          this.leftShow=true
           break;
         case 2:
           this.currentComponent = Agency
+          this.titleFlag=true
+          this.leftShow=true
           break;
         case 3:
           this.currentComponent = MyCourses
+          this.titleFlag=false
+          this.leftShow=true
           break;
         case 4:
           this.currentComponent = MyCollections
+          this.titleFlag=false
+          this.leftShow=true
           break;
         case 5:
           this.currentComponent = CouponManagement
+          this.titleFlag=true
+          this.leftShow=true
           break;
-        case 5:
+        case 6:
           this.currentComponent = ChangePassword
+          this.titleFlag=true
+          this.leftShow=true
           break;
       }
+    },
+    // 查看优惠券
+    toCoupons(num){
+      this.menuKey=7
+      this.currentComponent = CheckCoupons
+      this.titleFlag=false
+      this.leftShow=true
+    },
+    toWallet(){
+      this.menuKey=8
+      this.currentComponent = CheckWallet
+      this.titleFlag=true
+      this.leftShow=true
     }
   }
 };
@@ -322,6 +371,7 @@ export default {
       line-height: 17px;
       color: #61687C;
       font-size: 12px;
+      cursor: pointer;
 
       .yellow {
         font-size: 16px;
@@ -365,7 +415,8 @@ export default {
 
 .right-box {
   margin-left: 20px;
-  min-width: 862px;
+  width: 100%;
+  // min-width: 862px;
   min-height: 779px;
   background: #FFFFFF;
   border-radius: 6px;

@@ -8,7 +8,7 @@
         <div class="my-box">
              <div class="my-empty-box">
             <EmptyBox emptyLabel="Add new!"></EmptyBox>
-            <el-button type="primary">Submit</el-button>
+            <el-button type="primary" class="common-btn-submit">Submit</el-button>
         </div>
             <!-- <course-list></course-list> -->
         </div>
@@ -52,13 +52,10 @@ export default {
     margin-top: 50px;
 
     .el-button {
-        width: 120px;
-        height: 32px;
-        background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
-        line-height: 10px;
+    
         margin-top: 16px;
         margin-bottom: 20px;
-        border: none;
+
 
     }
 }

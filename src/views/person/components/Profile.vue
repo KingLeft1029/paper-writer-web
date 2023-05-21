@@ -47,7 +47,7 @@
                         <el-button icon="el-icon-refresh-right" size="small" @click="rotateRight()"></el-button>
                     </el-col>
                     <el-col :lg="{ span: 2, offset: 6 }" :md="2">
-                        <el-button type="primary" size="small" @click="uploadImg()">Submit</el-button>
+                        <el-button type="primary" class="common-btn-submit" @click="uploadImg()">Submit</el-button>
                     </el-col>
                 </el-row>
             </el-dialog>
@@ -103,8 +103,9 @@
                     <el-input v-model="ruleForm.ageMock" disabled placeholder="Age"></el-input>
                 </el-form-item>
                 <div class="submit-box" v-if="!editFlag" @click="edit">
-                    Edit
+                    <el-button class="common-btn-edit margin-auto"  type="primary" > Edit </el-button>
                 </div>
+              
                 <div class="btn-box" v-else>
                     <el-button size="small" @click="editFlag = false">Cancel</el-button>
                     <el-button size="small" type="primary" @click="save('ruleForm')"> Save </el-button>
@@ -425,17 +426,10 @@ export default {
         width: 100%;
 
         .submit-box {
-            width: 74px;
-            height: 32px;
-            background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
-            font-size: 14px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #FFFFFF;
-            line-height: 22px;
-            text-align: center;
-            line-height: 32px;
-            margin: 0 auto;
+             width: 100%;
+             display: flex;
+             justify-content: center;
+       
             cursor: pointer;
             margin-top: 40px;
         }
