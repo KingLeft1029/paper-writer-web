@@ -52,6 +52,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 
 
   .theme-picker {
@@ -64,15 +67,16 @@ export default {
   top: 0;
   z-index: 999;
 }
-
-
 </style>
 <style>
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
 }
+
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+
 </style>

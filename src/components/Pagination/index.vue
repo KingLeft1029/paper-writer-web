@@ -95,14 +95,26 @@
     }
   }
   </script>
-  
-  <style scoped>
+  <style lang="scss">
+   .pagination-container {
+  .el-input__inner{
+    height: 32px ;
+
+  }
+  }
+</style>
+  <style lang="scss" scoped>
   .pagination-container {
     background: #fff;
-    padding: 32px 16px;
+    padding: 16px 0;
   }
   .pagination-container.hidden {
     display: none;
+  }
+  .pagination-container {
+    ::v-deep.el-input__inner{
+    height: 32px !important;
+  }
   }
   </style>
   

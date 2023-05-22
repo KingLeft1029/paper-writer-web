@@ -67,98 +67,17 @@
       <!-- 文章 -->
       <div class="article-block">
         <Title title="Forums">
-          <div
-            class="article-block-list"
-            v-for="(item, index) in 4"
-            :key="index"
-          >
-            <div class="article-block-item">
-              <div class="item-left">
-                <div class="item-title">
-                  Post Name Post Name Post Name Post Name Post Name Post Name
-                  Post Name Post Name
-                </div>
-                <div class="item-content">
-                  Article descriptionArticle descriptionArticle
-                  descriptionArticle descriptionArticle descriptiona Article
-                  descriptionArticle descriptionArticle …
-                </div>
-                <div class="item-user-box">
-                  <div class="user-apr">
-                    <span class="user-count">3</span>
-                    <span>apr</span>
-                  </div>
-                  <div class="user-line"></div>
-                  <div class="user-img"></div>
-                  <div class="user-name">Zhang User</div>
-                </div>
-                <div class="button-group">
-                  <div class="reward group">
-                    <div class="icon">
-                      <img
-                        src="@/assets/icon/logo.png"
-                        width="15px"
-                        height="15px"
-                      />
-                    </div>
-                    <div class="num">2000</div>
-                  </div>
-                  <div class="up group">
-                    <div class="icon">
-                      <img
-                        src="@/assets/icon/logo.png"
-                        width="15px"
-                        height="15px"
-                      />
-                    </div>
-                    <div class="num">3258</div>
-                  </div>
-                  <div class="collect group">
-                    <div class="icon">
-                      <img
-                        src="@/assets/icon/logo.png"
-                        width="15px"
-                        height="15px"
-                      />
-                    </div>
-                    <div class="num">1.68k</div>
-                  </div>
-                  <div class="comment group">
-                    <div class="icon">
-                      <img
-                        src="@/assets/icon/logo.png"
-                        width="15px"
-                        height="15px"
-                      />
-                    </div>
-                    <div class="num">2158</div>
-                  </div>
-                  <div class="forward group">
-                    <div class="icon">
-                      <img
-                        src="@/assets/icon/logo.png"
-                        width="15px"
-                        height="15px"
-                      />
-                    </div>
-                    <div class="num">2158</div>
-                  </div>
-                </div>
-              </div>
-              <div class="item-right" v-if="index % 2 == 0">
-                <img
-                  src="@/assets/images/index/article.png"
-                  width="130px"
-                  height="142px"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="more-box">
-            More
-            <img src="../assets/icon/right.png" alt="" />
-          </div>
+         <div class="mt25">
+          <threads-list></threads-list>
+          
+         </div>
+        
+         
         </Title>
+        <router-link :to="{name:'forums',params:{type:1}}" class="more-box" >
+            More
+            <img src="../assets/person/right.png" alt="" />
+          </router-link>
       </div>
       <!-- 右侧推荐 -->
       <div class="right-block">
@@ -169,7 +88,7 @@
             <img src="@/assets/icon/pageNum.png" width="120px" height="32px" />
           </div>
         </div>
-        <div class="right-list">
+        <div class="right-list ">
           <div class="item-first">
             <div
               class="item-first-main"
@@ -215,21 +134,24 @@
         </div>
         <div class="msg-inter">
           <img
-            src="@/assets/images/index/msg.png"
+            src="@/assets/course/msg.png"
             width="358px"
             height="78px"
           />
         </div>
       </div>
+
     </div>
   </div>
 </template>
 
 <script>
 import Title from "@/components/Title";
+import ThreadsList from './components/ThreadsList.vue'
 export default {
   components: {
     Title,
+    ThreadsList
   },
   data() {
     return {
@@ -505,9 +427,15 @@ export default {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+color: #3E454E;
+margin-bottom: 60px;
     img{
-      width: 17px;
-      margin-top: 1px;
+      // width: 17px;
+      // margin-top: 1px;
+      margin-left: 8px;
+    }
+    &:hover{
+      color: #dc0025 ;
     }
   }
 }
@@ -522,7 +450,8 @@ export default {
     font-weight: bold;
     color: #3f464f;
     display: flex;
-    margin-top: 20px;
+    margin-top: 13px;
+    // margin-top: 42px;
     align-items: center;
 
     img {
@@ -543,7 +472,7 @@ export default {
     border-radius: 6px;
     border: 1px solid rgba(151, 151, 151, 0.18);
     padding: 20px 12px;
-
+margin-top: 25px;
     .item-first {
       display: flex;
 

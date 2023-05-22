@@ -126,17 +126,29 @@ background: #DDDDDD;
  
     color: #61687C;
 }
+.mt15{
+    margin-top: 15px;
+    }
 .mt20{
 margin-top: 20px;
 }
+.mt41{
+    margin-top: 41px;
+    }
 .mt23{
     margin-top: 23px;
     }
+    .mt25{
+        margin-top: 25px;
+        }
 .mb20{
 margin-bottom: 20px;
 }
 .mr20{
     margin-right: 20px;
+}
+.mr15{
+    margin-right: 15px;
 }
 .ml20{
     margin-left: 20px !important;
@@ -255,6 +267,17 @@ font-size: 14px;
 color: #FFFFFF;
 line-height: 22px;
 display: inline-block;
+}
+.small-handler-label{
+    padding: 0 10px;
+    width: 138px;
+    height: 20px;
+    background: rgba(238, 77, 17,0.2);
+    border-radius: 3px;
+   line-height: 20px;
+   text-align: center;
+   color: #61687C;
+   border-color: #E8E8E8;
 }
 .mt5{
 margin-top: 5px;

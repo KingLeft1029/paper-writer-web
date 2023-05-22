@@ -40,6 +40,32 @@ const routes = [
     name: 'person',
     component: () => import('@/views/person')
   },
+  {
+    path: '/message',
+    name: 'message',
+    component: () => import('@/views/message')
+  },
+  {
+    path: '/forums',
+    name: 'forums',
+    component: () => import('@/views/forums'),
+  },
+
+  {
+    path: '/courses',
+    name: 'courses',
+    component: () => import('@/views/courses')
+  },
+  {
+    path: '/forumsdetail',
+    name: 'forumsdetail',
+    component: () => import('@/views/forums/detail')
+  },
+  {
+    path: '/coursesdetail',
+    name: 'coursesdetail',
+    component: () => import('@/views/courses/detail')
+  },
   // {
   //   path: '/about',
   //   name: 'about',

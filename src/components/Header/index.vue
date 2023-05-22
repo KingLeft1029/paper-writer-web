@@ -4,21 +4,28 @@
       <div class="container flex align-center justify-between">
         <img class="logo" src="@/assets/images/index/logo.png" />
         <div class="nav-block">
-          <router-link to="" class="nav-item" :class="{ active: path == '/' }">Home</router-link>
-          <router-link to="" class="nav-item" :class="{ active: path == '/Forums' }">Forums</router-link>
-          <router-link to="" class="nav-item" :class="{ active: path == '/Courses' }">Courses</router-link>
+          <router-link to="/"  class="nav-item" :class="{ active: path == '/' }">Home</router-link>
+          <router-link  :to="{name:'forums',params:{type:1}}" class="nav-item" :class="{ active: path == '/forums' }">Forums</router-link>
+          <router-link  :to="{name:'courses',params:{type:2}}" class="nav-item" :class="{ active: path == '/courses' }">Courses</router-link>
         </div>
         <div class="search-block">
-          <el-input placeholder="What do you want to ask?" v-model="keyWord">
+          <!-- @keyup.enter.native="search" -->
+          <router-link :to="searchPathTo" >
+              <img class="search-img" src="@/assets/icon/search.png" alt="">
+              <!-- <i slot="suffix" class="el-input__icon el-icon-search" ></i> -->
+            </router-link>
+          <el-input placeholder="What do you want to ask?" v-model="keyWord" >
+            
+            
             <el-select v-model="keySelect" slot="prepend" placeholder="请选择">
               <el-option label="Forums" value="1"></el-option>
               <el-option label="Courses" value="2"></el-option>
             </el-select>
           </el-input>
         </div>
-        <div class="remind-block" v-if="token">
+        <router-link class="remind-block" v-if="token" to="/message">
           <img src="../../assets/icon/icon-tx.png" alt="" />
-        </div>
+        </router-link>
         <div class="login-block align-center" v-if="token">
           <el-popover placement="bottom" trigger="hover" :offset="-24" :visible-arrow="false"
             popper-class="popover-class">
@@ -62,6 +69,7 @@ export default {
       this.path = route.path;
     },
   },
+
   data() {
     return {
       path: "/",
@@ -82,8 +90,19 @@ export default {
   },
   computed: {
     ...mapGetters(["token"]),
+    searchPathTo(){
+      let val=''
+      if(this.keySelect==1){
+        val={name:'forums',params:{type:1}}
+      }else{
+        val={name:'courses',params:{type:1}}
+      }
+      return val
+    }
   },
   mounted() {
+
+    
     window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
@@ -113,6 +132,13 @@ export default {
         this.popoverList[0].imgSrc = persionActiveImg;
       }
     },
+    search(){
+      if(this.keySelect==1){
+        // Forums
+      }else{
+
+      }
+    }
   },
 };
 </script>
@@ -207,6 +233,15 @@ export default {
     border-radius: 12px;
     overflow: hidden;
 
+    position: relative;
+    .search-img{
+      position: absolute;
+      right: 13px;
+      top: 11px;
+      width: 18px;
+      height: 18px;
+      z-index: 10;
+    }
     ::v-deep .el-input__inner {
       border: none;
       background-color: #f9f7f7;

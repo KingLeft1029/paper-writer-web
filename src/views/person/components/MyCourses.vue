@@ -10,7 +10,8 @@
                 <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
-            <div class="sort-box flex align-center justify-between">
+            <SortInput label="Newest" type="1" @sort="sort"></SortInput>
+            <!-- <div class="sort-box flex align-center justify-between">
                 <span>Newest</span>
                 <div class="triangle-box flex flex-direction">
                     <img src="../../../assets/person/up.png" v-if="sortkey == 2" alt="" @click="sort(1)">
@@ -18,7 +19,7 @@
                     <img src="../../../assets/person/down.png" alt="" v-if="sortkey == 1" @click="sort(2)">
                     <img src="../../../assets/person/down-active.png" v-else alt="">
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="mycourse-content">
@@ -59,18 +60,27 @@ export default {
     },
     methods: {
         sort(num) {
-            if (num == 1) {
-                // 升序
-                this.sortkey = 1
-            } else {
-                // 降序
-                this.sortkey = 2
-            }
+          
         }
     }
 };
 </script>
-      
+      <style lang="scss">
+      .screen-box {
+    
+        .el-input__inner{
+            height: 22px;
+            line-height: 22px;
+        }
+
+        .el-input--mini .el-input__icon{
+    line-height: 22px;
+  }
+  .el-select{
+    width: 151px;
+  }
+    }
+    </style>
 <style lang="scss" scoped>
 .mycourse-box {
     .row-line {
@@ -120,26 +130,7 @@ export default {
 
 
        
-        .sort-box {
-            width: 118px;
-            height: 32px;
-            // height: 20px;
-            background: rgba(238, 77, 17, 0.2);
-            border-radius: 3px;
-            margin-left: 21px;
-            padding-left: 10px;
-            padding-right: 10px;
-            font-size: 14px;
-            font-weight: 400;
-            color: #61687C;
-            line-height: 20px;
-
-            img {
-                width: 10px;
-                cursor: pointer;
-                // height: 4px;
-            }
-        }
+     
     }
 
     .mycourse-content{

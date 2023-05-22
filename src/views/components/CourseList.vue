@@ -1,25 +1,60 @@
 <template>
-    <div class="course-list ">
-        <div class="course-item" v-for="(item, index) in 6" :key="item">
-            <div class="course-top" :style="{ backgroundImage: 'url(' + url + ')' }">
-                <!-- <img src="../../assets/course/img.png" alt=""> -->
-                <img class="status-img" src="../../assets/course/free.png" alt="">
-                <!-- <img src="../../assets/course/paid.png" alt=""> -->
+    <div>
+        <div class="scroll-box" v-if="routeName=='courses'" :style="{ 'height': scrollHeight + 'px' }" v-infinite-scroll="load"
+            infinite-scroll-disabled="disabled">
+            <div class="course-list">
+                <div class="course-item" v-for="(item, index) in count" :key="item">
+                    <div class="course-top" :style="{ backgroundImage: 'url(' + url + ')' }">
+                        <!-- <img src="../../assets/course/img.png" alt=""> -->
+                        <img class="status-img" src="../../assets/course/free.png" alt="">
+                        <!-- <img src="../../assets/course/paid.png" alt=""> -->
+                    </div>
+                    <div class="course-bottom">
+                        <div class="name text-cut text-cut2" title="Course Name Course nCourse Name Course">
+                            Course Name Course nCourse Name Course nCourse Name Course nCourse Name Course nCourse Name
+                            Course
+                            nCourse Name Course nCourse Name Course n
+                        </div>
+                        <div class="tag">
+                            <el-tag v-for="x in 8">标签一</el-tag>
+                        </div>
+                        <div class="ink flex align-center">
+                            <span class="yellow big-size">9999Ink</span>
+                            <div class="col-line mlr"></div>
+                            <span class="grey">21 Learners</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="course-bottom">
-                <div class="name text-cut text-cut2" title="Course Name Course nCourse Name Course">
-                    Course Name Course nCourse Name Course nCourse Name Course nCourse Name Course nCourse Name Course
-                    nCourse Name Course nCourse Name Course n
-                </div>
-                <div class="tag">
-                    <el-tag v-for="x in 8">标签一</el-tag>
-                </div>
-                <div class="ink flex align-center">
-                    <span class="yellow big-size">9999Ink</span>
-                    <div class="col-line mlr"></div>
-                    <span class="grey">21 Learners</span>
+            <div class="loading-box" v-if="loading">Loading...</div>
+            <div class="loading-box" v-if="noMore">No more.</div>
+        </div>
+        <div class="scroll-box" v-else>
+            <div class="course-list">
+                <div class="course-item" v-for="(item, index) in 6" :key="item">
+                    <div class="course-top" :style="{ backgroundImage: 'url(' + url + ')' }">
+                        <!-- <img src="../../assets/course/img.png" alt=""> -->
+                        <img class="status-img" src="../../assets/course/free.png" alt="">
+                        <!-- <img src="../../assets/course/paid.png" alt=""> -->
+                    </div>
+                    <div class="course-bottom">
+                        <div class="name text-cut text-cut2" title="Course Name Course nCourse Name Course">
+                            Course Name Course nCourse Name Course nCourse Name Course nCourse Name Course nCourse Name
+                            Course
+                            nCourse Name Course nCourse Name Course n
+                        </div>
+                        <div class="tag">
+                            <el-tag v-for="x in 8">标签一</el-tag>
+                        </div>
+                        <div class="ink flex align-center">
+                            <span class="yellow big-size">9999Ink</span>
+                            <div class="col-line mlr"></div>
+                            <span class="grey">21 Learners</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -30,16 +65,76 @@ export default {
     components: {
 
     },
+    computed: {
+        noMore() {
+            return this.count >= 20
+        },
+        disabled() {
+            return this.loading || this.noMore
+        }
+    },
     data() {
         return {
-            url: require('../../assets/course/img.png')
+            count: 12,
+            loading: false,
+            url: require('../../assets/course/img.png'),
+            scrollHeight: '',
+            routeName:''
         };
     },
+    created() {
+       this.routeName=this.$route.name
+   
+    },
+    mounted() {
+        window.addEventListener('resize', () => {
+            let appHeight = document.getElementById('app').clientHeight
+            let headerHeight = document.getElementsByClassName('header')[0].clientHeight
+            let footerHeight = document.getElementsByClassName('footer-block')[0].clientHeight
+            this.scrollHeight = appHeight - headerHeight - footerHeight - 90
+
+        })
+
+        this.scrollHeight = document.getElementById('app').clientHeight - document.getElementsByClassName('header')[0].clientHeight - document.getElementsByClassName('footer-block')[0].clientHeight - 90
+    },
+    methods: {
+        load() {
+            this.loading = true
+            setTimeout(() => {
+                this.count += 2
+                this.loading = false
+            }, 2000)
+        }
+    }
 };
 </script>
+<style lang="scss">
+::-webkit-scrollbar {
+    width: 4px;
+}
 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+    opacity: 0.2;
+    /* background: #FF8F00; */
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+    border-radius: 0;
+    background: transparent;
+}
+</style>
 <style lang="scss" scoped>
+.scroll-box {
+    overflow: auto;
+
+}
+
 .course-list {
+    // height: 100%;
     // margin-top: 25px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -82,7 +177,7 @@ export default {
                 background-size: 110% 110%;
             }
 
-            .status-img{
+            .status-img {
                 margin-top: -2px;
             }
         }
@@ -126,5 +221,14 @@ export default {
         }
 
     }
+}
+
+.loading-box {
+    width: 100%;
+    height: 120px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>
