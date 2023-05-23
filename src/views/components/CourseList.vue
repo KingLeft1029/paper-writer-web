@@ -19,7 +19,7 @@
                             <el-tag v-for="x in 8">标签一</el-tag>
                         </div>
                         <div class="ink flex align-center">
-                            <span class="yellow big-size">9999Ink</span>
+                            <span class="text-yellow font-weight font20">9999Ink</span>
                             <div class="col-line mlr"></div>
                             <span class="grey">21 Learners</span>
                         </div>
@@ -47,7 +47,7 @@
                             <el-tag v-for="x in 8">标签一</el-tag>
                         </div>
                         <div class="ink flex align-center">
-                            <span class="yellow big-size">9999Ink</span>
+                            <span class="text-yellow font20 font-weight">9999Ink</span>
                             <div class="col-line mlr"></div>
                             <span class="grey">21 Learners</span>
                         </div>
