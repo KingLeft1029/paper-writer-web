@@ -30,10 +30,14 @@ Vue.component("RightTo", RightTo);
 Vue.component('SortInput', SortInput)
 Vue.component("EmptyBox", EmptyBox);
 
+import VueCoreVideoPlayer from 'vue-core-video-player'
+
+Vue.use(VueCoreVideoPlayer)
 
 
 import "@/assets/styles/custom.scss";
 import "@/assets/styles/index.scss";
+
 Vue.config.productionTip = false;
 
 new Vue({

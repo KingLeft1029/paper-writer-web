@@ -1,464 +1,640 @@
 <template>
-    <div class="container  mt20">
-        <Title title="Course Title" />
-        <div class="mt20 flex video-box">
+  <div class="container  mt20 mb20">
+    <Title title="Course Title" />
+    <div class="border-box mt20">
+      <!-- 视频部分 -->
+      <div class=" flex video-box">
+        <div class="video-left">
+          <video :src=videoingurl ref="myvideo" @canplay="getTotal" @timeupdate="timeupdate"></video>
 
-            <div class="video-left">
-                <video-player class="video-player-box" ref="videoPlayer" :options="playerOptions" :playsinline="true"
-                    customEventName="customstatechangedeventname" @play="onPlayerPlay($event)"
-                    @pause="onPlayerPause($event)" @ended="onPlayerEnded($event)" @waiting="onPlayerWaiting($event)"
-                    @playing="onPlayerPlaying($event)" @loadeddata="onPlayerLoadeddata($event)"
-                    @timeupdate="onPlayerTimeupdate($event)" @canplay="onPlayerCanplay($event)"
-                    @canplaythrough="onPlayerCanplaythrough($event)" @statechanged="playerStateChanged($event)"
-                    @ready="playerReadied">
-                </video-player>
+          <div class="start-box flex align-center justify-center" v-if="!this.isPaused" @click="play">
+            <img src="../../assets/course/start.png" alt="">
+          </div>
+
+          <div class="controls  flex align-center justify-between" :class="{ 'lucency': controlsFlag }"
+            @mousemove="controlsMouse(1)" @mouseleave="controlsMouse(2)">
+            <div>
+              <img src="../../assets/course/run-icon.png" v-if="!isPaused" alt="" @click="play()">
+              <img src="../../assets/course/pause-icon.png" v-else @click="play()" alt="">
             </div>
-            <div class="video-right">
-                <span>10 Courses </span>
-                <div class="video-scroll mt20">
-                    <div class="video-item " v-for="(item, index) in videoList" :key="item">
-                        <video-player :ref="`videoPlayer${index}`" :options="item.playerOptions" :playsinline="true">
 
-                        </video-player>
-                    </div>
+            <div class="progress flex align-center">
+              <span class="time">{{ currentTime }}</span>
+              <el-slider v-model="currentTimeVal" :max="durationProgress" :show-tooltip="false" @change="getNewTime">
+              </el-slider>
+              <span class="time">{{ totalTime }}</span>
+            </div>
+            <div class="voice-box">
+              <img src="../../assets/course/voice-icon.png" v-if="hasVoive" alt="">
+              <img src="../../assets/course/close-voice.png" v-else alt="">
+
+              <div class="voice-slider flex flex-direction">
+
+                <div class="voice-slider-box">
+                  <el-slider height="120px" :vertical="true" v-model="volume" @change="getNewVoice"></el-slider>
                 </div>
+                <div class="place" @click="handleVoice()"></div>
+              </div>
+            </div>
+            <div>
+              <img src="../../assets/course/screen-icon.png" @click="toggleFullScreen()" alt="">
             </div>
 
+          </div>
 
 
         </div>
+        <div class="video-right">
+          <span class="video-title">10 Courses </span>
+          <el-scrollbar class="video-scroll mt20">
+            <div class="video-item" v-for="(item, index) in videoList" :class="{ 'active-color': videoKey == index }"
+              :key="index">
+              <div class="video-mask" @click="preVideo(index)">
+                <el-button type="primary">Preview</el-button>
+              </div>
+              <video :ref="`myvideo${index}`" poster="https://cdn.uviewui.com/uview/album/1.jpg" :src="item.src">
+
+              </video>
+            </div>
+          </el-scrollbar>
+        </div>
+      </div>
+      <!-- 作者信息 赞数量 -->
+      <div class="user-love-box mt20 flex align-center justify-between">
+        <div class="user flex align-center">
+          <span>3 apr </span>
+          <div class="col-line mlr"></div>
+          <div class="flex align-center mr15">
+            <img src="../../assets/course/img.png" alt="">
+            <span>Zhang User</span>
+          </div>
+
+        </div>
+        <div class="icons flex align-center">
+          <div class="ml20" v-for="item in iconList" :key="item">
+            <img :src="item.src" alt="">
+            <span>{{ item.label }}</span>
+          </div>
+        </div>
+      </div>
+      <!-- collects 操作 -->
+      <div class="user-love-box mt20 mb20  flex align-center justify-between">
+        <div class="ink flex align-center">
+          <span class="yellow big-size">Free</span>
+          <div class="col-line mlr"></div>
+          <span class="grey">21 Learners</span>
+        </div>
+        <el-button type="primary" class="common-btn-long ml-big">
+          Register Now
+        </el-button>
+        <div class="flex align-center justify-end inkjet-btn">
+
+          <!-- <el-button type="primary">
+                    <img src="@/assets/icon/icon-star.png" alt="">
+                    Likes
+                </el-button> -->
+          <el-button type="primary">
+            <img src="@/assets/icon/icon-route.png" alt="">
+            Collects
+          </el-button>
+          <el-button type="primary">
+            <img src="@/assets/icon/icon-love.png" alt="">
+            Share
+          </el-button>
+        </div>
+      </div>
     </div>
+    <div class="tab-content-box mt20">
+      <TabChange @changeTab="changeTab" :navList="navList" width="396"></TabChange>
+      <div class="tab-info-box mb20">
+        <div class="tab-info-top flex  align-center justify-between">
+          <span>
+            01. Submit chapter content when publishing
+          </span>
+          <div class="flex align-center justify-between">
+            <div class="check-btn">Check Assignments</div>
+            <img src="@/assets/course/down-icon.png" alt="">
+          </div>
+        </div>
+     <div class="item-box">
+      <div class="tab-info-item">
+          <div class="flex align-center justify-between">
+            <span>1. Submit video when publishing</span>
+            <img src="@/assets/course/play-icon.png" alt="">
+          </div>
+          <div class="info-word">66min</div>
+        </div>
+     </div>
+      </div>
+    </div>
+
+  </div>
 </template>
-      
+    
 <script>
-// options代表的是对视频控件的设置
-// pause代表的是暂停回调，当视频暂停的时候进行操作
-// ended代表的是视频播放结束的回调，当视频播放完成的时候进行操作
-// timeupdate 代表的是时候监听每一秒进行操作
-import { videoPlayer } from 'vue-video-player'
-import 'video.js/dist/video-js.css'
-import 'vue-video-player/src/custom-theme.css'
+import TabChange from "../components/TabChange.vue";
 export default {
-    components: {
-        videoPlayer,
+  components: {
+    TabChange,
+  },
+  data() {
+    return {
+      volume: 30,       // 音量
+      videoingurl: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20200317.mp4',           // 正在播放视频地址
+      myvideo: '',
+      isPaused: false,        //标记当前的播放状态
+      currentTime: '00:00',   //当前播放时间
+      totalTime: '00:00',     //总时长
+      currentTimeVal: 0,      // 进度条当前播放时间，必须是number类型
+      durationProgress: 0,       // 进度条的最大值，必须是number类型
+      currentIndex: '',
+      voiceFlag: false,
+      controlsFlag: false,
+      // 选中视频类型索引
+      // 是否有声音
+      hasVoive: true,
+      videoList: [],
+      videoKey: 0,
+      iconList: [{ src: require('@/assets/course/icon1.png'), label: '2000' },
+      { src: require('@/assets/course/icon2.png'), label: '2000' },
+      { src: require('@/assets/course/icon3.png'), label: '1.68k' },
+      { src: require('@/assets/course/icon4.png'), label: '2000' },
+      { src: require('@/assets/course/icon5.png'), label: '2000' },
+
+      ],
+      navList: ["What you'll learn", "Course content", "Reviews"],
+    };
+  },
+  mounted() {
+    //获取播放器元素
+    this.myvideo = this.$refs.myvideo
+    console.log(this.myvideo, "this.myvideo ")
+    this.getVideoList()
+  },
+  methods: {
+    getVideoList() {
+      this.videoList = [
+        { src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20200317.mp4' },
+        { src: 'https://media.w3.org/2010/05/sintel/trailer.mp4' },
+        { src: 'https://www.w3schools.com/html/movie.mp4' },
+        { src: 'https://media.w3.org/2010/05/sintel/trailer.mp4' },
+        { src: 'https://media.w3.org/2010/05/sintel/trailer.mp4' },
+        { src: 'https://media.w3.org/2010/05/sintel/trailer.mp4' },
+        { src: 'https://media.w3.org/2010/05/sintel/trailer.mp4' },
+        { src: 'https://media.w3.org/2010/05/sintel/trailer.mp4' },
+
+      ]
+      this.videoingurl = this.videoList[0].src
+      this.videoKey = 0
     },
-
-    data() {
-        return {
-            iconList: [{ src: require('@/assets/course/icon1.png'), label: '2000' },
-            { src: require('@/assets/course/icon2.png'), label: '2000' },
-            { src: require('@/assets/course/icon3.png'), label: '1.68k' },
-            { src: require('@/assets/course/icon4.png'), label: '2000' },
-            { src: require('@/assets/course/icon5.png'), label: '2000' },
-
-            ],
-            value: '21dsfsdfsdfd',
-            videoList: [],
-            playerOptions: {},
-            cover_url:'https://cdn.uviewui.com/uview/album/1.jpg'
-
-
-        };
+    controlsMouse(num) {
+      if (num == 1) {
+        this.controlsFlag = true
+      } else {
+        this.controlsFlag = false
+      }
     },
-    created() {
-        this.getVideoList()
-    },
-    methods: {
-        getVideoList() {
-            this.videoList = [{
-                title: 'Course Title1',
-                playerOptions: {
-                    // videojs options
-                    autoplay: false,
-                    muted: false,
-                    preload: 'auto',
-                    language: 'zh-CN',
-                    fluid: true,
-                    playbackRates: [0.7, 1.0, 1.5, 2.0],
-                    sources: [
-                        {
-                            type: 'video/mp4',
-                            // type: 'application/x-mpegURL',
-                            // src: this.src, // 路径
-                            src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20200317.mp4'
-                        }
-                    ],
-                    // poster: 'https://t7.baidu.com/it/u=602106375,407124525&fm=193&f=GIF',
-                    poster: this.cover_url, // 你的封面地址
-                    notSupportedMessage: '此视频暂无法播放，请稍后再试',
-                    controlBar: {
-                        timeDivider: true,
-                        durationDisplay: true,
-                        remainingTimeDisplay: false,
-                        fullscreenToggle: true, // 全屏按钮
-                        currentTimeDisplay: true, // 当前时间
-                        volumeControl: false, // 声音控制键
-                        playToggle: true, // 暂停和播放键
-                        progressControl: true // 进度条
-                    }
-                }
-            },
-            {
-                title: 'Course Title2',
-                playerOptions: {
-                    // videojs options
-                    autoplay: false,
-                    muted: false,
-                    preload: 'auto',
-                    language: 'zh-CN',
-                    fluid: true,
-                    playbackRates: [0.7, 1.0, 1.5, 2.0],
-                    sources: [
-                        {
-                            type: 'video/mp4',
-                            // type: 'application/x-mpegURL',
-                            // src: this.src, // 路径
-                            src: 'https://v-cdn.zjol.com.cn/276985.mp4'
-                        }
-                    ],
-                    // poster: 'https://t7.baidu.com/it/u=602106375,407124525&fm=193&f=GIF',
-                    poster: this.cover_url, // 你的封面地址
-                    notSupportedMessage: '此视频暂无法播放，请稍后再试',
-                    controlBar: {
-                        timeDivider: true,
-                        durationDisplay: true,
-                        remainingTimeDisplay: false,
-                        fullscreenToggle: true, // 全屏按钮
-                        currentTimeDisplay: true, // 当前时间
-                        volumeControl: false, // 声音控制键
-                        playToggle: true, // 暂停和播放键
-                        progressControl: true // 进度条
-                    }
-                }
-            },
-            {
-                title: 'Course Title3',
-                playerOptions: {
-                    // videojs options
-                    autoplay: false,
-                    muted: false,
-                    preload: 'auto',
-                    language: 'zh-CN',
-                    fluid: true,
-                    playbackRates: [0.7, 1.0, 1.5, 2.0],
-                    sources: [
-                        {
-                            type: 'video/mp4',
-                            // type: 'application/x-mpegURL',
-                            // src: this.src, // 路径
-                            src: 'https://v-cdn.zjol.com.cn/276985.mp4'
-                        }
-                    ],
-                    // poster: 'https://t7.baidu.com/it/u=602106375,407124525&fm=193&f=GIF',
-                    poster: this.cover_url, // 你的封面地址
-                    notSupportedMessage: '此视频暂无法播放，请稍后再试',
-                    controlBar: {
-                        timeDivider: true,
-                        durationDisplay: true,
-                        remainingTimeDisplay: false,
-                        fullscreenToggle: true, // 全屏按钮
-                        currentTimeDisplay: true, // 当前时间
-                        volumeControl: false, // 声音控制键
-                        playToggle: true, // 暂停和播放键
-                        progressControl: true // 进度条
-                    }
-                }
-            }]
-            this.playerOptions = this.videoList[0].playerOptions
-        },
-        setSrc(src) {
-            // 重新设置播放地址
-            this.playerOptions['sources'][0]['src'] = src;
-            setTimeout(() => {
-                this.$refs.videoPlayer.player.play() // 播放
-            }, 1000)
-        },
-        play() {
-            // 手动触发播放
-            this.$refs.videoPlayer.player.play() // 播放
-        },
-        // listen event
-        onPlayerPlay(player) {
-            console.log('player play!', player)
-        },
-        onPlayerPause(player) {
-            console.log('player pause!', player)
-        },
-        onPlayerEnded(player) {
-            console.log('player onPlayerEnded!', player)
-        },
-        onPlayerWaiting(player) {
-            console.log('player onPlayerWaiting!', player)
-        },
-        onPlayerPlaying(player) {
-            console.log('player onPlayerPlaying!', player)
-        },
-        onPlayerLoadeddata(player) {
-            console.log('player onPlayerLoadeddata!', player)
-        },
-        onPlayerTimeupdate(player) {
-            console.log('player onPlayerTimeupdate!', player)
-        },
-        onPlayerCanplay(player) {
-            console.log('player onPlayerCanplay!', player)
-        },
-        onPlayerCanplaythrough(player) {
-            console.log('player onPlayerCanplaythrough!', player)
-        },
-        // ...player event
-
-        // or listen state event
-        playerStateChanged(playerCurrentState) {
-            console.log('player current update state', playerCurrentState)
-        },
-
-        // player is ready
-        playerReadied(player) {
-            console.log('the player is readied', player)
-            // you can use it to do something...
-            // player.[methods]
-        }
+    voiceMouse(num) {
+      if (num == 1) {
+        this.voiceFlag = true
+      } else {
+        this.voiceFlag = false
+      }
 
     },
+    handleVoice() {
+      this.hasVoive = !this.hasVoive
+      if (this.hasVoive) {
+
+        this.getNewVoice(30)
+      } else {
+        this.getNewVoice(0)
+      }
+    },
+    play() {
+      //修改当前的播放状态
+      this.isPaused = !this.isPaused
+      if (this.isPaused) {
+        this.myvideo.play()
+      } else {
+        this.myvideo.pause()
+      }
+    },
+    // 进度条拖动时间
+    getNewTime(val) {
+      console.log(val)
+      this.myvideo.currentTime = val
+    },
+    // 音量控制
+    getNewVoice(val) {
+      this.volume = val
+      let newVc = val / 100 //h5规定,volume的值必须再0-1之间,比如0.5就是50%的音量,但是进度条的值为100,因此这里做个除法
+      this.myvideo.volume = newVc //赋值
+    },
+    //时间格式化处理
+    timeFormat(time) {
+      let minute = Math.floor((time % 3600) / 60)
+      let second = Math.floor(time % 60)
+      minute = minute < 10 ? "0" + minute : minute
+      second = second < 10 ? "0" + second : second
+      return `${minute}:${second}`
+    },
+    //获取总时长
+    getTotal() {
+      this.totalTime = this.timeFormat(this.myvideo.duration)
+      this.durationProgress = this.myvideo.duration
+    },
+    //获取当前视频播放到的时间
+    timeupdate() {
+      if (this.myvideo.currentTime == this.myvideo.duration) {
+        this.isPaused = !this.isPaused
+        this.myvideo.pause()
+      }
+      this.currentTime = this.timeFormat(this.myvideo.currentTime)
+      this.currentTimeVal = this.myvideo.currentTime
+    },
+    //全屏切换
+    toggleFullScreen() {
+      const myvideo = this.$refs.myvideo
+      //如果当前是全屏状态，就退出全屏，否则进入全屏状态
+      //获取当前的全屏状态
+      let isFullscreen = document.webkitIsFullScreen || document.fullscreen
+      if (!isFullscreen) {
+        const inFun = myvideo.requestFullscreen || myvideo.webkitRequestFullScreen
+        //让当前播放器进入全屏状态
+        inFun.call(myvideo)
+      } else {
+        const exitFun = document.exitFullscreen || document.webkitExitFullScreen
+        //退出全屏状态要使用document
+        exitFun.call(document)
+      }
+    },
+    preVideo(index) {
+      this.videoingurl = this.videoList[index].src
+      this.videoKey = index
+    }
+
+    // //全屏切换
+    // toggleFullScreen(num,index) {
+    //   let myvideo 
+    //   if(num==1){
+    //     myvideo= this.$refs.myvideo
+    //   }else{
+    //     myvideo = this.$refs[`myvideo${index}`][0]
+    //   }
+
+    //   //如果当前是全屏状态，就退出全屏，否则进入全屏状态
+    //   //获取当前的全屏状态
+    //   let isFullscreen = document.webkitIsFullScreen || document.fullscreen
+    //   if (!isFullscreen) {
+    //     const inFun = myvideo.requestFullscreen || myvideo.webkitRequestFullScreen
+    //     //让当前播放器进入全屏状态
+    //     inFun.call(myvideo)
+    //   } else {
+    //     const exitFun = document.exitFullscreen || document.webkitExitFullScreen
+    //     //退出全屏状态要使用document
+    //     exitFun.call(document)
+    //   }
+    // },
 
 
+  }
 };
 </script>
-      
-<style lang="scss" >
+<style>
+.el-scrollbar__wrap {
+  overflow-x: hidden;
+}
+
+.el-scrollbar__bar.is-vertical {
+  opacity: 0;
+}
+</style>
+<style lang="scss" scoped>
+.border-box {
+  border: 1px solid #e9e7e7;
+  border-radius: 0px 16px 0px 0px;
+}
 
 .video-box {
-    width: 100%;
-    height: 848px;
-    background: rgba(3, 3, 3, 0.44);
-    border-radius: 0px 16px 0px 0px;
+  width: 100%;
+  height: 848px;
+  background: rgba(3, 3, 3, 0.44);
+  border-radius: 0px 16px 0px 0px;
 
-    .video-left {
-        width: 890px;
+  .video-left {
+    width: 890px;
+    // border-top: 1px solid #e9e7e7;
+    // border-left: 1px solid #e9e7e7;
+    position: relative;
 
-        .video-player-box {}
+    video {
+      width: 890px;
+      height: 800px;
 
-        .video-js {
-            width: 890px;
-            height: 848px;
-        }
-
-        .video-player .vjs-big-play-button {
-            width: 70px;
-        height: 70px;
-        border: 3px solid #FFFFFF;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .video-js .vjs-big-play-button .vjs-icon-placeholder:before{
-            top: 10px;
-        }
+      background: #fff;
+      // box-shadow: 0px 2px 4px 0px rgba(6, 4, 0, 0.2);
     }
 
-    .video-right {
-        width: 310px;
-        padding: 20px;
-       
-
-        span {
-            color: #FFFFFF;
-            font-weight: 600;
-            font-size: 24px;
-        }
+    .start-box {
+      width: 80px;
+      height: 80px;
+      border: 3px solid #FFFFFF;
+      background-color: rgba(193, 193, 193, 0.45);
+      position: absolute;
+      top: calc(50% - 40px);
+      left: calc(50% - 40px);
+      cursor: pointer;
+      border-radius: 50%;
     }
-}
 
-.video-scroll {
-    overflow: auto;
+    .controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: -2px;
+      height: 46px;
+      padding: 0 20px;
+      background: transparent;
+      // background: rgba(3, 3, 3, 0.44);
+      opacity: 1;
+
+      img {
+        vertical-align: middle;
+      }
+
+      >div {
+        cursor: pointer;
+      }
+
+      .progress {
+        .el-slider {
+          width: 608px;
+          margin: 0 16px;
+
+        }
+
+        ::v-deep .el-slider__runway {
+          height: 4px;
+
+        }
+
+        ::v-deep .el-slider__button {
+          width: 10px;
+          height: 10px;
+        }
+
+        ::v-deep .el-slider__button-wrapper {
+          top: -16px;
+        }
+
+        .time {
+          color: #FFFFFF;
+        }
+      }
+
+      .voice-box {
+        position: relative;
+
+        .voice-slider {
+          // height: 120px;
+          position: absolute;
+          bottom: -16px;
+          left: -12px;
+          z-index: 10;
+
+          // padding: 10px 0;
+          padding-bottom: 18px;
+
+
+          .voice-slider-box {
+            background-color: rgba(3, 3, 3, 0.44);
+            padding-top: 16px;
+            opacity: 0;
+          }
+
+          &:hover {
+            .voice-slider-box {
+              opacity: 1;
+            }
+          }
+
+          .place {
+            height: 30px;
+            width: 100%;
+          }
+
+
+        }
+
+
+        ::v-deep .el-slider {}
+      }
+    }
+
+    .lucency {
+      opacity: 1;
+    }
+
+  }
+
+  .video-right {
+    width: 310px;
+    padding: 20px;
+
+
+    .video-title {
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 24px;
+    }
+  }
+
+  .video-scroll {
+    height: 760px;
+    // overflow-y: auto;
 
     .video-item {
-        margin-bottom: 6px;
-        width: 270px;
-        height: 146px;
-        border-radius: 6px;
-        border: 2px solid #979797;
-        overflow: hidden;
+      margin-bottom: 6px;
+      width: 270px;
+      height: 146px;
+      border-radius: 6px;
+      border: 2px solid #979797;
+      overflow: hidden;
+      position: relative;
+      border: 3px solid transparent;
+
+      .video-mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        padding-top: 101px;
+        z-index: 10;
+
+        color: #FFFFFF;
+
+
+        .el-button {
+          width: 80px;
+          font-size: 16px;
+          font-weight: 500;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 28px;
+          background: linear-gradient(131deg, rgba(255, 143, 0, 0.66) 0%, rgba(220, 0, 37, 0.66) 100%);
+          border-radius: 17px;
+
+          &:hover {
+            background: linear-gradient(131deg, rgba(255, 143, 0, 0.86) 0%, rgba(220, 0, 37, 0.86) 100%);
+          }
+
+        }
+      }
     }
 
-}
-
-/*播放按钮设置成宽高一致，圆形，居中*/
-.vjs-custom-skin > .video-js .vjs-big-play-button {
-  outline: none;
-  border: none;
-  width: 66px;
-  height: 66px !important;
-
-  background-color: rgba(0,0,0,0) !important;
-}
-
-.video-js .vjs-big-play-button .vjs-icon-placeholder:before {
-
-  content: '';
-  width: 66px;
-  height: 66px;
-  background: url('@/assets/course/start.png') no-repeat;
-  background-size:24px 27px;
-}
+    .active-color {
+      border: 3px solid;
+      border-image: linear-gradient(90deg, rgba(248, 116, 7, 1), rgba(224, 14, 34, 1)) 5 5;
+    }
+  }
 
 
-/*control-bar布局时flex，通过order调整剩余时间的位置到进度条右边*/
-.vjs-custom-skin > .video-js .vjs-control-bar .vjs-remaining-time{
-  order:3 !important;
 }
 
-/* 进度条下面的播放按钮 */
-.vjs-custom-skin > .video-js .vjs-control-bar .vjs-play-control {
-  margin: 0;
-  line-height: 20px;
-  height: 94px;
-  padding: 50px 0 24px 0;
-}
-.vjs-custom-skin > .video-js .vjs-control-bar .vjs-play-control .vjs-icon-placeholder:before {
-  position: absolute;
-  font-size: 20px;
-  top: 44px;
-  left: 24px;
-  width: 20px;
-  height: 20px;
+.user-love-box {
+  padding: 0 20px;
+
+  .user {
+
+
+    img {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 10px;
+
+    }
+
+    .mlr {
+      margin: 0 13px;
+    }
+  }
+
+  .icons {
+    line-height: 24px;
+    color: #999999;
+    font-size: 12px;
+
+    img {
+      vertical-align: middle;
+      margin-top: -3px;
+      margin-right: 4px;
+    }
+
+
+  }
+
+  .ink {
+    line-height: 28px;
+
+    .mlr {
+      margin: 0 11px;
+    }
+  }
+
+  .ml-big {
+    margin-left: 449px;
+  }
+
+  .inkjet-btn {
+    .el-button {
+      width: 78px;
+      height: 26px;
+      background: rgba(255, 143, 0, 0.08);
+      border-radius: 4px;
+      border: 1px solid rgba(224, 14, 34, 0.8);
+      // border-image: linear-gradient(90deg, rgba(248, 116, 7,  0.8), rgba(224, 14, 34,  0.8)) 1 1;
+      font-size: 13px;
+      color: #FF8F00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // -webkit-background-clip: text;
+      // -webkit-text-fill-color: transparent;
+    }
+
+    span {
+      font-size: 12px;
+      color: #FF8F00;
+      line-height: 18px;
+
+      margin-top: 11px;
+    }
+
+    img {
+      vertical-align: middle;
+      margin-top: -2px;
+    }
+  }
 }
 
-/** 时间组件 */
-.vjs-custom-skin > .video-js .vjs-control-bar .vjs-time-control {
-  margin: 0;
-  line-height: 20px;
-  height: 94px;
-  padding: 50px 0 24px 0;
-  min-width: auto;
-}
-/* 时间-左 */
-.video-js .vjs-current-time, .vjs-no-flex .vjs-current-time {
-  min-width: 32px;
-  font-size: 12px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #FFFFFF;
-  line-height: 20px;
-  margin: 0 0 0 24px !important;
-}
-/* 下面控件的时间分割线 */
-.vjs-custom-skin > .video-js .vjs-control-bar .vjs-time-divider {
-  min-width: 6px;
-  margin: 0 8px !important;
-  font-size: 12px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: rgba(255,255,255,0.2);
-  line-height: 20px;
-}
-/* 时间-右 */
-.video-js .vjs-duration, .vjs-no-flex .vjs-duration {
-  font-size: 12px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #FFFFFF;
-  line-height: 20px;
-}
-.video-js .vjs-control-bar {
-  height: 94px;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)
-}
-/*进度条单独放置一行*/
-.vjs-custom-skin > .video-js .vjs-progress-control.vjs-control{
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 68px;
-  width: 100%;
-  height: 2px;
-  padding: 0 24px;
-}
-/* 进度条背景轨道 */
-.video-js .vjs-slider{
-  border-radius: 1em;
-  background-color: rgba(255,255,255,0.2);
-}
-/* 加载进度条背景色 */
-.video-js .vjs-load-progress {
-  background: rgba(255,255,255,0.1);
-}
-/* 进度条进度 */
-.vjs-custom-skin > .video-js .vjs-play-progress, .vjs-custom-skin > .video-js .vjs-volume-level{
-  border-radius: 1px;
-  background: #FFFFFF;
-}
- 
-/*鼠标进入播放器后，播放按钮颜色会变*/
-.video-js:hover .vjs-big-play-button, .vjs-custom-skin>.video-js .vjs-big-play-button:active, .vjs-custom-skin>.video-js .vjs-big-play-button:focus{
-  background-color: rgba(0,0,0,0) !important;
-}
- 
-/*control bar*/
-.video-js .vjs-control-bar{
-  background-color: rgba(0,0,0,0.2) !important;
-}
- 
-/*点击按钮时不显示蓝色边框*/
-.video-js .vjs-control-bar button{
-  outline: none;
-}
-.vjs-volume-panel .vjs-control .vjs-volume-panel-horizontal {
-  width: 0;
-  display: none;
-}
-/** 隐藏倍速 */
-.vjs-custom-skin > .video-js .vjs-control-bar .vjs-playback-rate {
-  display: none;
-}
-/** 音量按钮 */
-.video-js .vjs-volume-panel {
-  /* display: none; */
-  position: absolute;
-  right: 48px;
-  bottom: 24px;
-  width: 20px;
-  height: 20px;
-}
-.vjs-icon-volume-high:before, .video-js .vjs-mute-control .vjs-icon-placeholder:before {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  color: rgba(255,255,255,0.9);
-}
-.video-js .vjs-volume-bar {
-  margin: 8px 16px 8px 0;
-}
-.video-js .vjs-volume-level {
-  left: -21px;
-}
-/* 全屏组件 */
-.vjs-custom-skin > .video-js .vjs-control-bar .vjs-fullscreen-control {
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
-  width: 20px;
-  height: 20px;
-}
-.video-js .vjs-big-play-button .vjs-icon-placeholder:before, .vjs-button > .vjs-icon-placeholder:before {
-  text-align: right;
-}
-/* 全屏按钮图标 */
-.vjs-icon-fullscreen-enter:before, .video-js .vjs-fullscreen-control .vjs-icon-placeholder:before {
-  content: '';
-  width: 20px;
-  height: 20px;
-//   background: url('../assets/icon_full@2x.png') no-repeat;
-  background-size: 100% 100%;
-}
-/* 全屏播放后隐藏自定义全屏图标 */
-.vjs-icon-fullscreen-exit:before, .video-js.vjs-fullscreen .vjs-fullscreen-control .vjs-icon-placeholder:before {
-  background: url('');
-  line-height: 20px;
-  margin-right: 10px;
-}
+.tab-content-box {
+  position: relative;
+  border-radius: 6px 6px 0px 0px;
+  border: 1px solid #e9e7e7;
+  padding: 0 20px;
+  padding-top: 60px;
 
+  .tab-info-box {
+    border: 1px solid #e9e7e7;
+    padding-bottom: 20px;
+    
+
+    .tab-info-top {
+      width: 100%;
+      height: 48px;
+      background-color: #F6F6F6;
+      padding: 0 20px;
+
+      span {
+        color: #3E454E;
+        font-size: 16px;
+      }
+
+      .check-btn {
+        width: 148px;
+        height: 20px;
+        background: rgba(238, 77, 17, 0.2);
+        border-radius: 3px;
+        font-size: 14px;
+        color: #61687C;
+        line-height: 20px;
+        text-align: center;
+        margin-right: 41px;
+      }
+    }
+.item-box{
+  padding: 0 20px;
+}
+    .tab-info-item {
+     padding: 20px 0;
+      border-bottom: 1px solid #e9e7e7;
+      color: #3E454E;
+
+      .info-word{
+        margin-top: 6px;
+        text-indent: 14px;
+color: #999999;
+      }
+    }
+  }
+}
 </style>
-      
+
+
+    
