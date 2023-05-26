@@ -6,7 +6,7 @@ const user = {
     token: getToken()?getToken():null,
     name: '',
     avatar: '',
-    roles: [],
+    roles: 2,
     permissions: []
   },
 

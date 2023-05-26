@@ -28,10 +28,8 @@ export default {
 .book-box {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 18px
-}
-
-.book-item {
+    grid-gap: 18px;
+    .book-item {
     width: 191px;
     // height: 270px;
     border-radius: 6px;
@@ -61,4 +59,7 @@ export default {
         }
     }
 }
+}
+
+
 </style>

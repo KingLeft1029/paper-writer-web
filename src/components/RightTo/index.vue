@@ -1,6 +1,6 @@
 <template>
     <div class="right-to-box">
-        <router-link class="link-type" :to="'/register'">
+        <router-link class="link-type" :to="pathName">
             <span>{{ label }}</span>
             <img src="../../assets/person/yellow-right.png" alt="">
         </router-link>
@@ -15,7 +15,11 @@ export default {
         label: {
             type: String,
             default: ''
-        }
+        },
+        pathName: {
+            type: String,
+            default: ''
+        },
     },
     components: {
 

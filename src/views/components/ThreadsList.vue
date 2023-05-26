@@ -2,7 +2,7 @@
  <div>
     <div class="scroll-box"  v-if="routeName=='forums'" :style="{ 'height': scrollHeight + 'px' }" v-infinite-scroll="load"  infinite-scroll-disabled="disabled">
     <div class="threads-box">
-        <div class="threads-item mb20 flex align-center" v-for="x in count">
+        <router-link tag="div" :to="{name:'forumsdetail',query:{id:1}}"  class="threads-item mb20 flex align-center" v-for="x in count">
             <div class="left">
                 <div class="name text-cut2 text-cut " title="">
                     <!-- Declined  Done -->
@@ -38,7 +38,7 @@
             <div class="right ml20">
                 <img src="@/assets/person/forum-img.png" alt="">
             </div>
-        </div>
+        </router-link>
     </div>
     <div class="loading-box" v-if="loading">Loading...</div>
         <div class="loading-box" v-if="noMore">No more.</div>
@@ -46,7 +46,7 @@
 
   <div class="scroll-box"  v-else>
     <div class="threads-box">
-        <div class="threads-item mb20 flex align-center" v-for="x in 5">
+        <router-link tag="div" :to="{name:'forumsdetail',query:{id:1}}" class="threads-item mb20 flex align-center" v-for="x in 5">
             <div class="left">
                 <div class="name text-cut2 text-cut " title="">
                     <!-- Declined  Done -->
@@ -82,7 +82,7 @@
             <div class="right ml20">
                 <img src="@/assets/person/forum-img.png" alt="">
             </div>
-        </div>
+        </router-link>
     </div>
 
   </div>

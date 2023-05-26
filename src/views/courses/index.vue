@@ -23,9 +23,9 @@
                 <course-list></course-list>
             </div>
             <div class="forums-right">
-                <div class="add-thread flex align-center justify-center">
+                <router-link tag="div" to="/addcourse" class="add-thread flex align-center justify-center">
                     <span>Course Management</span>
-                </div>
+                </router-link >
                 <div class="labels-box mt20">
                     <span>Learners also bought</span>
                     <div class="labels-item">
@@ -82,6 +82,10 @@ export default {
 </script>
 <style lang="scss">
 .screen-box {
+    .el-input{
+        height: 22px;
+        line-height: 22px;
+    }
 
     .el-input__inner {
         height: 22px;

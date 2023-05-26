@@ -23,9 +23,9 @@
                 <threads-list></threads-list>
             </div>
             <div class="forums-right">
-                <div class="add-thread flex align-center justify-center">
+                <router-link tag="div" to="/addforum" class="add-thread flex align-center justify-center" >
                     <span>New Thread</span>
-                </div>
+                </router-link>
                 <div class="labels-box mt20">
                     <span>Learners also bought</span>
                     <div class="labels-item">

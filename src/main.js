@@ -14,6 +14,8 @@ import RightTo from "./components/RightTo";
 // 自定义组件 空
 import EmptyBox from "./components/EmptyBox";
 import SortInput from "./components/SortInput";
+// 富文本组件
+import Editor from "@/components/Editor"
 Vue.use(ElementUI,{ locale}, {
   size: Cookies.get("size") || "medium", // set element-ui default size
  
@@ -29,10 +31,7 @@ Vue.component('Pagination', Pagination)
 Vue.component("RightTo", RightTo);
 Vue.component('SortInput', SortInput)
 Vue.component("EmptyBox", EmptyBox);
-
-import VueCoreVideoPlayer from 'vue-core-video-player'
-
-Vue.use(VueCoreVideoPlayer)
+Vue.component('Editor', Editor)
 
 
 import "@/assets/styles/custom.scss";

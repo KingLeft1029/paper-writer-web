@@ -59,11 +59,12 @@ setUnderLine(index, $event) {
    this.$emit('changeTab',this.active)
    // 设置导航条底部滚动条的位置
    var position
-      if ($event) {
-        position = $event.path[0].offsetLeft // 获取被点击的li的offsetLeft
-      } else {
+      // if ($event) {
+      //   console.log( $event," $event.path[0]")
+      //   position = $event.offsetX // 获取被点击的li的offsetLeft
+      // } else {
         position = this.$refs[`channel${index}`][0].offsetLeft
-      }
+      // }
  
       var liWidth = this.$refs[`channel${index}`][0].offsetWidth
   
@@ -94,7 +95,7 @@ setUnderLine(index, $event) {
 
 .nav .nav-list {
   //  width: 366px;
-padding-left: 40px;
+padding-left: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;

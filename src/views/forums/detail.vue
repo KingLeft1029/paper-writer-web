@@ -51,19 +51,37 @@
                 </el-input>
 
             </div>
-           <div class="flex justify-end mt20">
-            <el-button type="primary" class="btn-comments ">Comments</el-button>
-           </div>
-           <div class="flex justify-center text-grey mt20">No comments yet, waiting for you to leave a discussion!（to discuss）</div>
+            <div class="flex justify-end mt20">
+                <el-button type="primary" class="btn-comments ">Comments</el-button>
+            </div>
+            <div class="flex justify-center text-grey mt20">No comments yet, waiting for you to leave a discussion!（to
+                discuss）</div>
         </div>
+        <!-- 弹窗组件 -->
+        <PopUp title="Inkjet to the Author" :width="600">
+
+            <div class="inkjet-grid">
+                <div class="inkjet-grid-item" v-for="x in 8">
+                    200
+                </div>
+            </div>
+            <div class="flex justify-end mt33">
+                <el-button type="primary" class="common-btn-deep">
+                    Inkjet
+                </el-button>
+                <el-button class="common-btn-border">
+                    Cancel
+                </el-button>
+            </div>
+        </PopUp>
     </div>
 </template>
       
 <script>
-
+import PopUp from "@/components/PopUp"
 export default {
     components: {
-
+        PopUp
     },
     data() {
         return {
@@ -174,9 +192,34 @@ export default {
         border-radius: 4px;
         font-size: 16px;
         color: #FFFFFF;
-     display: flex;
-     justify-content: center;
-     align-items: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.inkjet-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 18px;
+    padding: 0 83px;
+
+    .inkjet-grid-item {
+        // width: 88px;
+        height: 40px;
+        background: rgba(216, 216, 216, 0.2);
+        border-radius: 4px;
+        text-align: center;
+        line-height: 40px;
+        font-weight: 500;
+        color: #000000;
+        border: 2px solid transparent;
+        cursor: pointer;
+
+        &:hover {
+            color: #DC0025;
+            border-image: linear-gradient(180deg, rgba(248, 115, 8, 1), rgba(221, 2, 37, 1)) 2 2;
+        }
     }
 }
 </style>

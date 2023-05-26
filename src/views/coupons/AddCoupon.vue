@@ -11,7 +11,7 @@
         <el-input v-model="form.inkMock" placeholder="Please Enter"></el-input>
       </el-form-item>
       <el-form-item label="Coupon validity period：" required>
-        <div class="flex flex-nowrap">
+        <div class="flex flex-nowrap justify-between">
           <el-form-item prop="date1">
             <el-date-picker
               type="date"
@@ -44,7 +44,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Specified User：" required>
-        <el-button class="common-btn-sure" type="primary" @click="addUser"
+        <el-button class="common-btn-deepfix" type="primary" @click="addUser"
           >Add User</el-button
         >
       </el-form-item>
@@ -89,7 +89,7 @@
       </el-form-item>
 
       <el-form-item label="Specified Course：" required>
-        <el-button class="common-btn-sure" type="primary" @click="onSubmit"
+        <el-button class="common-btn-deepfix" type="primary" @click="onSubmit"
           >Add Course</el-button
         >
       </el-form-item>
@@ -129,18 +129,18 @@
       <el-form-item>
         <div class="common-btn">
           <el-button
-            class="common-btn-sure"
+            class="common-btn-deepfix"
             type="primary"
             @click="onSubmit('form')"
             >Back</el-button
           >
           <el-button
-            class="common-btn-sure"
+            class="common-btn-deepfix"
             type="primary"
             @click="onSubmit('form')"
             >Newly Added</el-button
           >
-          <el-button class="common-btn-cancel">Cancel</el-button>
+          <el-button class="common-btn-borderfix">Cancel</el-button>
         </div>
       </el-form-item>
     </el-form>
@@ -293,6 +293,9 @@ export default {
       border-right: none !important;
     }
   }
+  // ::v-deep .el-table__empty-block{
+  //   border-right: 1px solid #dfe6ec;
+  // }
   //   .el-table::before{
   //     height: 0;
   //   }

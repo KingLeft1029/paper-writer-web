@@ -5,10 +5,11 @@
         <img src="../../../assets/person/ink-icon.png" alt="" />
         New coupon
       </div>
-      <div class="more-class flex align-center">
+      <MoreTo path="/coupons"></MoreTo>
+      <!-- <div class="more-class flex align-center">
         More
         <img src="../../../assets/person/yellow-right.png" alt="" />
-      </div>
+      </div> -->
     </div>
     <div class="echart-box mt20 flex align-center justify-between mb20">
       <div class="echart-item flex align-center">
@@ -82,21 +83,21 @@
       </el-table-column>
       <el-table-column
         prop="Coupon Ink"
-        label="Coupon Name"
+        label="Coupon Ink"
         align="center"
         :show-overflow-tooltip="true"
       >
       </el-table-column>
       <el-table-column
         prop="Applied courses"
-        label="Coupon Name"
+        label="Applied courses"
         align="center"
         :show-overflow-tooltip="true"
       >
       </el-table-column>
       <el-table-column
         prop="Expiration Date"
-        label="Coupon Name"
+        label="Expiration Date"
         align="center"
         :show-overflow-tooltip="true"
       >
@@ -106,7 +107,11 @@
 </template>
 
 <script>
+import MoreTo from '@/components/MoreTo'
 export default {
+  components:{
+    MoreTo
+  },
   data() {
     return {
       loading: false,
@@ -121,23 +126,19 @@ export default {
   width: 137px;
   height: 32px;
   padding: 16px;
-  border: 1px solid;
+  border: 1px solid  rgba(223, 13, 33, 0.5);
   cursor: pointer;
-  border-image: linear-gradient(
-      180deg,
-      rgba(246, 107, 9, 0.5),
-      rgba(223, 13, 33, 0.5)
-    )
-    1 1;
-
+  border-radius: 4px;
+background: linear-gradient(131deg, rgba(255, 143, 0,0.1) 0%, rgba(220, 0, 37,0.1) 100%);
   font-size: 14px;
-
+color: rgba(223, 13, 33, 0.5);
   font-weight: 400;
-  color: #ffffff;
   line-height: 32px;
-  background: linear-gradient(180deg, #f5670a 0%, #dc0025 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+
+  &:hover{
+    background: linear-gradient(131deg, rgba(255, 143, 0,0.3) 0%, rgba(220, 0, 37,0.3) 100%);
+  }
+ 
 }
 
 .echart-box {

@@ -1,15 +1,15 @@
 <template>
      <div class="flex align-center justify-end inkjet-btn">
-                <el-button type="primary">
-                    <img src="@/assets/icon/icon-star.png" alt="">
+                <el-button type="primary" v-if="num!=2">
+                    <img src="@/assets/icon/icon-love.png" alt="">
                     Likes
                 </el-button>
                 <el-button type="primary">
-                    <img src="@/assets/icon/icon-route.png" alt="">
+                    <img src="@/assets/icon/icon-star.png" alt="">
                     Collects
                 </el-button>
                 <el-button type="primary">
-                    <img src="@/assets/icon/icon-love.png" alt="">
+                    <img src="@/assets/icon/icon-route.png" alt="">
                     Share
                 </el-button>
             </div>
@@ -20,6 +20,12 @@
 export default {
     components: {
 
+    },
+    props:{
+        num:{
+            type:String,
+            default:()=>''
+        }
     },
     data() {
         return {

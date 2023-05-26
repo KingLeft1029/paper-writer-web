@@ -1,13 +1,6 @@
 <template>
   <div class="dialog-box">
-    <!-- 添加或修改菜单对话框 -->
-    <el-dialog
-      ref="adduser"
-      title="Add User"
-      :visible.sync="show"
-      width="900px"
-      append-to-body
-    >
+    <PopUp title="Add User" width="900" ref="pop">
       <div class="flex justify-between align-start">
         <el-form label-width="100px" :model="queryParams">
           <el-form-item label="Add User："  required>
@@ -19,10 +12,10 @@
           </el-form-item>
         </el-form>
         <div class="flex align-center mt5">
-          <el-button class="common-btn-search" type="primary" @click="onSubmit"
+          <el-button class="common-btn-deep" type="primary" @click="onSubmit"
             >Search</el-button
           >
-          <el-button class="common-btn-reset">Reset</el-button>
+          <el-button class="common-btn-border">Reset</el-button>
         </div>
       </div>
       <el-table
@@ -56,17 +49,19 @@
         @pagination="getList"
         layout=" prev, pager, next,sizes,jumper"
       />
-      <div slot="footer" class="dialog-footer flex justify-center">
-        <el-button type="primary" class="common-btn-sure" @click="submitForm">Add</el-button>
-        <el-button class="common-btn-cancel ml20" @click="cancel">Cancel</el-button>
-      </div>
-    </el-dialog>
+      <div class="flex justify-center mt33">
+        <el-button type="primary" class="common-btn-deepfix" @click="submitForm">Add</el-button>
+        <el-button class="common-btn-borderfix ml20" @click="cancel">Cancel</el-button>
+        </div>
+    </PopUp>
+  
   </div>
 </template>
       
       <script>
+      import PopUp from '@/components/PopUp'
 export default {
-  components: {},
+  components: {PopUp},
   data() {
     return {
       show: false,
@@ -98,7 +93,7 @@ export default {
   },
   methods: {
     open() {
-      this.show = true;
+      this.$refs.pop.open()
     },
       /** 查询菜单列表 */
       getList() {

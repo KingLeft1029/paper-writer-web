@@ -25,20 +25,64 @@
         <div class="mycourse-content">
             <tab-courses-list :collectionFlag="false" btnText="Keep learning"></tab-courses-list>
         </div>
+
+            <!-- 弹窗组件 -->
+    <!-- <PopUp title="Rating this course" :width="420">
+     <div class="flex align-center">
+        <span>Rating this course：</span>
+       <div class="mt5">
+        <el-rate v-model="ratevalue"></el-rate>
+       </div>
+       <span class="text-grey ml15">{{ ratevalue }} star</span>
+     </div>
+        <div class="flex justify-end mt33">
+          <el-button type="primary" class="common-btn-deep">
+            Submit
+          </el-button>
+          <el-button  class="common-btn-border">
+            Redo
+          </el-button>
+        </div>
+      </PopUp> -->
+      <PopUp title="Buy course" :width="420">
+      <div class="flex">
+        <div>
+        <img src="@/assets/icon/info.png" alt="">
+      </div>
+       <div class="ml10">
+        <div class="mt6 font12">
+          Are you sure to purchase the course？
+        </div>
+        <div class="mt20 font12 text-grey">
+          999 ink required
+        </div>
+       </div>
+      </div>
+        <div class="flex justify-end mt33">
+          <el-button type="primary" class="common-btn-deep">
+            Determine
+          </el-button>
+          <el-button  class="common-btn-border">
+            Cancel
+          </el-button>
+        </div>
+      </PopUp>
     </div>
 </template>
       
 <script>
 import TabCoursesList from '../../components/tab-courses-list.vue'
-
+import PopUp from "@/components/PopUp"
 export default {
     components: {
-        TabCoursesList
+        TabCoursesList,
+        PopUp
     },
     data() {
         return {
             activeName: 'first',
             value:'All Courses',
+            ratevalue:'',
             options: [{
                 value: '选项1',
                 label: '黄金糕'
@@ -67,7 +111,10 @@ export default {
 </script>
       <style lang="scss">
       .screen-box {
-    
+        .el-input{
+        height: 22px;
+        line-height: 22px;
+    }
         .el-input__inner{
             height: 22px;
             line-height: 22px;

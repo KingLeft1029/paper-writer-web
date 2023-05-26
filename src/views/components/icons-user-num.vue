@@ -1,6 +1,6 @@
 <template>
     <div class="icons flex align-center">
-        <div class="ml20" v-for="item in iconList" :key="item">
+        <div class="ml20" :class="{'noml':index==0}" v-for="(item,index) in iconList" :key="item">
             <img :src="item.src" alt="">
             <span>{{ item.label }}</span>
         </div>
@@ -40,6 +40,9 @@ export default {
             vertical-align: middle;
             margin-top: -3px;
             margin-right: 4px;
+        }
+        .noml{
+            margin-left: 0;
         }
 
 

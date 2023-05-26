@@ -1,22 +1,22 @@
 <template>
     <div>
-        <RightTo label="My courses"></RightTo>
+        <RightTo label="My courses" pathName="/managementcourse"></RightTo>
         <!-- <div class="my-empty-box">
             <EmptyBox emptyLabel="Add new!"></EmptyBox>
             <el-button type="primary">Submit</el-button>
         </div> -->
         <div class="my-box">
-             <div class="my-empty-box">
+             <div class="my-empty-box" :class="{'mt120':roles == 1}">
             <EmptyBox emptyLabel="Add new!"></EmptyBox>
             <el-button type="primary" class="common-btn-submit">Submit</el-button>
         </div>
             <!-- <course-list></course-list> -->
         </div>
         <RightTo label="My Threads"></RightTo>
-        <div class="my-box">
+        <div class="my-box" pathName="/forums">
             <threads-list></threads-list>
         </div>
-        <RightTo label="My Books"></RightTo>
+        <RightTo label="My Books" pathName="/books"></RightTo>
         <div class="my-box">
             <book-list></book-list>
         </div>
@@ -27,6 +27,7 @@
 import CourseList from '../../components/CourseList.vue'
 import ThreadsList from '../../components/ThreadsList.vue'
 import BookList from '../../components/BookList.vue'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'MyDashborad',
@@ -40,6 +41,9 @@ export default {
 
         };
     },
+    computed: {
+    ...mapGetters(["roles"]),
+    }
 };
 </script>
   
@@ -58,6 +62,9 @@ export default {
 
 
     }
+}
+.mt120{
+    margin-top: 120px;
 }
 .my-box{
     margin-top: 20px;

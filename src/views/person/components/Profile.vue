@@ -103,12 +103,12 @@
                     <el-input v-model="ruleForm.ageMock" disabled placeholder="Age"></el-input>
                 </el-form-item>
                 <div class="submit-box" v-if="!editFlag" @click="edit">
-                    <el-button class="common-btn-edit margin-auto"  type="primary" > Edit </el-button>
+                    <el-button class="common-btn-deep margin-auto"  type="primary" > Edit </el-button>
                 </div>
               
                 <div class="btn-box" v-else>
-                    <el-button size="small" @click="editFlag = false">Cancel</el-button>
-                    <el-button size="small" type="primary" @click="save('ruleForm')"> Save </el-button>
+                    <el-button  class="common-btn-border" @click="editFlag = false">Cancel</el-button>
+                    <el-button  class="common-btn-deep" type="primary" @click="save('ruleForm')"> Save </el-button>
                 </div>
             </el-form>
         </div>

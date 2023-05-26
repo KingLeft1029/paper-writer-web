@@ -1,51 +1,12 @@
 <template>
   <div class="container flex person-box">
-    <div class="left-box" v-if="leftShow">
+    <!-- 1进入个人中心默认展示我的主页页面。2、普通用户、可发布文章帖子3、完成身份认证，为“机构官方、机构编辑、作者”的用户，进入个人中心默认展示我的钱包 -->
+    <div class="left-box" v-if="leftShow && roles == 2">
       <!-- @click="editCropper()" -->
       <div class="avatar-img">
         <img v-bind:src="options.img" title="upload photo as avatar" alt="">
       </div>
-      <!-- <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"
-        @close="closeDialog">
-        <el-row>
-          <el-col :xs="24" :md="12" :style="{ height: '350px' }">
-            <vue-cropper ref="cropper" :img="options.img" :info="true" :autoCrop="options.autoCrop"
-              :autoCropWidth="options.autoCropWidth" :autoCropHeight="options.autoCropHeight" :fixedBox="options.fixedBox"
-              @realTime="realTime" v-if="visible" />
-          </el-col>
-          <el-col :xs="24" :md="12" :style="{ height: '350px' }">
-            <div class="avatar-upload-preview">
-              <img :src="previews.url" :style="previews.img" />
-            </div>
-          </el-col>
-        </el-row>
-        <br />
-        <el-row>
-          <el-col :lg="2" :md="2">
-            <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">
-              <el-button size="small">
-                选择1
-                <i class="el-icon-upload el-icon--right"></i>
-              </el-button>
-            </el-upload>
-          </el-col>
-          <el-col :lg="{ span: 1, offset: 2 }" :md="2">
-            <el-button icon="el-icon-plus" size="small" @click="changeScale(1)"></el-button>
-          </el-col>
-          <el-col :lg="{ span: 1, offset: 1 }" :md="2">
-            <el-button icon="el-icon-minus" size="small" @click="changeScale(-1)"></el-button>
-          </el-col>
-          <el-col :lg="{ span: 1, offset: 1 }" :md="2">
-            <el-button icon="el-icon-refresh-left" size="small" @click="rotateLeft()"></el-button>
-          </el-col>
-          <el-col :lg="{ span: 1, offset: 1 }" :md="2">
-            <el-button icon="el-icon-refresh-right" size="small" @click="rotateRight()"></el-button>
-          </el-col>
-          <el-col :lg="{ span: 2, offset: 6 }" :md="2">
-            <el-button type="primary" class="common-btn-submit" @click="uploadImg()">Submit</el-button>
-          </el-col>
-        </el-row>
-      </el-dialog> -->
+
       <span class="left-user-name">Course Name </span>
       <span class="left-user-identity">User</span>
       <div class="left-follow-box">
@@ -75,8 +36,41 @@
       </div>
     </div>
     <div class="right-box">
-      <Title :title="MenuTitle" v-if="titleFlag" />
-     
+      <Title :title="MenuTitle" v-if="titleFlag && roles == 2" />
+      <div class="finnish-box flex justify-between" v-if="roles==1">
+        <div class="flex align-center">
+          <div class="img-circle mr20">
+            <img src="@/assets/course/img.png" alt="">
+          </div>
+          <div>
+            <div class="flex align-center">
+              <span class="img-circle-name mr20">Course Name</span>
+              <span class="font12 text-grey">Institutional Official</span>
+            </div>
+            <div class="flex align-center mt20">
+              <span class="mr20 font12 text-grey">Follow：23</span>
+              <span class="mr20 font12 text-grey">Follers：23</span>
+              <span class="font12 text-grey">Following：23</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex align-center">
+          <div class="collect-btn mr20" :class="{ 'active-love': collectKey == 1 }" @click="collectClick">
+            <img src="@/assets/icon/love-white.png" v-if="collectKey == 1"  alt="">
+            <img src="@/assets/icon/love-red.png" v-else  alt="">
+            
+          
+            collect
+          </div>
+          <div class="send-btn" :class="{ 'active-send': sendKey == 1 }" @click="sendClick">
+            <img src="@/assets/icon/letter-white.png" v-if="sendKey == 1"   alt=""> 
+            <img src="@/assets/icon/letter-red.png" v-else  alt="">
+
+
+            Send Message
+          </div>
+        </div>
+      </div>
       <div class="row-line" v-if="titleFlag"></div>
       <components :is="currentComponent"></components>
     </div>
@@ -97,9 +91,9 @@ import CouponManagement from "./components/CouponManagement.vue";
 import ChangePassword from "./components/ChangePassword.vue";
 import CheckCoupons from './components/CheckCoupons.vue';
 import CheckWallet from './components/CheckWallet.vue';
-
+import { mapGetters } from 'vuex'
 export default {
-  components: { VueCropper, Title, MyDashborad, Profile, Agency, MyCourses, MyCollections, CouponManagement, ChangePassword,CheckCoupons,CheckWallet },
+  components: { VueCropper, Title, MyDashborad, Profile, Agency, MyCourses, MyCollections, CouponManagement, ChangePassword, CheckCoupons, CheckWallet },
   data() {
     return {
       // 是否显示弹出层
@@ -127,22 +121,25 @@ export default {
       ],
       menuKey: 0,
       currentComponent: MyDashborad,
-      leftShow:true,
-      titleFlag:true
+      leftShow: true,
+      titleFlag: true,
+      collectKey: 1,
+      sendKey:1
     }
   },
-  watch:{
-    menuKey:{
-      handler: function menuKey(val){
-  
-      // if(val==5){
-      //   this.leftShow=false
-      // }
-    },
-    immediate: true
-   }
+  watch: {
+    menuKey: {
+      handler: function menuKey(val) {
+
+        // if(val==5){
+        //   this.leftShow=false
+        // }
+      },
+      immediate: true
+    }
   },
   computed: {
+    ...mapGetters(["roles"]),
     MenuTitle() {
       let val = ''
       switch (this.menuKey) {
@@ -167,10 +164,10 @@ export default {
         case 6:
           val = 'Change Password'
           break;
-          case 7:
+        case 7:
           val = 'Coupons'
           break;
-          case 8:
+        case 8:
           val = 'Wallet'
           break;
       }
@@ -243,53 +240,59 @@ export default {
       switch (index) {
         case 0:
           this.currentComponent = MyDashborad
-          this.titleFlag=true
-          this.leftShow=true
+          this.titleFlag = true
+          this.leftShow = true
           break;
         case 1:
           this.currentComponent = Profile
-          this.titleFlag=true
-          this.leftShow=true
+          this.titleFlag = true
+          this.leftShow = true
           break;
         case 2:
           this.currentComponent = Agency
-          this.titleFlag=true
-          this.leftShow=true
+          this.titleFlag = true
+          this.leftShow = true
           break;
         case 3:
           this.currentComponent = MyCourses
-          this.titleFlag=false
-          this.leftShow=true
+          this.titleFlag = false
+          this.leftShow = true
           break;
         case 4:
           this.currentComponent = MyCollections
-          this.titleFlag=false
-          this.leftShow=true
+          this.titleFlag = false
+          this.leftShow = true
           break;
         case 5:
           this.currentComponent = CouponManagement
-          this.titleFlag=true
-          this.leftShow=true
+          this.titleFlag = true
+          this.leftShow = true
           break;
         case 6:
           this.currentComponent = ChangePassword
-          this.titleFlag=true
-          this.leftShow=true
+          this.titleFlag = true
+          this.leftShow = true
           break;
       }
     },
     // 查看优惠券
-    toCoupons(num){
-      this.menuKey=7
+    toCoupons(num) {
+      this.menuKey = 7
       this.currentComponent = CheckCoupons
-      this.titleFlag=false
-      this.leftShow=true
+      this.titleFlag = false
+      this.leftShow = true
     },
-    toWallet(){
-      this.menuKey=8
+    toWallet() {
+      this.menuKey = 8
       this.currentComponent = CheckWallet
-      this.titleFlag=true
-      this.leftShow=true
+      this.titleFlag = true
+      this.leftShow = true
+    },
+    collectClick(){
+      this.collectKey==1? this.collectKey=2: this.collectKey=1
+    },
+    sendClick(){
+      this.sendKey==1? this.sendKey=2: this.sendKey=1
     }
   }
 };
@@ -300,6 +303,7 @@ export default {
   flex: 1;
   margin-bottom: 40px;
   margin-top: 11px;
+  position: relative;
 }
 
 .left-box {
@@ -433,6 +437,79 @@ export default {
 
   }
 
-  
+
+}
+
+.finnish-box {
+  width: 100%;
+  height: 150px;
+  background: #FFFCFC;
+  border-radius: 6px 6px 0px 0px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 79px;
+  padding-right: 20px;
+
+  .img-circle {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      width: 58px;
+      height: 58px;
+    }
+  }
+
+  .img-circle-name {
+    font-size: 16px;
+    color: #3E454E;
+  }
+
+  .collect-btn {
+    width: 78px;
+    height: 26px;
+    padding: 0 8px;
+    display: flex;
+   align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 143, 0,0.08);
+    border-radius: 4px;
+    border: 1px solid rgba(224, 14, 34, 1);
+    color: #FF8F00;
+    cursor: pointer;
+  border-radius: 4px;
+    // img{
+    //   width: 14px;
+    //   height: 12px;
+    // }
+  }
+  .active-love{
+  background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
+   color: #fff;
+  }
+
+  .send-btn {
+    width: 140px;
+    height: 26px;
+    padding: 0 8px;
+    display: flex;
+   align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 143, 0,0.08);
+    border-radius: 4px;
+    border: 1px solid rgba(224, 14, 34, 1);
+    color: #FF8F00;
+    cursor: pointer;
+    // border-image: linear-gradient(90deg, rgba(248, 116, 7, 1), rgba(224, 14, 34, 1)) 1 1;
+  }
+  .active-send{
+    background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
+   color: #fff;
+  }
+
+
 }
 </style>

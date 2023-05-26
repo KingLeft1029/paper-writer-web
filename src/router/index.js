@@ -66,6 +66,72 @@ const routes = [
     name: 'coursesdetail',
     component: () => import('@/views/courses/detail')
   },
+  {
+    path: '/video',
+    name: 'video',
+    component: () => import('@/views/courses/video')
+  },
+  {
+    path: '/books',
+    name: 'books',
+    component: () => import('@/views/books')
+  },
+  {
+    path: '/records',
+    name: 'records',
+    component: () => import('@/views/books/records')
+  },
+  {
+    path: '/coupons',
+    name: 'coupons',
+    component: () => import('@/views/coupons')
+  },
+  {
+    path: '/withdraw',
+    name: 'withdraw',
+    component: () => import('@/views/wallet/withdraw')
+  },
+  {
+    path: '/addbook',
+    name: 'addbook',
+    component: () => import('@/views/books/addbook')
+  },
+  {
+    path: '/addforum',
+    name: 'addforum',
+    component: () => import('@/views/forums/addforum')
+  },
+  {
+    path: '/addcourse',
+    name: 'addcourse',
+    component: () => import('@/views/courses/addcourse')
+  },
+  {
+    path: '/courseslist',
+    name: 'courseslist',
+    component: () => import('@/views/courses/courseslist')
+  },
+  {
+    path: '/managementcourse',
+    name: 'managementcourse',
+    component: () => import('@/views/courses/managementcourse')
+  },
+  {
+    path: '/videoform',
+    name: 'videoform',
+    component: () => import('@/views/courses/videoform')
+  },
+  {
+    path: '/assingmentsform',
+    name: 'assingmentsform',
+    component: () => import('@/views/courses/assingmentsform')
+  },
+  {
+    path: '/otherinfo',
+    name: 'otherinfo',
+    component: () => import('@/views/other')
+  },
+ 
   // {
   //   path: '/about',
   //   name: 'about',

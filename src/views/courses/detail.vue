@@ -1,21 +1,51 @@
 <template>
-  <div class="container mt20 mb20">
-    <div class="flex align-center justify-center">
+  <div class="container mt20 mb20 flex-sub">
+    <div class="flex align-center  justify-between">
       <div class="video-mask">
         <img src="@/assets/course/img.png" alt="">
+        <router-link :to="{name:'video',query:{id:1}}">
         <el-button type="primary">Preview</el-button>
+      </router-link>
       </div>
-      <div>
+      <div class="course-detail-box flex flex-direction justify-between">
         <span>Course Name</span>
-        <span>Tags：Virgil Abloh’s Off-White is a streetwear-inspired collection that continues to break </span>
+        <span>Tags：Virgil Abloh’s Off-White is a streetwear-inspired collection that continues to break
+        </span>
         <span>9999Ink</span>
         <span>6 Episodes / 3h9m / 21 Learners</span>
-        <AprUserFollow></AprUserFollow>
+        <AprUserFollow :userInfo="{ num: 3, name: 'Zhang User', color: 'shadow' }"> </AprUserFollow>
         <IconsUserNum></IconsUserNum>
-
+        <div class="flex align-end justify-between">
+          <el-button type="primary" class="common-btn-buy">Buy Now</el-button>
+          <IconBorderBtn num="2"></IconBorderBtn>
+        </div>
       </div>
     </div>
-
+   <TabContentCourses></TabContentCourses>
+    <!-- 弹窗组件 -->
+    <PopUp title="Lack of Ink" :width="420">
+      <div class="flex">
+        <div>
+        <img src="@/assets/icon/info.png" alt="">
+      </div>
+       <div class="ml10">
+        <div class="mt6 font12">
+          Recharge the Ink
+        </div>
+        <div class="mt20 font12 text-grey">
+          Current Ink balance 200
+        </div>
+       </div>
+      </div>
+        <div class="flex justify-end mt33">
+          <el-button type="primary" class="common-btn-deep">
+            Recharge Now
+          </el-button>
+          <el-button  class="common-btn-border">
+            Cancel
+          </el-button>
+        </div>
+      </PopUp>
   </div>
 </template>
     
@@ -23,15 +53,19 @@
 import AprUserFollow from '../components/apr-user-follow.vue'
 import IconBorderBtn from '../components/icon-border-btn.vue'
 import IconsUserNum from '../components/icons-user-num.vue'
+import TabContentCourses from './tab-content-courses.vue'
+import PopUp from "@/components/PopUp"
 export default {
   components: {
     AprUserFollow,
     IconBorderBtn,
-    IconsUserNum
+    IconsUserNum,
+    TabContentCourses,
+    PopUp
   },
   data() {
     return {
-
+     
     };
   },
   methods: {
@@ -46,6 +80,7 @@ export default {
   width: 422px;
   height: 284px;
   object-fit: cover;
+  overflow: hidden;
 
   img {
     width: 422px;
@@ -73,5 +108,52 @@ export default {
   }
 
 }
+
+.course-detail-box {
+  width: 56%;
+  height: 284px;
+
+  span:nth-of-type(1) {
+    font-size: 36px;
+    font-weight: 600;
+    color: #1C1C1C;
+    line-height: 46px;
+  }
+
+  span:nth-of-type(2) {
+    font-size: 15px;
+    color: #545454;
+    line-height: 22px;
+    width: 80%;
+  }
+
+  span:nth-of-type(3) {
+    font-size: 24px;
+    color: #FF8F00;
+    line-height: 32px;
+  }
+
+  span:nth-of-type(4) {
+    font-size: 13px;
+    font-weight: 600;
+    color: #FF8F00;
+    line-height: 22px;
+  }
+
+  .common-btn-buy {
+    width: 260px;
+    height: 48px;
+    // background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 22px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+}
+
+
 </style>
     

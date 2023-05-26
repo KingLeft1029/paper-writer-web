@@ -52,87 +52,40 @@
                 <div class="video-mask" @click="preVideo(index)">
                   <el-button type="primary">Preview</el-button>
                 </div>
-                <video :ref="`myvideo${index}`" poster="https://cdn.uviewui.com/uview/album/1.jpg" :src="item.src">
+                <img src="https://cdn.uviewui.com/uview/album/1.jpg" alt="">
+                <!-- <video :ref="`myvideo${index}`" poster="https://cdn.uviewui.com/uview/album/1.jpg" :src="item.src">
   
-                </video>
+                </video> -->
               </div>
             </el-scrollbar>
           </div>
         </div>
         <!-- 作者信息 赞数量 -->
         <div class="user-love-box mt20 flex align-center justify-between">
-          <div class="user flex align-center">
-            <span>3 apr </span>
-            <div class="col-line mlr"></div>
-            <div class="flex align-center mr15">
-              <img src="../../assets/course/img.png" alt="">
-              <span>Zhang User</span>
-            </div>
-  
-          </div>
-          <div class="icons flex align-center">
-            <div class="ml20" v-for="item in iconList" :key="item">
-              <img :src="item.src" alt="">
-              <span>{{ item.label }}</span>
-            </div>
-          </div>
+          <AprUserFollow :userInfo="{ num: 3, name: 'Zhang User', color: 'none' ,dec:'Platform Intelligenc'}"> </AprUserFollow>
+
+          <IconsUserNum></IconsUserNum>
         </div>
         <!-- collects 操作 -->
         <div class="user-love-box mt20 mb20  flex align-center justify-between">
           <div class="ink flex align-center">
             <span class="text-yellow font-weight font20">Free</span>
             <div class="col-line mlr"></div>
-            <span class="grey">21 Learners</span>
+            <span class="text-grey">21 Learners</span>
           </div>
           <el-button type="primary" class="common-btn-long ml-big">
             Register Now
           </el-button>
-          <div class="flex align-center justify-end inkjet-btn">
-  
-            <!-- <el-button type="primary">
-                      <img src="@/assets/icon/icon-star.png" alt="">
-                      Likes
-                  </el-button> -->
-            <el-button type="primary">
-              <img src="@/assets/icon/icon-route.png" alt="">
-              Collects
-            </el-button>
-            <el-button type="primary">
-              <img src="@/assets/icon/icon-love.png" alt="">
-              Share
-            </el-button>
-          </div>
+          <IconBorderBtn num="2"></IconBorderBtn>
         </div>
       </div>
-      <div class="tab-content-box mt20">
-        <TabChange @changeTab="changeTab" :navList="navList" width="396"></TabChange>
-        <div class="tab-info-box mb20">
-          <div class="tab-info-top flex  align-center justify-between">
-            <span>
-              01. Submit chapter content when publishing
-            </span>
-            <div class="flex align-center justify-between">
-              <div class="check-btn">Check Assignments</div>
-              <img src="@/assets/course/down-icon.png" alt="">
-            </div>
-          </div>
-          <div class="item-box">
-            <div class="tab-info-item">
-              <div class="flex align-center justify-between">
-                <span>1. Submit video when publishing</span>
-                <img src="@/assets/course/play-icon.png" alt="">
-              </div>
-              <div class="info-word">66min</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <TabContentCourses></TabContentCourses>
       <!-- 弹窗组件 -->
       <PopUp title="Assignments" :width="479">
         <div class="mt20 font12">
           Assignment Title
         </div>
-        <div class="mt20 font12 grey">
+        <div class="mt20 font12 text-grey">
           cle descriptionArticle descriptionArticle descriptionArticle descriptionArtic
         </div>
         <div class="flex justify-center">
@@ -147,10 +100,18 @@
   <script>
   import TabChange from "../components/TabChange.vue";
   import PopUp from "@/components/PopUp"
+  import AprUserFollow from '../components/apr-user-follow.vue'
+  import IconsUserNum from '../components/icons-user-num.vue'
+  import IconBorderBtn from '../components/icon-border-btn.vue'
+  import TabContentCourses from './tab-content-courses.vue'
   export default {
     components: {
       TabChange,
-      PopUp
+      PopUp,
+      AprUserFollow,
+      IconsUserNum,
+      IconBorderBtn,
+      TabContentCourses
     },
     data() {
       return {
@@ -342,6 +303,7 @@
       // border-top: 1px solid #e9e7e7;
       // border-left: 1px solid #e9e7e7;
       position: relative;
+
   
       video {
         width: 890px;
@@ -376,6 +338,7 @@
   
         img {
           vertical-align: middle;
+          margin-top: -4px;
         }
   
         >div {
@@ -566,36 +529,7 @@
       margin-left: 449px;
     }
   
-    .inkjet-btn {
-      .el-button {
-        width: 78px;
-        height: 26px;
-        background: rgba(255, 143, 0, 0.08);
-        border-radius: 4px;
-        border: 1px solid rgba(224, 14, 34, 0.8);
-        // border-image: linear-gradient(90deg, rgba(248, 116, 7,  0.8), rgba(224, 14, 34,  0.8)) 1 1;
-        font-size: 13px;
-        color: #FF8F00;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        // -webkit-background-clip: text;
-        // -webkit-text-fill-color: transparent;
-      }
   
-      span {
-        font-size: 12px;
-        color: #FF8F00;
-        line-height: 18px;
-  
-        margin-top: 11px;
-      }
-  
-      img {
-        vertical-align: middle;
-        margin-top: -2px;
-      }
-    }
   }
   
   .tab-content-box {

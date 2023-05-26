@@ -1,7 +1,6 @@
 <template>
     <div class="empty-box">
         <img src="../../assets/person/empty.png" alt="">
-    
         <span>{{ emptyLabel }}</span>
     </div>
 </template>

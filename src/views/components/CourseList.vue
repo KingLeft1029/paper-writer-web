@@ -3,7 +3,7 @@
         <div class="scroll-box" v-if="routeName=='courses'" :style="{ 'height': scrollHeight + 'px' }" v-infinite-scroll="load"
             infinite-scroll-disabled="disabled">
             <div class="course-list">
-                <div class="course-item" v-for="(item, index) in count" :key="item">
+                <div  class="course-item"   v-for="(item, index) in count" :key="item">
                     <div class="course-top" :style="{ backgroundImage: 'url(' + url + ')' }">
                         <!-- <img src="../../assets/course/img.png" alt=""> -->
                         <img class="status-img" src="../../assets/course/free.png" alt="">
@@ -31,7 +31,7 @@
         </div>
         <div class="scroll-box" v-else>
             <div class="course-list">
-                <div class="course-item" v-for="(item, index) in 6" :key="item">
+                <router-link tag="div" class="course-item" :to="{name:'coursesdetail',query:{id:1}}"  v-for="(item, index) in 6" :key="item">
                     <div class="course-top" :style="{ backgroundImage: 'url(' + url + ')' }">
                         <!-- <img src="../../assets/course/img.png" alt=""> -->
                         <img class="status-img" src="../../assets/course/free.png" alt="">
@@ -52,7 +52,7 @@
                             <span class="grey">21 Learners</span>
                         </div>
                     </div>
-                </div>
+                </router-link>
             </div>
 
         </div>
