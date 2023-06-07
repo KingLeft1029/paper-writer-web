@@ -21,7 +21,8 @@ Vue.use(ElementUI,{ locale}, {
  
 });
 
-
+import MetaInfo from 'vue-meta-info'
+Vue.use(MetaInfo)
 // 滑动验证插件
 import SlideVerify from 'vue-monoplasty-slide-verify';
  
@@ -43,4 +44,8 @@ new Vue({
   router,
   store,
   render: (h) => h(App),
+   /* 这句非常重要，否则预渲染将不会启动 */
+   mounted () {
+    document.dispatchEvent(new Event('render-event'))
+  }
 }).$mount("#app");
