@@ -37,8 +37,8 @@ const user = {
       const code = userInfo.code
       const uuid = userInfo.uuid
       return new Promise((resolve, reject) => {
-        setToken('11111111111')
-         commit('SET_TOKEN', '1111111111111')
+        setToken('xxxx')
+        commit('SET_TOKEN', 'xxxx')
         resolve()
         // login(username, password, code, uuid).then(res => {
         //   setToken(res.token)
@@ -86,14 +86,7 @@ const user = {
       })
     },
 
-    // 前端 登出
-    FedLogOut({ commit }) {
-      return new Promise(resolve => {
-        commit('SET_TOKEN', '')
-        removeToken()
-        resolve()
-      })
-    }
+
   }
 }
 

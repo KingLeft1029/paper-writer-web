@@ -26,6 +26,7 @@ export default {
       path: ""
     }
   },
+
   watch: {
     $route: {
       handler: function (route) {
@@ -38,10 +39,10 @@ export default {
 
   metaInfo() {
     return {
-      title: this.$store.state.settings.dynamicTitle && this.$store.state.settings.title,
-      titleTemplate: title => {
-        return title ? `${title} - ${process.env.VUE_APP_TITLE}` : process.env.VUE_APP_TITLE
-      }
+      // title: this.$store.state.settings.dynamicTitle && this.$store.state.settings.title,
+      // titleTemplate: title => {
+      //   return title ? `${title} - ${process.env.VUE_APP_TITLE}` : process.env.VUE_APP_TITLE
+      // }
     }
   }
 };

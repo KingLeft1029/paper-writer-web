@@ -23,7 +23,7 @@
                 <threads-list></threads-list>
             </div>
             <div class="forums-right">
-                <router-link tag="div" to="/addforum" class="add-thread flex align-center justify-center" >
+                <router-link tag="div" to="/forums/addforum" class="add-thread flex align-center justify-center" >
                     <span>New Thread</span>
                 </router-link>
                 <div class="labels-box mt20">
@@ -47,7 +47,7 @@ export default {
     },
     data() {
         return {
-            value: 'All',
+            value: 'All forums',
             options: [{
                 value: '选项1',
                 label: '黄金糕'
@@ -94,11 +94,11 @@ export default {
 
 .forums-box-top {
     .el-input__inner {
-        height: 22px;
+        height: 22px !important;
     }
 
     .el-input__icon {
-        line-height: 22px;
+        line-height: 22px !important;
     }
 
 }

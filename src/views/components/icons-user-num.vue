@@ -1,6 +1,6 @@
 <template>
     <div class="icons flex align-center">
-        <div class="ml20" :class="{'noml':index==0}" v-for="(item,index) in iconList" :key="item">
+        <div class="ml20" :class="{'noml':index==0}" v-for="(item,index) in iconList" :key="item.id">
             <img :src="item.src" alt="">
             <span>{{ item.label }}</span>
         </div>

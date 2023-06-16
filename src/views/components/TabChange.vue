@@ -2,7 +2,7 @@
   <div class="nav">
         <!-- 标题列表 -->
         <div class="nav-list" :style="{'width':width+'px'}" ref="channels">
-            <div v-for="(item, index) in navList" :key="item"  @click="setUnderLine(index,$event)" :class="{ 'nav-list--active': index === active }" >
+            <div v-for="(item, index) in navList" :key="item.id"  @click="setUnderLine(index,$event)" :class="{ 'nav-list--active': index === active }" >
               <div class="channel-name" :ref="`channel${index}`">
             {{ item }}
           </div>

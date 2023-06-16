@@ -28,6 +28,7 @@
   
   <style lang="scss" scoped>
   .title-block {
+    width: 300px;
     .title-name {
       font-weight: bold;
       color: #3f464f;

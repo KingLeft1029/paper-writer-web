@@ -45,7 +45,7 @@
   
           </div>
           <div class="video-right">
-            <span class="video-title">10 Courses </span>
+            <span class="video-title">10 Videos </span>
             <el-scrollbar class="video-scroll mt20">
               <div class="video-item" v-for="(item, index) in videoList" :class="{ 'active-color': videoKey == index }"
                 :key="index">

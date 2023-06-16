@@ -5,12 +5,12 @@
             <div class="padding20 ">
                 <div class="wall-item-box flex align-center mb37">
                     <div class="wall-item mr20" :class="{ 'wall-active': wallKey == index }" @click="wallClick(index)"
-                        v-for="(item, index) in btnList" :key="item">
+                        v-for="(item, index) in btnList" :key="item.id">
                         {{ item }}
                     </div>
                 </div>
                 <el-table v-loading="loading"  :data="menuList" :header-cell-style="{ 'background-color': '#FAFAFA' }" >
-                    <el-table-column v-for="item in tableTitleList" :key="item" :prop="item.prop" align="center"
+                    <el-table-column v-for="item in tableTitleList" :key="item.id" :prop="item.prop" align="center"
                         :label="item.label" :show-overflow-tooltip="true">
                     </el-table-column>
                 </el-table>

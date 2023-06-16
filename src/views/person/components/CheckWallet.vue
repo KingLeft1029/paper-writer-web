@@ -25,7 +25,7 @@
         <img src="../../../assets/person/yellow-right.png" alt="" />
       </div> -->
       <el-table v-loading="loading" border :data="menuList">
-        <el-table-column v-for="item in tableTitleList" :key="item" :prop="item.prop" align="center" :label="item.label"
+        <el-table-column v-for="item in tableTitleList" :key="item.id" :prop="item.prop" align="center" :label="item.label"
           :show-overflow-tooltip="true">
         </el-table-column>
         <!-- <el-table-column

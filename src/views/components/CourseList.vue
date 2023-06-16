@@ -1,9 +1,10 @@
 <template>
-    <div>
-        <div class="scroll-box" v-if="routeName=='courses'" :style="{ 'height': scrollHeight + 'px' }" v-infinite-scroll="load"
-            infinite-scroll-disabled="disabled">
+    <div class="edit-scroll">
+        <div class="scroll-box" v-if="routeName == 'videos'" :style="{ 'height': scrollHeight + 'px' }"
+            v-infinite-scroll="load" infinite-scroll-disabled="disabled">
             <div class="course-list">
-                <div  class="course-item"   v-for="(item, index) in count" :key="item">
+                <div class="course-item" v-for="(item, index) in count"
+                    @click="$router.push({ path: '/videos/detail', query: { id: 1 } })" :key="item.id">
                     <div class="course-top" :style="{ backgroundImage: 'url(' + url + ')' }">
                         <!-- <img src="../../assets/course/img.png" alt=""> -->
                         <img class="status-img" src="../../assets/course/free.png" alt="">
@@ -16,7 +17,7 @@
                             nCourse Name Course nCourse Name Course n
                         </div>
                         <div class="tag">
-                            <el-tag v-for="x in 8">标签一</el-tag>
+                            <el-tag v-for="x in 8" @click="toTag(x)">标签一</el-tag>
                         </div>
                         <div class="ink flex align-center">
                             <span class="text-yellow font-weight font20">9999Ink</span>
@@ -31,7 +32,8 @@
         </div>
         <div class="scroll-box" v-else>
             <div class="course-list">
-                <router-link tag="div" class="course-item" :to="{name:'coursesdetail',query:{id:1}}"  v-for="(item, index) in 6" :key="item">
+                <div class="course-item" @click="$router.push({ path: '/videos/detail', query: { id: 1 } })"
+                    v-for="(item, index) in 6" :key="item.id">
                     <div class="course-top" :style="{ backgroundImage: 'url(' + url + ')' }">
                         <!-- <img src="../../assets/course/img.png" alt=""> -->
                         <img class="status-img" src="../../assets/course/free.png" alt="">
@@ -52,7 +54,7 @@
                             <span class="grey">21 Learners</span>
                         </div>
                     </div>
-                </router-link>
+                </div>
             </div>
 
         </div>
@@ -79,12 +81,12 @@ export default {
             loading: false,
             url: require('../../assets/course/img.png'),
             scrollHeight: '',
-            routeName:''
+            routeName: ''
         };
     },
     created() {
-       this.routeName=this.$route.name
-   
+        this.routeName = this.$route.name
+
     },
     mounted() {
         window.addEventListener('resize', () => {
@@ -104,27 +106,33 @@ export default {
                 this.count += 2
                 this.loading = false
             }, 2000)
+        },
+        //点击标签 筛选
+        toTag(item) {
+
         }
     }
 };
 </script>
 <style lang="scss">
-::-webkit-scrollbar {
-    width: 4px;
-}
+.edit-scroll {
+    ::-webkit-scrollbar {
+        width: 2px;
+    }
 
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
-    opacity: 0.2;
-    /* background: #FF8F00; */
-    background: transparent;
-}
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+        opacity: 0.2;
+        /* background: #FF8F00; */
+        background: rgba($color: #FF8F00, $alpha: 0.6);
+    }
 
-::-webkit-scrollbar-track {
-    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
-    border-radius: 0;
-    background: transparent;
+    ::-webkit-scrollbar-track {
+        /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+        border-radius: 0;
+        background: transparent;
+    }
 }
 </style>
 <style lang="scss" scoped>
@@ -207,6 +215,10 @@ export default {
                     line-height: 24px;
                     text-align: center;
                     cursor: pointer;
+
+                    &:hover {
+                        background-color: rgba(151, 151, 151, 0.28);
+                    }
                 }
 
             }

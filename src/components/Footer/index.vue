@@ -23,6 +23,7 @@
   .footer-block {
     width: 100%;
     height: 280px;
+    padding: 26px 0;
     background: #fffcfc;
     .container {
       height: 100%;

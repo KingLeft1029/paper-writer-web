@@ -1,9 +1,12 @@
 <template>
     <div class="component-upload-image" @mousemove="mouseImg(1)" @mouseleave="mouseImg(2)">
 
-        <el-upload class="avatar-uploader" :action="uploadImgUrl" :show-file-list="false" :on-success="handleUploadSuccess"
-            :before-upload="handleBeforeUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+        <el-upload class="avatar-uploader" :headers="headers" :action="uploadImgUrl" :show-file-list="false"
+            :on-success="handleUploadSuccess" :before-upload="handleBeforeUpload">
+            <div v-if="imageUrl" :style="{ backgroundImage: 'url(' + imageUrl + ')' }" class="avatar">
+
+            </div>
+            <!-- <img v-if="imageUrl" :src="imageUrl" class="avatar"> -->
             <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
             <div v-else class="flex img-box flex-direction align-center justify-center">
                 <img src="@/assets/book/upload.png" alt="">
@@ -34,33 +37,34 @@ export default {
         return {
             imageUrl: "",
             dialogVisible: false,
-            maskFlag:false,
+            maskFlag: false,
             baseUrl: process.env.VUE_APP_BASE_API,
             uploadImgUrl: process.env.VUE_APP_BASE_API + "/common/upload", // 上传的图片服务器地址
             headers: {
                 Authorization: "Bearer " + getToken(),
+              
             },
         };
     },
     watch: {
-       
+
     },
     computed: {
-      
+
     },
     created() { },
     mounted() { },
     methods: {
-        mouseImg(num){
-           if(num==1){
-            if(this.imageUrl!==''){
-                this.maskFlag=true
-            }else{
-                this.maskFlag=false
+        mouseImg(num) {
+            if (num == 1) {
+                if (this.imageUrl !== '') {
+                    this.maskFlag = true
+                } else {
+                    this.maskFlag = false
+                }
+            } else {
+                this.maskFlag = false
             }
-           }else{
-            this.maskFlag=false
-           }
         },
         handleUploadSuccess(res, file) {
             this.imageUrl = URL.createObjectURL(file.raw);
@@ -97,7 +101,7 @@ export default {
             });
             this.loading.close();
         },
-      
+
 
     },
 };
@@ -135,9 +139,12 @@ export default {
 }
 
 .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+ 
 }
 
 .img-box {

@@ -3,7 +3,7 @@
         <Title title="Course Management"></Title>
         <div class="flex align-center justify-between">
             <div class="screen-box flex align-center mt41">
-                <el-select class="mr20 width150" v-model="value" size="mini" value-key="" placeholder="All Courses">
+                <el-select class="mr20 width150" v-model="value" size="mini" value-key="" placeholder="All Videos">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                 </el-select>
@@ -22,42 +22,47 @@
                     </el-option>
                 </el-select>
             </div>
-            <div class="add-thread flex align-center justify-center">
-                <router-link tag="div" to="/addcourse">
-                    <span> New Course</span>
-                </router-link>
+            <div class="add-thread flex align-center justify-center" @click="$router.push({ path: '/videos/addcourse' })">
+
+                <span> New Course</span>
+
             </div>
         </div>
         <el-table class="mt20" v-loading="loading" border :header-cell-style="{ 'background-color': '#FAFAFA' }"
             :data="mockList" row-key="menuId" :default-sort="{ prop: 'date', order: 'descending' }">
-            <el-table-column prop="nameMock" align="center" label="Course Title" :show-overflow-tooltip="true">
+            <el-table-column prop="nameMock" align="center" label="Course Title" width="120" :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="nameMock" align="center" label="Course Type" :formatter="formatter"
+            <el-table-column prop="nameMock" align="center" label="Course Type" width="120" :formatter="formatter"
                 :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="nameMock" align="center" label="Fee Type" :show-overflow-tooltip="true">
+            <el-table-column prop="nameMock" align="center" label="Fee Type" width="120" :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="nameMock" align="center" label="Ink Charge" :show-overflow-tooltip="true">
+            <el-table-column prop="nameMock" align="center" label="Ink Charge" width="120" :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="nameMock" align="center" label="Commission Ink" :show-overflow-tooltip="true">
+            <el-table-column prop="nameMock" align="center" label="Commission Ink" width="130"
+                :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="nameMock" align="center" label="Income Ink" sortable :show-overflow-tooltip="true">
+            <el-table-column prop="nameMock" align="center" label="Income Ink" width="120" sortable
+                :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column prop="nameMock" align="center" label="Tags" :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column prop="nameMock" align="center" label="Status" :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="nameMock" align="center" label="Newest" sortable :show-overflow-tooltip="true">
+            <el-table-column prop="nameMock" align="center" label="Newest" sortable width="120"
+                :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column prop="nameMock" align="center" label="Opreate" width="150" :show-overflow-tooltip="true">
+            <el-table-column prop="nameMock" align="center" label="Opreate" width="155" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                    <span class="text-yellow pointer">View</span>
-                    <div class="col-line"></div>
-                    <span class="text-yellow pointer">Course Management </span>
-                    <div class="col-line"></div>
-                    <span class="text-yellow pointer">Reason for rejection</span>
-                    <div class="col-line"></div>
-                    <span class="text-yellow pointer">Delete</span>
+                    <div class="flex justify-center">
+                        <span class="text-yellow pointer" @click="viewClick(scope.row)" v-if="scope.$index == 0">View</span>
+                        <div class="col-line ml10 mr10"  v-if="scope.$index == 0"></div>
+                        <span class="text-yellow pointer"  v-if="scope.$index==1" @click="mangeClick(scope.row)">Course Management </span>
+                        <!-- <div class="col-line"></div> -->
+                        <span class="text-yellow pointer"  v-if="scope.$index==2">Reason for rejection</span>
+                        <!-- <div class="col-line"></div> -->
+                        <span class="text-yellow pointer" @click="delClick(scope.row)" v-if="scope.$index == 0">Delete</span>
+                    </div>
                 </template>
             </el-table-column>
 
@@ -86,24 +91,71 @@
                 </el-button>
             </div>
         </PopUp>
+        <!-- 弹窗组件 -->
+        <PopUp title="hint" ref="hint" :width="420">
+            <div class="mt20 font12 text-black">
+                Are you sure you want to delete it?
+            </div>
+            <div class="flex justify-end mt33">
+                <el-button type="primary" class="common-btn-deep" @click="determine">
+                    Determine
+                </el-button>
+                <el-button class="common-btn-border" @click="cancel">
+                    Cancel
+                </el-button>
+            </div>
+        </PopUp>
     </div>
 </template>
       
 <script>
 import Title from '@/components/Title'
+
 export default {
+
     components: {
         Title
     },
     data() {
         return {
+            value: '',
             loading: false,
             queryParams: {
                 pageNum: 1,
                 pageSize: 10,
 
             },
+            options: [{
+                value: '选项1',
+                label: '黄金糕'
+            }, {
+                value: '选项2',
+                label: '双皮奶'
+            }, {
+                value: '选项3',
+                label: '蚵仔煎'
+            }, {
+                value: '选项4',
+                label: '龙须面'
+            }, {
+                value: '选项5',
+                label: '北京烤鸭'
+            }],
             mockList: [
+                {
+                    nameMock: "name",
+                    icon: "abc",
+                    orderNum: "1",
+                    perms: "perms",
+                    component: "1",
+                },
+                {
+                    nameMock: "name",
+                    icon: "abc",
+                    orderNum: "1",
+                    perms: "perms",
+                    component: "1",
+                },
                 {
                     nameMock: "name",
                     icon: "abc",
@@ -128,7 +180,24 @@ export default {
         },
         formatter(row, column) {
             return row.address;
-        }
+        },
+        delClick(item) {
+            this.$refs.hint.open(item)
+        },
+        viewClick(item) {
+            this.$router.push({ path: '/videos/video', query: { id: 1 } })
+        },
+        mangeClick(item) {
+            this.$router.push({ path: '/videos/managementcourse', query: { id: 1 } })
+        },
+        determine() {
+
+            this.$message.success("successfully delete");
+            this.cancel()
+        },
+        cancel() {
+            this.$refs.hint.close()
+        },
     }
 };
 </script>

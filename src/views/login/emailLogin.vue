@@ -131,54 +131,14 @@ export default {
 </script>
   
 <style rel="stylesheet/scss" lang="scss">
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 
-  background-size: cover;
-}
 
-.login::before {
-  width: 100%;
-  height: 100%;
-  content: "";
-  /* 一定要加定位，这样z-index才起作用 */
-  position: absolute;
-  top: 0%;
-  left: 0%;
-  margin-left: 0;
-  margin-top: 0;
-  z-index: -1;
-  background: linear-gradient(62deg, #FDAB6F 0%, #F85249 100%);
-  opacity: 0.19;
-}
 
-.title {
-  margin: 11vh auto 5.18vh;
-  text-align: center;
-  color: #707070;
 
-  img {
-    // width: 164px;
-    // height: 50px;
-     width: 164px;
-    height: 50px;
-  }
-}
+
 
 .login-form {
-  border-radius: 6px;
-  background: #ffffff;
-  width: 36.4vw;
-  height:74vh ;
- min-width: 500px;
-  min-height: 540px;
-  background: #FFFFFF;
-  box-shadow: 0px 2px 13px 4px rgba(0, 0, 0, 0.19);
-  border-radius: 24px;
-  text-align: center;
+
 
   .el-form-item {
    margin-bottom: 2.5vh;

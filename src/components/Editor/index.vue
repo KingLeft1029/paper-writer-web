@@ -22,15 +22,27 @@ export default {
     name: "MyEditor",
     components: { Editor, Toolbar },
     props: {
-        html: {
+        value: {
             type: String,
             default: () => ''
 
 
         }
     },
+    watch: {
+        value: {
+            handler(val) {
+                if (val) {
+                    this.html = this.value
+                }
+            },
+            deep: true,
+            immediate: true,
+        },
+    },
     data() {
         return {
+            html: '',
             editor: null,
             // html: "<p>hello&nbsp;world</p>",
             toolbarConfig: {
@@ -117,6 +129,7 @@ export default {
         },
         onChange(editor) {
             console.log("onChange", editor.getHtml()); // onChange 时获取编辑器最新内容
+            this.$emit("input", editor.getHtml());
         },
         getEditorText() {
             const editor = this.editor;

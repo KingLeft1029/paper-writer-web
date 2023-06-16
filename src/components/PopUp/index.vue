@@ -1,12 +1,12 @@
 <template>
-    <div>
+ 
         <!-- 添加或修改菜单对话框 -->
-        <el-dialog custom-class="dialog-box" ref="dialog" :title="title" :visible.sync="show" :width="width + 'px'"
+        <el-dialog custom-class="dialog-box"  :title="title" :visible.sync="show" :width="width + 'px'"
             append-to-body>
-            <img class="close" @click="cancel" src="@/assets/icon/close.png" alt="">
+            <img class="close" @click="close" src="@/assets/icon/close.png" alt="">
             <slot></slot>
         </el-dialog>
-    </div>
+
 </template>
         
 <script>
@@ -32,7 +32,7 @@ export default {
         open() {
             this.show = true;
         },
-        cancel() {
+        close() {
             this.show = false
         }
     },

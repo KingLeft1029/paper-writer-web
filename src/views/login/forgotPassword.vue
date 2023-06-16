@@ -136,183 +136,28 @@
   };
   </script>
   
-  <style rel="stylesheet/scss" lang="scss">
-  .login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  
-    background-size: cover;
-  }
-  
-  .login::before {
-    width: 100%;
-    height: 100%;
-    content: "";
-    /* 一定要加定位，这样z-index才起作用 */
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    margin-left: 0;
-    margin-top: 0;
-    z-index: -1;
-    background: linear-gradient(62deg, #FDAB6F 0%, #F85249 100%);
-    opacity: 0.19;
-  }
-  
-  .title {
-    margin: 5vh auto 5vh;
-    text-align: center;
-    color: #707070;
-  
-    img {
-      width: 164px;
-      height: 50px;
-    }
-  }
-  
-  .login-form {
-    border-radius: 6px;
-    background: #ffffff;
-    width: 36.4vw;
-  height:74vh ;
- min-width: 500px;
-  min-height: 540px;
+  <style rel="stylesheet/scss" lang="scss" scoped>
  
- 
-    background: #FFFFFF;
-    box-shadow: 0px 2px 13px 4px rgba(0, 0, 0, 0.19);
-    border-radius: 24px;
-    text-align: center;
-  
-    .el-form-item {
-      margin-bottom: 2.5vh;
-    }
-  
-    .el-input {
-      width: 30vw;
-      height: 48px;
-      min-width: 326px;
-    max-width: 398px;
-      input {
-        min-width: 326px;
-      max-width: 398px;
-      border-radius: 24px;
-      height: 48px;
-      border: 1px solid #EDEDED;
-      padding-left: 73px;
-      }
-  
-  
-      .send-code {
-        min-width: 192px;
-        height: 32px;
-        background: linear-gradient(180deg, #F0540E 0%, #E6271B 100%);
-        border-radius: 16px;
-        margin-top: 8px;
-        color: #fff;
-        cursor: pointer;
-      }
-    }
-  
-    .code {
-      input {
-        padding-left: 1.8vw;
-      }
-  
-    }
-  
-    .input-icon {
-      width: 11px;
-      height: 15px;
-    margin-left: 32px;
-      // margin-left: 1.8vw;
-      // margin-top: 16.5px;
-    }
-  
-    .user {
-      width: 17px;
-    }
-    a{
-    text-decoration: none;
-    color: #606266;
-  }
 
-    .login-button {
-      margin-top: 3vh;
-      width: 30vw;
-    min-width: 326px;
-    max-width: 398px;
-      height: 46px;
-      background: linear-gradient(180deg, #F35E0C 0%, #E4201D 100%);
-      border-radius: 24px;
-      border: none;
-      font-size: 16px;
-      font-family: PingFangSC-Semibold, PingFang SC;
-      font-weight: bold;
-      color: #FFFFFF;
-      line-height: 20px;
-    }
-  
-    .register {
-      height: 17px;
-      font-size: 12px;
-      text-align: center;
-      margin: 10px auto 0;
-      color: #333333;
-      display: flex;
-      justify-content: space-between;
-      width: 20vh;
-      min-width: 398px;
-  
-      .link-type {
-        margin-left: 5px;
-        background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        span{
-          cursor: pointer;
-        }
-      }
-    }
-  
-  }
   
   
   
-  .login-tip {
-    font-size: 13px;
-    text-align: center;
-    color: #bfbfbf;
-  }
   
-  .login-code {
-    width: 33%;
-    height: 38px;
-    float: right;
+  // .el-login-footer {
+  //   height: 40px;
+  //   line-height: 40px;
+  //   position: fixed;
+  //   bottom: 0;
+  //   width: 100%;
+  //   text-align: center;
+  //   color: #fff;
+  //   font-family: Arial;
+  //   font-size: 12px;
+  //   letter-spacing: 1px;
+  // }
   
-    img {
-      cursor: pointer;
-      vertical-align: middle;
-    }
-  }
-  
-  .el-login-footer {
-    height: 40px;
-    line-height: 40px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    color: #fff;
-    font-family: Arial;
-    font-size: 12px;
-    letter-spacing: 1px;
-  }
-  
-  .login-code-img {
-    height: 38px;
-  }
+  // .login-code-img {
+  //   height: 38px;
+  // }
   </style>
   

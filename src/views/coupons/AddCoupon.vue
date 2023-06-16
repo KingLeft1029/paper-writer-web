@@ -83,7 +83,7 @@
 
       <el-form-item label="Applied to：" prop="appUser">
         <el-radio-group v-model="form.appUser">
-          <el-radio label="All Courses"></el-radio>
+          <el-radio label="All Videos"></el-radio>
           <el-radio label="Specified Course"></el-radio>
         </el-radio-group>
       </el-form-item>

@@ -2,7 +2,7 @@
     <div class="container mt41 flex-sub">
         <div class="forums-box-top flex align-center justify-between">
             <div class="screen-box flex align-center">
-                <el-select v-model="value" size="mini" value-key="" placeholder="All Courses">
+                <el-select v-model="value" size="mini" value-key="" placeholder="All Videos">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                 </el-select>
@@ -18,24 +18,28 @@
             </div> -->
 
         </div>
-        <div class="mt20 flex" >
-            <div class="forums-left flex flex-wrap  mr20" >
+        <div class="mt20 flex">
+            <div class="forums-left flex flex-wrap  mr20">
                 <course-list></course-list>
             </div>
             <div class="forums-right">
-                <router-link tag="div" to="/addcourse" class="add-thread flex align-center justify-center">
+                <div @click="$router.push({path:'/videos/coursestable'})" class="add-thread flex align-center justify-center">
                     <span>Course Management</span>
-                </router-link >
+                    
+                </div>
+               
                 <div class="labels-box mt20">
                     <span>Learners also bought</span>
                     <div class="labels-item">
-                        <div v-for="x in 12">
+                        <div v-for="x in 12" :class="{ 'select-label': labelKey == x }">
                             Label A
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
+
     </div>
 </template>
       
@@ -47,7 +51,7 @@ export default {
     },
     data() {
         return {
-            value: 'All',
+            value: 'All Videos',
             options: [{
                 value: '选项1',
                 label: '黄金糕'
@@ -65,12 +69,12 @@ export default {
                 label: '北京烤鸭'
             }],
             sortkey: 1,
-         
+            labelKey: 1
         };
     },
     mounted() {
 
-       
+
 
 
     },
@@ -82,18 +86,18 @@ export default {
 </script>
 <style lang="scss">
 .screen-box {
-    .el-input{
-        height: 22px;
-        line-height: 22px;
+    .el-input {
+        height: 22px !important;
+        line-height: 22px !important;
     }
 
     .el-input__inner {
-        height: 22px;
-        line-height: 22px;
+        height: 22px !important;
+        line-height: 22px !important;
     }
 
     .el-input--mini .el-input__icon {
-        line-height: 22px;
+        line-height: 22px !important;
     }
 
     .el-select {
@@ -105,11 +109,11 @@ export default {
 
 .forums-box-top {
     .el-input__inner {
-        height: 22px;
+        height: 22px !important;
     }
 
     .el-input__icon {
-        line-height: 22px;
+        line-height: 22px !important;
     }
 
 }
@@ -124,7 +128,7 @@ export default {
     width: 358px;
     height: 102px;
     padding-left: 56px;
-    background-image: url('@/assets/person/new-course.png');
+    background-image: url('@/assets/course/course-manage.png');
     background-size: 1005 100%;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -177,13 +181,21 @@ export default {
             margin-bottom: 10px;
             border-radius: 10px;
             background: rgba(216, 216, 216, 0.3);
-            border: 1px solid transparent;
+     
 
             &:hover {
-                border: 1px solid #939393;
+                background: linear-gradient(131deg, #ff8f00 0%, #dc0025 100%);
+                color: #fff;
             }
         }
+
+        .select-label {
+            background: linear-gradient(131deg, #ff8f00 0%, #dc0025 100%);
+            color: #fff;
+        }
     }
+
+
 }
 </style>
       

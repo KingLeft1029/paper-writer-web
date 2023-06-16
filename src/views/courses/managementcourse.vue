@@ -37,11 +37,11 @@
             </div>
         </div>
         <div class="flex mt41">
-            <div class="mr20 mini-deep-btn pointer">Add Session</div>
+            <div class="mr20 mini-deep-btn pointer" @click="add">Add Session</div>
             <div class="mini-shadow-btn pointer" @click="sessionClick">Session Sorting</div>
         </div>
         <div class="text-grey font12 mt15">Recently created session will be displayed at the end by default</div>
-      
+
         <div class="chapter-box">
             <el-collapse v-model="activeNames" @change="handleChange">
                 <el-collapse-item name="1">
@@ -80,42 +80,45 @@
             </el-collapse>
         </div>
 
-          <!-- 空 -->
-          <!-- <div class="my-empty-box mt41">
+        <!-- 空 -->
+        <!-- <div class="my-empty-box mt41">
             <EmptyBox emptyLabel="No content yet. Go ahead and add a new session."></EmptyBox>
            
         </div> -->
         <div class="flex justify-center mt52 mb52">
-                <el-button type="" class="common-btn-borderfix mr20">Save</el-button>
-                <el-button type="primary" class="common-btn-deepfix  mr20">Submit</el-button>
-                <el-button type="" class="common-btn-borderfix">Cancel</el-button>
-            </div>
+            <el-button type="" class="common-btn-borderfix mr20">Save</el-button>
+            <el-button type="primary" class="common-btn-deepfix  mr20">Submit</el-button>
+            <el-button type="" class="common-btn-borderfix">Cancel</el-button>
+        </div>
 
-        
+
         <!-- 弹窗组件 -->
-        <!-- <PopUp title="Lack of Ink" :width="420">
-            <div class="flex ">
-                <div>
-                    <img src="@/assets/icon/info.png" alt="">
-                </div>
-                <div class="ml10">
-                    <div class="mt6 font12">
-                        Recharge the Ink
+        <PopUp title="Lack of Ink" ref="addpop" :width="620">
+            <el-form :rules="rules" ref="form" :model="form" label-width="120px">
+
+                <el-form-item label="Session Title：" prop="name">
+                    <el-input v-model="form.name" placeholder="Please Enter"></el-input>
+                </el-form-item>
+                <el-form-item label="Episode：" class="ml20" prop="name">
+                    <div>
+                        <el-input v-model="form.name" placeholder="Please Enter"></el-input>
                     </div>
-                    <div class="mt20 font12 text-grey">
-                        Current Ink balance 200
+                    <div>
+                        <span class="mr20 text-yellow pointer" @click="addEpisode">Add Episode</span>
+                        <span class="text-yellow pointer" @click="del">Delete</span>
                     </div>
-                </div>
-            </div>
+                </el-form-item>
+
+            </el-form>
             <div class="flex justify-end mt33">
                 <el-button type="primary" class="common-btn-deep">
-                    Recharge Now
+                    Determine
                 </el-button>
                 <el-button class="common-btn-border">
                     Cancel
                 </el-button>
             </div>
-        </PopUp> -->
+        </PopUp>
         <SessionSortingDialog ref="session"></SessionSortingDialog>
     </div>
 </template>
@@ -138,12 +141,22 @@ export default {
     },
     data() {
         return {
-
+            form: {},
+            episodeList:[]
         };
     },
     methods: {
-        sessionClick(){
+        sessionClick() {
             this.$refs.session.open()
+        },
+        add() {
+            this.$refs.addpop.open()
+        },
+        addEpisode() {
+            this.episodeList.push({})
+        },
+        del() {
+            this.episodeList.splice(this.episodeList.length - 1, 1)
         }
     }
 };
@@ -308,16 +321,16 @@ export default {
     }
 }
 
-.description{
-font-size: 18px;
-font-weight: 600;
-color: #969696;
-line-height: 18px;
-background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-margin-top: 38px;
-margin-right: 42px;
+.description {
+    font-size: 18px;
+    font-weight: 600;
+    color: #969696;
+    line-height: 18px;
+    background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 38px;
+    margin-right: 42px;
 }
 </style>
       

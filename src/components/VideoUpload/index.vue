@@ -35,7 +35,7 @@ export default {
     },
     data() {
         return {
-            imageUrl: this.rightData.imageUrl,
+            imageUrl: '',
       // 视频上传
       uploadImgUrl: `${process.env.VUE_APP_BASE_API}/common-server/aliFile/upLoadVideo`,
       uploadImgData: { busiName: 32 },

@@ -96,12 +96,12 @@
                         <el-input v-model="form.inkMock" placeholder="Please Enter"></el-input>
                     </el-form-item>
                     <el-form-item label="Assignment Details：" prop="inkMocks">
-                        <Editor v-model="form.answer" :min-height="317"></Editor>
+                        <Editor  v-model="form.answer" :min-height="317"></Editor>
                     </el-form-item>
                 </el-form>
                 <div class="flex justify-center">
-                    <el-button type="primary" class="common-btn-deepfix">New Course</el-button>
-                    <el-button type="" class="common-btn-borderfix">Cancel</el-button>
+                    <el-button type="primary" class="common-btn-deepfix" @click="onSubmit">New Course</el-button>
+                    <el-button type="" class="common-btn-borderfix" @click="$router.go(-1)">Cancel</el-button>
                 </div>
             </div>
 
@@ -128,9 +128,6 @@ export default {
             }, {
                 value: '选项3',
                 label: '蚵仔煎'
-            }, {
-                value: '选项4',
-                label: '龙须面'
             }, {
                 value: '选项5',
                 label: '北京烤鸭'

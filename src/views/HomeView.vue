@@ -1,16 +1,16 @@
 <template>
   <div >
     <!-- 轮播图 -->
-    <el-carousel trigger="click" height="340px" :interval="10000" loop>
-      <el-carousel-item v-for="item in 4" :key="item">
-        <div class="carousel-item">
-          <img
+    <el-carousel trigger="click"  :interval="10000"  loop>
+      <el-carousel-item v-for="item in 3" :key="item.id" >
+        <div class="carousel-item" :style="{ backgroundImage: 'url(' + url + ')' }" >
+          <!-- <img
             class="item-img"
             src="https://img1.baidu.com/it/u=1571832728,1330971037&fm=253&fmt=auto&app=138&f=JPEG?w=790&h=490"
-          />
+          /> -->
           <div class="container flex align-center">
             <div class="flex-sub text-black">
-              <div class="title flex align-center">
+              <div class="title-header flex align-center">
                 <span class="title-name">Popular posts</span>
                 <span class="title-text">course</span>
               </div>
@@ -18,7 +18,7 @@
                 <span>Author: Zhang User</span>
                 <span>Release time:2023.3.20</span>
               </div>
-              <div class="info">
+              <div class="info" title="ticle...">
                 Article descriptionArticle descriptionArticle descriptionArticle
                 description Article descriptionArticle descriptionArticle
                 descriptionArticle description Article descriptionArticle
@@ -32,9 +32,9 @@
     </el-carousel>
     <!-- 课程 -->
     <div class="course-block container">
-      <Title title="Courses">
+      <Title class="pointer" title="Videos" @click.native="$router.push({path:'/videos'})">  </Title>
         <div class="course-list">
-          <router-link tag="div" :to="{name:'coursesdetail',query:{id:1}}" class="course-item" v-for="(item, index) in 6" :key="item">
+          <router-link tag="div" :to="{path:'/videos/detail',query:{id:1}}" class="course-item pointer" v-for="(item, index) in 6" :key="item.id">
             <div class="course-item-main flex">
               <div class="item-img">
                 <span class="left-tag" :class="{ active: index == 0 }">{{
@@ -48,7 +48,7 @@
                   justify-between
                 "
               >
-                <div class="item-title">
+                <div class="item-title" title="e Name Course nam">
                   Course Name Course name course name…
                 </div>
                 <div class="flex align-center">
@@ -60,23 +60,24 @@
             </div>
           </router-link>
         </div>
-      </Title>
+    
     </div>
 
     <div class="flex container">
       <!-- 文章 -->
       <div class="article-block">
-        <Title title="Forums">
+        <Title class="pointer"  title="Forums" @click.native="$router.push({path:'/forums'})"> </Title>
          <div class="mt25">
           <threads-list></threads-list>
           
          </div>
         
          
-        </Title>
+       
         <router-link :to="{name:'forums',params:{type:1}}" class="more-box" >
             More
-            <img src="../assets/person/right.png" alt="" />
+            <!-- <img src="../assets/person/right.png" alt="" /> -->
+            <i class="el-icon-arrow-right right-icon"></i>
           </router-link>
       </div>
       <!-- 右侧推荐 -->
@@ -89,11 +90,12 @@
           </div>
         </div>
         <div class="right-list ">
-          <div class="item-first">
+          <div class="item-first pointer">
             <div
-              class="item-first-main"
+              class="item-first-main "
               v-for="(item, index) in 1"
               :key="index"
+              @click="toDetail(item)"
             >
               <div class="item-img">
                 <span class="left-tag" :class="{ active: index == 0 }">{{
@@ -118,7 +120,7 @@
               </div>
             </div>
           </div>
-          <div class="item-left" v-for="(item, index) in 2" :key="index">
+          <div class="item-left pointer" v-for="(item, index) in 2" :key="index">
             <div class="item-title">
               Post Name Post Name Post Name Post Name Post Name
             </div>
@@ -158,23 +160,40 @@ export default {
   },
   data() {
     return {
+      url:'https://img1.baidu.com/it/u=1571832728,1330971037&fm=253&fmt=auto&app=138&f=JPEG?w=790&h=490',
       bannerData: {},
     };
   },
+  methods:{
+    toDetail(item){
+      this.$router.push({path:'/forums/detail',query:1})
+    }
+  }
 };
 </script>
-
+<style>
+.el-carousel__container{
+  height: 360px;
+}
+</style>
 <style lang="scss" scoped>
 .top-img{
   width: 72px;
 height: 72px;
 
 }
+
+
 //轮播图
 .carousel-item {
   width: 100%;
-  height: 100%;
+   height: 360px;
   min-width: 1200px;
+background-repeat: no-repeat;
+background-size: 100% 100%;
+background-position: center;
+
+
 
   .item-img {
     width: 100%;
@@ -182,23 +201,28 @@ height: 72px;
   }
 
   .container {
-    height: 100%;
+    // width: 100%;
+  //   height: 100%;
+  //   padding-top: 69px;
+  // padding-left: 360px;
+  // padding-bottom:43px ;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
     font-size: 16px;
 
-    .title {
+    .title-header {
+
       color: #000000;
 
-      &-name {
+      .title-name {
         font-size: 32px;
         margin-right: 26px;
         font-weight: bold;
       }
 
-      &-text {
+      .title-text {
         font-size: 24px;
       }
     }
@@ -437,13 +461,17 @@ height: 72px;
     cursor: pointer;
 color: #3E454E;
 margin-bottom: 60px;
-    img{
+    
+.right-icon{
       // width: 17px;
-      // margin-top: 1px;
-      margin-left: 8px;
+       margin-top: 1px;
+      margin-left: 3px;
     }
     &:hover{
       color: #dc0025 ;
+      .right-icon{
+        color: #dc0025 ;
+      }
     }
   }
 }

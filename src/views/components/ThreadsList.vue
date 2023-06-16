@@ -1,5 +1,5 @@
 <template>
- <div>
+ <div class="edit-scroll">
     <div class="scroll-box"  v-if="routeName=='forums'" :style="{ 'height': scrollHeight + 'px' }" v-infinite-scroll="load"  infinite-scroll-disabled="disabled">
     <div class="threads-box">
         <router-link tag="div" :to="{name:'forumsdetail',query:{id:1}}"  class="threads-item mb20 flex align-center" v-for="x in count">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="icons flex align-center">
-                    <div class="mr20" v-for="item in iconList" :key="item">
+                    <div class="mr20" v-for="item in iconList" :key="item.id">
                         <img :src="item.src" alt="">
                         <span>{{ item.label }}</span>
                     </div>
@@ -46,7 +46,7 @@
 
   <div class="scroll-box"  v-else>
     <div class="threads-box">
-        <router-link tag="div" :to="{name:'forumsdetail',query:{id:1}}" class="threads-item mb20 flex align-center" v-for="x in 5">
+        <router-link tag="div" :to="{name:'forums/detail',query:{id:1}}" class="threads-item mb20 flex align-center" v-for="x in 5">
             <div class="left">
                 <div class="name text-cut2 text-cut " title="">
                     <!-- Declined  Done -->
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="icons flex align-center">
-                    <div class="mr20" v-for="item in iconList" :key="item">
+                    <div class="mr20" v-for="item in iconList" :key="item.id">
                         <img :src="item.src" alt="">
                         <span>{{ item.label }}</span>
                     </div>
@@ -123,6 +123,7 @@ export default {
     },
     mounted() {
         window.addEventListener('resize', () => {
+            console.log("vvv")
             let appHeight = document.getElementById('app').clientHeight
             let headerHeight = document.getElementsByClassName('header')[0].clientHeight
             let footerHeight = document.getElementsByClassName('footer-block')[0].clientHeight
@@ -144,23 +145,26 @@ export default {
 };
 </script>
 <style lang="scss">
-::-webkit-scrollbar {
-    width: 4px;
-}
+// .edit-scroll{
+//     ::-webkit-scrollbar {
+//     width: 4px;
+// }
 
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
-    opacity: 0.2;
-    /* background: #FF8F00; */
-    background: transparent;
-}
+// ::-webkit-scrollbar-thumb {
+//     border-radius: 10px;
+//     /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+//     opacity: 0.2;
+//     /* background: #FF8F00; */
+//     background: transparent;
+// }
 
-::-webkit-scrollbar-track {
-    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
-    border-radius: 0;
-    background: transparent;
-}
+// ::-webkit-scrollbar-track {
+//     /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+//     border-radius: 0;
+//     background: transparent;
+// }
+// }
+
 </style>
 <style lang="scss" scoped>
 .scroll-box {

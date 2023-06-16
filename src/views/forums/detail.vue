@@ -16,7 +16,7 @@
                     Tags： A、Label B、Labe
                 </div>
                 <div class="icons flex align-center">
-                    <div class="mr20" v-for="item in iconList" :key="item">
+                    <div class="mr20" v-for="item in iconList" :key="item.id">
                         <img :src="item.src" alt="">
                         <span>{{ item.label }}</span>
                     </div>
@@ -85,6 +85,7 @@ export default {
     },
     data() {
         return {
+            textarea2:'',
             iconList: [{ src: require('@/assets/course/icon1.png'), label: '2000' },
             { src: require('@/assets/course/icon2.png'), label: '2000' },
             { src: require('@/assets/course/icon3.png'), label: '1.68k' },

@@ -14,6 +14,8 @@ import RightTo from "./components/RightTo";
 // 自定义组件 空
 import EmptyBox from "./components/EmptyBox";
 import SortInput from "./components/SortInput";
+// 自定义弹窗组件
+import PopUp from "@/components/PopUp"
 // 富文本组件
 import Editor from "@/components/Editor"
 Vue.use(ElementUI,{ locale}, {
@@ -27,6 +29,7 @@ Vue.use(MetaInfo)
 import SlideVerify from 'vue-monoplasty-slide-verify';
  
 Vue.use(SlideVerify);
+Vue.component('PopUp', PopUp)
 Vue.component('Title', Title)
 Vue.component('Pagination', Pagination)
 Vue.component("RightTo", RightTo);
@@ -37,6 +40,12 @@ Vue.component('Editor', Editor)
 
 import "@/assets/styles/custom.scss";
 import "@/assets/styles/index.scss";
+
+import * as RongIMLib from '@rongcloud/imlib-next'
+// imkit 为核心模块
+import { defineCustomElements, imkit } from '@rongcloud/imkit'
+
+defineCustomElements()
 
 Vue.config.productionTip = false;
 

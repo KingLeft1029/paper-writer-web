@@ -4,22 +4,24 @@
       <div class="container flex align-center justify-between">
         <img class="logo" src="@/assets/images/index/logo.png" />
         <div class="nav-block">
-          <router-link to="/"  class="nav-item" :class="{ active: path == '/' }">Home</router-link>
-          <router-link  :to="{name:'forums',params:{type:1}}" class="nav-item" :class="{ active: path == '/forums' }">Forums</router-link>
-          <router-link  :to="{name:'courses',params:{type:2}}" class="nav-item" :class="{ active: path == '/courses' }">Courses</router-link>
+          <router-link to="/" class="nav-item" :class="{ active: path == '/' }">Home</router-link>
+          <router-link :to="{ name: 'forums', params: { type: 1 } }" class="nav-item"
+            :class="{ active: path == '/forums/index' }">Forums</router-link>
+          <router-link :to="{ name: 'videos', params: { type: 2 } }" class="nav-item"
+            :class="{ active: path == '/videos/index' }">Videos</router-link>
         </div>
         <div class="search-block">
           <!-- @keyup.enter.native="search" -->
-          <router-link :to="searchPathTo" >
-              <img class="search-img" src="@/assets/icon/search.png" alt="">
-              <!-- <i slot="suffix" class="el-input__icon el-icon-search" ></i> -->
-            </router-link>
-          <el-input placeholder="What do you want to ask?" v-model="keyWord" >
-            
-            
+          <router-link :to="searchPathTo">
+            <img class="search-img" src="@/assets/icon/search.png" alt="">
+            <!-- <i slot="suffix" class="el-input__icon el-icon-search" ></i> -->
+          </router-link>
+          <el-input placeholder="What do you want to ask?" v-model="keyWord">
+
+
             <el-select v-model="keySelect" slot="prepend" placeholder="请选择">
               <el-option label="Forums" value="1"></el-option>
-              <el-option label="Courses" value="2"></el-option>
+              <el-option label="Videos" value="2"></el-option>
             </el-select>
           </el-input>
         </div>
@@ -32,28 +34,42 @@
             <img slot="reference" class="avatar" src="@/assets/icon/user.png" />
             <div class="popover-box">
               <div :key="index" v-for="(item, index) in popoverList">
-                <router-link :to="item.pathTo">
-                  <div class="popover-item" @mousemove="popoverMouse(index)" :class="{
-                    'active-class': mouseNum == index,
-                    'persion-class': index == 0,
-                    'out-class': index == 1,
-                  }">
-                    <img :src="item.imgSrc" alt="" />
-                    <span>{{ item.label }}</span>
-                  </div>
-                </router-link>
+
+                <div class="popover-item" @mousemove="popoverMouse(index)" @click="popoverClick(item, index)" :class="{
+                  'active-class': mouseNum == index,
+                  'persion-class': index == 0,
+                  'out-class': index == 1,
+                }">
+                  <img :src="item.imgSrc" alt="" />
+                  <span>{{ item.label }}</span>
+                </div>
+
               </div>
             </div>
           </el-popover>
         </div>
-       
-          <router-link class="login-block flex align-center" v-if="!token"  to="/login">
-            <img class="avatar-other" src="../../assets/icon/user.png" />
+
+        <router-link class="login-block flex align-center" v-if="!token" to="/login">
+          <img class="avatar-other" src="../../assets/icon/user.png" />
           <div>log on</div>
-          </router-link>
-     
+        </router-link>
+
       </div>
     </div>
+    <!-- 弹窗组件 -->
+    <PopUp title="hint" ref="hint" :width="420">
+      <div class="mt20 font12 text-black">
+        Are you sure you want to log out?
+      </div>
+      <div class="flex justify-end mt33">
+        <el-button type="primary" class="common-btn-deep" @click="determine">
+          Determine
+        </el-button>
+        <el-button class="common-btn-border" @click="cancel">
+          Cancel
+        </el-button>
+      </div>
+    </PopUp>
   </div>
 </template>
   
@@ -65,9 +81,12 @@ import outActiveImg from "../../assets/icon/out-active.png";
 import { mapGetters } from 'vuex'
 export default {
   watch: {
-    $route(route) {
-      this.path = route.path;
-    },
+    $route: {
+      handler: function (route) {
+        this.path = route.path
+      },
+      immediate: true
+    }
   },
 
   data() {
@@ -83,26 +102,29 @@ export default {
           imgSrc: persionActiveImg,
           pathTo: '/person'
         },
-        { label: "Log out", imgSrc: outActiveImg, pathTo: '/person' },
+        { label: "Log out", imgSrc: outActiveImg, pathTo: '/login' },
       ],
       mouseNum: -1,
     };
   },
   computed: {
     ...mapGetters(["token"]),
-    searchPathTo(){
-      let val=''
-      if(this.keySelect==1){
-        val={name:'forums',params:{type:1}}
-      }else{
-        val={name:'courses',params:{type:1}}
+    searchPathTo() {
+      let val = ''
+      if (this.keySelect == 1) {
+        val = { name: 'forums', params: { type: 1 } }
+      } else {
+        val = { name: 'courses', params: { type: 1 } }
       }
       return val
     }
   },
+  created(){
+   
+  },
   mounted() {
 
-    
+
     window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
@@ -132,10 +154,28 @@ export default {
         this.popoverList[0].imgSrc = persionActiveImg;
       }
     },
-    search(){
-      if(this.keySelect==1){
+    popoverClick(item, index) {
+      if (index == 0) {
+        this.$router.push({ path: item.pathTo })
+      } else {
+
+        this.$refs.hint.open()
+      }
+    },
+    determine() {
+
+      this.$store.dispatch("LogOut").then(() => {
+        this.$router.replace({ path: '/login' })
+        this.$refs.hint.close()
+      })
+    },
+    cancel() {
+      this.$refs.hint.close()
+    },
+    search() {
+      if (this.keySelect == 1) {
         // Forums
-      }else{
+      } else {
 
       }
     }
@@ -144,6 +184,7 @@ export default {
 </script>
 <style lang="scss">
 
+ 
 .popover-class {
   padding: 0 !important;
   width: 120px;
@@ -157,7 +198,7 @@ export default {
 .popover-box {
   .popover-item {
     padding: 8px;
-
+    cursor: pointer;
     display: flex;
     align-items: center;
     font-size: 14px;
@@ -193,7 +234,7 @@ export default {
   width: 100%;
   height: 77px;
   background: #ffffff;
- 
+
 
   .container {
     padding: 14px 0;
@@ -234,14 +275,16 @@ export default {
     overflow: hidden;
 
     position: relative;
-    .search-img{
+
+    .search-img {
       position: absolute;
       right: 13px;
-      top: 11px;
+      top: 7px;
       width: 18px;
       height: 18px;
       z-index: 10;
     }
+
     ::v-deep .el-input__inner {
       border: none;
       background-color: #f9f7f7;
@@ -287,7 +330,8 @@ export default {
       border-radius: 50%;
       margin-top: 5px;
     }
-    .avatar-other{
+
+    .avatar-other {
       width: 20px;
       height: 20px;
       border-radius: 50%;

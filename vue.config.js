@@ -1,34 +1,32 @@
-const { defineConfig } = require('@vue/cli-service')
-module.exports = defineConfig({
-  transpileDependencies: true
-})
-
-const path = require('path')
+// 预渲染
+// const PrerenderSPAPlugin = require("prerender-spa-plugin");
+// const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
+const PreRenderSPAPlugin = require("prerender-spa-plugin-next");
+const path = require("path");
 function resolve(dir) {
-  return path.join(__dirname, dir)
+  return path.join(__dirname, dir);
 }
-// const CompressionPlugin = require('compression-webpack-plugin')
 
-const name = process.env.VUE_APP_TITLE || 'mespery' // 网页标题
-const port = process.env.port || process.env.npm_config_port || 80 // 端口
+const name = process.env.VUE_APP_TITLE || "mespery"; // 网页标题
+const port = process.env.port || process.env.npm_config_port || 80; // 端口
 
 // 这里只列一部分，具体配置参考文档
 module.exports = {
   // 部署生产环境和开发环境下的URL。
   // 默认情况下，Vue CLI 会假设你的应用是被部署在一个域名的根路径上
   // 例如 https://www.ruoyi.vip/。如果应用被部署在一个子路径上，你就需要用这个选项指定这个子路径。例如，如果你的应用被部署在 https://www.ruoyi.vip/admin/，则设置 baseUrl 为 /admin/。
-  publicPath: process.env.NODE_ENV === "production" ? "/admin" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/" : "/",
   // 在npm run build 或 yarn build 时 ，生成文件的目录名称（要和baseUrl的生产环境路径一致）（默认dist）
-  outputDir: 'dist',
+  outputDir: "dist",
   // 用于放置生成的静态资源 (js、css、img、fonts) 的；（项目打包之后，静态资源会放在这个文件夹下）
-  assetsDir: 'static',
+  assetsDir: "static",
   // 是否开启eslint保存检测，有效值：ture | false | 'error'
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: process.env.NODE_ENV === "development",
   // 如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建。
   productionSourceMap: false,
   // webpack-dev-server 相关配置
   devServer: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: port,
     open: true,
     proxy: {
@@ -38,9 +36,9 @@ module.exports = {
         // target: `http://192.168.20.185:8089`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      }
+          ["^" + process.env.VUE_APP_BASE_API]: "",
+        },
+      },
     },
     // disableHostCheck: true
   },
@@ -48,89 +46,125 @@ module.exports = {
     loaderOptions: {
       sass: {
         sassOptions: {
-          outputStyle: "expanded"
-        }
-      }
-    }
+          outputStyle: "expanded",
+        },
+      },
+    },
   },
   configureWebpack: {
     name: name,
     resolve: {
       alias: {
-        '@': resolve('src')
-      }
+        "@": resolve("src"),
+      },
     },
     plugins: [
-      // http://doc.ruoyi.vip/ruoyi-vue/other/faq.html#使用gzip解压缩静态文件
-      // new CompressionPlugin({
-      //   test: /\.(js|css|html)?$/i, // 压缩文件格式
-      //   filename: '[path].gz[query]', // 压缩后的文件名
-      //   algorithm: 'gzip', // 使用gzip压缩
-      //   minRatio: 0.8 // 压缩率小于1才会压缩
-      // })
+      new PreRenderSPAPlugin({
+        routes: ["/", "/login"],
+      }),
+      // new PrerenderSPAPlugin({
+      //   // Required - The path to the webpack-outputted app to prerender.
+      //   staticDir: path.join(__dirname, "dist"),
+      //   // Required - Routes to render.
+      //   routes: ["/", "/login"],
+      //   renderer: new Renderer({
+      //     inject: {
+      //      foo: 'bar'
+      //     },
+      //     headless: false,
+      //     // 在 main.js 中 document.dispatchEvent(new Event('render-event'))，两者的事件名称要对应上。
+      //     renderAfterDocumentEvent: 'render-event'
+      //     })
+      // }),
+
+      // new PrerenderSPAPlugin({
+      //   staticDir: path.join(__dirname, "dist"),
+      //   // 对应自己的路由文件，比如a有参数，就需要写成 /a/param1。
+      //   // 这个很重要，如果没有配置这段，也不会进行预编译
+      //   renderer: new Renderer({
+      //     inject: {
+      //       foo: "bar",
+      //     },
+      //     headless: false,
+      //     // 在 main.js 中 document.dispatchEvent(new Event('render-event'))
+      //     renderAfterDocumentEvent: "render-event",
+      //   }),
+      // }),
     ],
   },
   chainWebpack(config) {
-    config.plugins.delete('preload') // TODO: need test
-    config.plugins.delete('prefetch') // TODO: need test
+    config.plugins.delete("preload"); // TODO: need test
+    config.plugins.delete("prefetch"); // TODO: need test
 
     // set svg-sprite-loader
+    config.module.rule("svg").exclude.add(resolve("src/assets/icons")).end();
     config.module
-      .rule('svg')
-      .exclude.add(resolve('src/assets/icons'))
-      .end()
-    config.module
-      .rule('icons')
+      .rule("icons")
       .test(/\.svg$/)
-      .include.add(resolve('src/assets/icons'))
+      .include.add(resolve("src/assets/icons"))
       .end()
-      .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
       .options({
-        symbolId: 'icon-[name]'
+        symbolId: "icon-[name]",
       })
-      .end()
-
-    config
-      .when(process.env.NODE_ENV !== 'development',
-        config => {
-          config
-            .plugin('ScriptExtHtmlWebpackPlugin')
-            .after('html')
-            .use('script-ext-html-webpack-plugin', [{
-              // `runtime` must same as runtimeChunk name. default is `runtime`
-              inline: /runtime\..*\.js$/
-            }])
-            .end()
-          config
-            .optimization.splitChunks({
-              chunks: 'all',
-              cacheGroups: {
-                libs: {
-                  name: 'chunk-libs',
-                  test: /[\\/]node_modules[\\/]/,
-                  priority: 10,
-                  chunks: 'initial' // only package third parties that are initially dependent
-                },
-                elementUI: {
-                  name: 'chunk-elementUI', // split elementUI into a single package
-                  priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-                  test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
-                },
-                commons: {
-                  name: 'chunk-commons',
-                  test: resolve('src/components'), // can customize your rules
-                  minChunks: 3, //  minimum common number
-                  priority: 5,
-                  reuseExistingChunk: true
-                }
-              }
-            })
-          config.optimization.runtimeChunk('single'), {
-            from: path.resolve(__dirname, './public/robots.txt'), //防爬虫文件
-            to: './' //到根目录下
-          }
-        }
-      )
-  }
-}
+      .end();
+    config.module
+      .rule("vue")
+      .use("vue-loader")
+      .tap((options) => {
+        options.compilerOptions = {
+          ...options.compilerOptions,
+          isCustomElement: (tag) => {
+            return (
+              ["conversation-list", "message-list", "message-editor"].indexOf(
+                tag
+              ) !== -1
+            );
+          },
+        };
+        return options;
+      })
+      .end();
+    config.when(process.env.NODE_ENV !== "development", (config) => {
+      config
+        .plugin("ScriptExtHtmlWebpackPlugin")
+        .after("html")
+        .use("script-ext-html-webpack-plugin", [
+          {
+            // `runtime` must same as runtimeChunk name. default is `runtime`
+            inline: /runtime\..*\.js$/,
+          },
+        ])
+        .end();
+      config.optimization.splitChunks({
+        chunks: "all",
+        cacheGroups: {
+          libs: {
+            name: "chunk-libs",
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10,
+            chunks: "initial", // only package third parties that are initially dependent
+          },
+          elementUI: {
+            name: "chunk-elementUI", // split elementUI into a single package
+            priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+            test: /[\\/]node_modules[\\/]_?element-ui(.*)/, // in order to adapt to cnpm
+          },
+          commons: {
+            name: "chunk-commons",
+            test: resolve("src/components"), // can customize your rules
+            minChunks: 3, //  minimum common number
+            priority: 5,
+            reuseExistingChunk: true,
+          },
+        },
+      });
+      config.optimization.runtimeChunk("single"),
+        {
+          from: path.resolve(__dirname, "./public/robots.txt"), //防爬虫文件
+          to: "./", //到根目录下
+        };
+    });
+  },
+};

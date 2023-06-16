@@ -6,7 +6,7 @@
         </el-tabs>
         <div class="row-line"></div>
         <div class="screen-box flex align-center">
-            <el-select v-model="value" size="mini" value-key="" placeholder="All Courses">
+            <el-select v-model="value" size="mini" value-key="" placeholder="All Videos">
                 <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
@@ -81,7 +81,7 @@ export default {
     data() {
         return {
             activeName: 'first',
-            value:'All Courses',
+            value:'All Videos',
             ratevalue:'',
             options: [{
                 value: '选项1',

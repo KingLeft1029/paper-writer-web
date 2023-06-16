@@ -32,8 +32,8 @@
 
                 </el-form>
                 <div class="flex justify-center">
-                    <el-button type="primary" class="common-btn-deepfix">Post</el-button>
-                    <el-button type="" class="common-btn-borderfix">Cancel</el-button>
+                    <el-button type="primary" class="common-btn-deepfix" @click="onSubmit">Post</el-button>
+                    <el-button type="" class="common-btn-borderfix" @click="$router.go(-1)">Cancel</el-button>
                 </div>
             </div>
 
@@ -59,9 +59,6 @@ export default {
         }, {
           value: '选项3',
           label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
         }, {
           value: '选项5',
           label: '北京烤鸭'
