@@ -1,8 +1,10 @@
 <template>
     <div class="icons flex align-center">
-        <div class="ml20" :class="{'noml':index==0}" v-for="(item,index) in iconList" :key="item.id">
+        <div  :class="{'noml':index==0}" v-for="(item,index) in iconList" :key="item.id">
+          <div :class="index==0?'':'ml20'"  v-if="index!=num">
             <img :src="item.src" alt="">
             <span>{{ item.label }}</span>
+          </div>
         </div>
     </div>
 </template>
@@ -12,6 +14,12 @@
 export default {
     components: {
 
+    },
+    props:{
+        num:{
+            type:String,
+            default:()=>'-1'
+        }
     },
     data() {
         return {

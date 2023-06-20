@@ -32,8 +32,10 @@
 
                 </el-form>
                 <div class="flex justify-center">
-                    <el-button type="primary" class="common-btn-deepfix" @click="onSubmit">Post</el-button>
-                    <el-button type="" class="common-btn-borderfix" @click="$router.go(-1)">Cancel</el-button>
+                    <btn btnText="Post" btnType="1" @click.native="onSubmit"></btn>
+                    <btn btnText="Cancel" btnType="2" @click.native="$router.go(-1)"></btn>
+                    <!-- <el-button type="primary" class="common-btn-deepfix" @click="onSubmit">Post</el-button>
+                    <el-button type="" class="common-btn-borderfix" @click="$router.go(-1)">Cancel</el-button> -->
                 </div>
             </div>
 

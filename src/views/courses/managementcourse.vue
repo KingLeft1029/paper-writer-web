@@ -32,7 +32,8 @@
                         <span class=" color1C font22 fix-width">Ink Charge：</span>
                         <span class="font20">3232</span>
                     </div>
-                    <el-button type="primary" class="common-btn-deepfix">Edit Course</el-button>
+                    <btn btnText="Edit Course" btnType="4" ></btn>
+         
                 </div>
             </div>
         </div>
@@ -86,9 +87,12 @@
            
         </div> -->
         <div class="flex justify-center mt52 mb52">
-            <el-button type="" class="common-btn-borderfix mr20">Save</el-button>
+            <btn btnText="Save" btnType="2" ></btn>
+            <btn btnText="Submit" btnType="1" ></btn>
+            <btn btnText="Cancel" btnType="2" ></btn>
+            <!-- <el-button type="" class="common-btn-borderfix mr20">Save</el-button>
             <el-button type="primary" class="common-btn-deepfix  mr20">Submit</el-button>
-            <el-button type="" class="common-btn-borderfix">Cancel</el-button>
+            <el-button type="" class="common-btn-borderfix">Cancel</el-button> -->
         </div>
 
 
@@ -111,12 +115,8 @@
 
             </el-form>
             <div class="flex justify-end mt33">
-                <el-button type="primary" class="common-btn-deep">
-                    Determine
-                </el-button>
-                <el-button class="common-btn-border">
-                    Cancel
-                </el-button>
+                <btn btnText="Determine" btnType="1" @click="determine"></btn>
+        <btn btnText="Cancel" btnType="2" @click="cancel"></btn>
             </div>
         </PopUp>
         <SessionSortingDialog ref="session"></SessionSortingDialog>

@@ -134,29 +134,39 @@
           </div>
           <div class="right-item"></div>
         </div>
-        <div class="msg-inter">
+        <chat></chat>
+        <!-- <div class="msg-inter">
           <img
             src="@/assets/course/msg.png"
             width="358px"
             height="78px"
+            @click="imClick"
           />
-        </div>
+        </div> -->
       </div>
 
     </div>
     <el-backtop :bottom="100">
    <img class="top-img" src="@/assets/top.png" alt="">
   </el-backtop>
+  <ReportDialog ref="report"></ReportDialog>
+
   </div>
 </template>
 
 <script>
 import Title from "@/components/Title";
 import ThreadsList from './components/ThreadsList.vue'
+//im举报
+import ReportDialog from './im/report-dialog.vue'
+//im
+import chat from './im/chat.vue'
 export default {
   components: {
     Title,
-    ThreadsList
+    ThreadsList,
+    ReportDialog,
+    chat
   },
   data() {
     return {
@@ -167,6 +177,9 @@ export default {
   methods:{
     toDetail(item){
       this.$router.push({path:'/forums/detail',query:1})
+    },
+    imClick(){
+      this.$refs.report.open()
     }
   }
 };

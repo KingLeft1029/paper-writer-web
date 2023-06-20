@@ -14,9 +14,10 @@
         <span>9999Ink</span>
         <span>6 Episodes / 3h9m / 21 Learners</span>
         <AprUserFollow :userInfo="{ num: 3, name: 'Zhang User', color: 'shadow' }"> </AprUserFollow>
-        <IconsUserNum></IconsUserNum>
+        <IconsUserNum num="0"></IconsUserNum>
         <div class="flex align-end justify-between">
-          <el-button type="primary" class="common-btn-buy">Buy Now</el-button>
+          <btn btnText="Buy Now" btnType="4"></btn>
+         
           <IconBorderBtn num="2"></IconBorderBtn>
         </div>
       </div>
@@ -140,18 +141,6 @@ export default {
     line-height: 22px;
   }
 
-  .common-btn-buy {
-    width: 260px;
-    height: 48px;
-    // background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 400;
-    color: #FFFFFF;
-    line-height: 22px;
-    letter-spacing: 1px;
-    text-align: center;
-  }
 }
 
 

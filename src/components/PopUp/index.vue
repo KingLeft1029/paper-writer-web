@@ -18,8 +18,8 @@ export default {
             default: () => ''
         },
         width: {
-            type: Number,
-            default: () => 900
+            type: String,
+            default: () => '900'
         }
     },
     data() {

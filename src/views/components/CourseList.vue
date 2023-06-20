@@ -117,15 +117,17 @@ export default {
 <style lang="scss">
 .edit-scroll {
     ::-webkit-scrollbar {
-        width: 2px;
+        width: 6px;
     }
 
     ::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
-        opacity: 0.2;
-        /* background: #FF8F00; */
-        background: rgba($color: #FF8F00, $alpha: 0.6);
+        // border-radius: 10px;
+        // /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+        // opacity: 0.2;
+        // /* background: #FF8F00; */
+        // background: rgba($color: #FF8F00, $alpha: 0.6);
+        background: rgb(153, 169, 191,0.1);
+    border-radius: 20px;
     }
 
     ::-webkit-scrollbar-track {
@@ -162,6 +164,7 @@ export default {
         border-radius: 6px;
         border: 1px solid rgba(151, 151, 151, 0.18);
         cursor: pointer;
+        overflow: hidden;
 
         &:hover {
             border-color: #dc0025;
@@ -180,6 +183,7 @@ export default {
             background-position: center;
             /* 是为了让图片放大的时候从中部放大，不会偏移 */
             background-size: 100% 100%;
+      
 
             &:hover {
                 background-size: 110% 110%;

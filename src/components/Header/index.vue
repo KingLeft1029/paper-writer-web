@@ -62,12 +62,9 @@
         Are you sure you want to log out?
       </div>
       <div class="flex justify-end mt33">
-        <el-button type="primary" class="common-btn-deep" @click="determine">
-          Determine
-        </el-button>
-        <el-button class="common-btn-border" @click="cancel">
-          Cancel
-        </el-button>
+        <btn btnText="Determine" btnType="1" @click="determine"></btn>
+        <btn btnText="Cancel" btnType="2" @click="cancel"></btn>
+       
       </div>
     </PopUp>
   </div>

@@ -97,6 +97,7 @@ export default {
     },
     data() {
         return {
+            textarea:'',
             navList: ["What you'll learn", "Course content", "Reviews"],
             value: 'rticle descriptionArticle descriptionArticle descrip',
             navKey: 0,

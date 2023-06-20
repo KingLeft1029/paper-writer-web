@@ -1,18 +1,17 @@
 <template>
     <div class="component-upload-image" @mousemove="mouseImg(1)" @mouseleave="mouseImg(2)">
 
-        <el-upload class="avatar-uploader" :headers="headers" :action="uploadImgUrl" :show-file-list="false"
-            :on-success="handleUploadSuccess" :before-upload="handleBeforeUpload">
-            <div v-if="imageUrl" :style="{ backgroundImage: 'url(' + imageUrl + ')' }" class="avatar">
+        <el-upload class="avatar-uploader" :headers="headers" :action="uploadImgUrl" limit="limit"  :listType="listType"
+            :on-success="handleUploadSuccess" :before-upload="handleBeforeUpload" >
+            <div v-if="imageUrl&&listType==''" :style="{ backgroundImage: 'url(' + imageUrl + ')' }" class="avatar">
 
             </div>
-            <!-- <img v-if="imageUrl" :src="imageUrl" class="avatar"> -->
-            <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
+          
             <div v-else class="flex img-box flex-direction align-center justify-center">
                 <img src="@/assets/book/upload.png" alt="">
-                <span class="font12 text-grey">Telephoto</span>
+                <span class="font12 text-grey">{{ text }}</span>
             </div>
-            <div class="img-mask flex justify-between align-center" v-if="maskFlag">
+            <div class="img-mask flex justify-between align-center" v-if="maskFlag&&listType==''">
                 <img src="@/assets/book/prew.png" @click.stop="imgClick(1)" alt="">
                 <img src="@/assets/book/down.png" @click.stop="imgClick(2)" alt="">
                 <img src="@/assets/book/del.png" @click.stop="imgClick(3)" alt="">
@@ -31,7 +30,18 @@ import { getToken } from "@/utils/auth";
 
 export default {
     props: {
-
+text:{
+    type:String,
+    default:()=>'Telephoto'
+},
+listType:{
+    type:String,
+    default:()=>''
+},
+limit:{
+    type:Number,
+    default:()=>1
+},
     },
     data() {
         return {
@@ -93,6 +103,7 @@ export default {
 
             }
         },
+       
         // 上传失败
         handleUploadError() {
             this.$message({
@@ -108,9 +119,16 @@ export default {
 </script>
 <style scoped lang="scss">
 .component-upload-image {
-    width: 80px;
-    height: 80px;
+    // width: 80px;
+    // height: 80px;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+
+    ::v-deep .el-upload-list__item{
+        width: 80px;
+height: 80px;
+    }
 }
 
 .avatar-uploader {

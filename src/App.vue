@@ -69,7 +69,7 @@ export default {
   z-index: 999;
 }
 </style>
-<style>
+<style lang="scss">
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none !important;

@@ -73,9 +73,7 @@
             <div class="col-line mlr"></div>
             <span class="text-grey">21 Learners</span>
           </div>
-          <el-button type="primary" class="common-btn-long ml-big">
-            Register Now
-          </el-button>
+          <btn class="ml-class" btnText="Register Now" btnType="3"></btn>
           <IconBorderBtn num="2"></IconBorderBtn>
         </div>
       </div>
@@ -279,11 +277,11 @@
   </script>
   <style>
   .el-scrollbar__wrap {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
   }
   
   .el-scrollbar__bar.is-vertical {
-    opacity: 0;
+    /* opacity: 0 !important; */
   }
   </style>
   <style lang="scss" scoped>
@@ -486,6 +484,9 @@
   
   .user-love-box {
     padding: 0 20px;
+    .ml-class{
+      margin-left: 450px;
+    }
   
     .user {
   

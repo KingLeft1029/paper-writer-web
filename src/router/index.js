@@ -26,6 +26,8 @@ import videoform from "@/views/courses/videoform";
 import assingmentsform from "@/views/courses/assingmentsform";
 import otherinfo from "@/views/other";
 import routeView from "@/views/routeview";
+import groupchat from "@/views/im/groupchat"
+import reportchat from "@/views/im/reportchat"
 
 Vue.use(VueRouter);
 
@@ -176,6 +178,16 @@ const routes = [
     path: "/otherinfo",
     name: "otherinfo",
     component: otherinfo,
+  },
+  {
+    path: '/groupchat',
+    name: 'groupchat',
+    component:  groupchat
+  },
+  {
+    path: '/reportchat',
+    name: 'reportchat',
+    component:  reportchat
   },
   // {
   //   path: '/chat',

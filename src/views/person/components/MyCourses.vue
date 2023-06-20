@@ -59,12 +59,8 @@
        </div>
       </div>
         <div class="flex justify-end mt33">
-          <el-button type="primary" class="common-btn-deep">
-            Determine
-          </el-button>
-          <el-button  class="common-btn-border">
-            Cancel
-          </el-button>
+            <btn btnText="Determine" btnType="1" @click="determine"></btn>
+        <btn btnText="Cancel" btnType="2" @click="cancel"></btn>
         </div>
       </PopUp>
     </div>
@@ -105,7 +101,10 @@ export default {
     methods: {
         sort(num) {
           
-        }
+        },
+        handleClick(){},
+        determine(){},
+        cancel(){}
     }
 };
 </script>

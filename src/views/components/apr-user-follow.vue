@@ -7,8 +7,9 @@
             <span>{{ userInfo.name }}</span>
         </div>
         <span v-if="userInfo.dec">{{ userInfo.dec }}</span>
-        <el-button type="primary" class="common-btn-edit" v-else :class="{ 'shadow-btn': userInfo.color = 'shadow' }"
-            disabled>Follow</el-button>
+        <btn btnText="Follow" btnType="8" v-if="userInfo.num!=3"></btn>
+        <!-- <btn btnText="Follow" :btnType="userInfo.color = 'shadow'?'8':''"></btn> -->
+       
 
     </div>
 </template>
@@ -50,18 +51,8 @@ export default {
         margin: 0 13px;
     }
 
-    .shadow-btn {
-        height: 20px;
-        background: rgba(255, 143, 0, 0.08);
-        border-radius: 4px;
-        border: 1px solid;
-        // border-image: linear-gradient(90deg, rgba(248, 116, 7, 1), rgba(224, 14, 34, 1)) 1 1;
-        font-size: 13px;
-        color: #FF8F00;
-        line-height: 0;
-        text-align: center;
+   
 
-    }
 }
 </style>
       
