@@ -6,7 +6,9 @@
             <img class="chat-avatar" src="@/assets/icon/logo.png" alt="">
             <TabChange @changeTab="changeTab" navType="1" :navList="navList" width="242"></TabChange>
         </div>
-
+        <div>
+            
+        </div>
     </div>
 </template>
 
