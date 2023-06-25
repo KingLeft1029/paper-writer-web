@@ -4,6 +4,7 @@ import store from '@/store'
 import { getToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import { tansParams,blobValidate } from "@/utils/ruoyi"
+import Cookies from "js-cookie";
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -91,8 +92,5 @@ service.interceptors.response.use(res => {
     return Promise.reject(error)
   }
 )
-
-
-
 
 export default service

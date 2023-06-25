@@ -5,19 +5,20 @@
             <div class="withdrawal-box">
                 <el-form :rules="rules" ref="form" :model="form" label-width="70px">
 
-                    <el-form-item label="Title：" prop="inkMock">
-                        <el-input v-model="form.inkMock" placeholder="Please Enter"></el-input>
+                    <el-form-item label="Title：" prop="name">
+                        <el-input v-model="form.name" placeholder="Please Enter"></el-input>
                     </el-form-item>
-                    <el-form-item label="Tags：" prop="inkMock">
+                    <el-form-item label="Tags：" prop="label">
                         <!-- 最多五个 -->
-                        <el-select v-model="form.status" placeholder="Tags" multiple  clearable  style="width:100%" :multiple-limit="5">
-                            <el-option v-for="dict in options" :key="dict.value" :label="dict.label" 
+                        <el-select v-model="form.label" placeholder="Tags" multiple clearable style="width:100%"
+                            :multipleLimit="5">
+                            <el-option v-for="dict in dict.type.sys_label" :key="dict.value" :label="dict.label"
                                 :value="dict.value" />
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="Cover：" prop="inkMock">
+                    <el-form-item label="Cover：" prop="coverChart">
                         <div class="flex align-end">
-                            <ImageUpload :limit="1" fileType="jpg"></ImageUpload>
+                            <ImageUpload :limit="1"  v-model="form.coverChart"></ImageUpload>
                             <div class="flex flex-direction font12 text-grey line-height24 ml20">
                                 <span>Upload up to one image</span>
                                 <span>support format：JPG</span>
@@ -25,17 +26,15 @@
                             </div>
                         </div>
                     </el-form-item>
-                    <el-form-item label="Content：" prop="inkMocks">
-                        <Editor v-model="form.answer"  :min-height="317"></Editor>
-                        <!-- <el-input v-model="form.inkMock" placeholder="Please Enter"></el-input> -->
+                    <el-form-item label="Content：" prop="content">
+                        <Editor v-model="form.content"  :min-height="317"></Editor>
                     </el-form-item>
 
                 </el-form>
                 <div class="flex justify-center">
                     <btn btnText="Post" btnType="1" @click.native="onSubmit"></btn>
                     <btn btnText="Cancel" btnType="2" @click.native="$router.go(-1)"></btn>
-                    <!-- <el-button type="primary" class="common-btn-deepfix" @click="onSubmit">Post</el-button>
-                    <el-button type="" class="common-btn-borderfix" @click="$router.go(-1)">Cancel</el-button> -->
+                  
                 </div>
             </div>
 
@@ -47,35 +46,37 @@
 <script>
 
 import GreyTopTitle from '../components/grey-top-title.vue'
-import ImageUpload from '@/components/ImageUpload'
+import ImageUpload from '@/components/ImageUpload/single.vue'
+import {add} from "@/api/forums"
 export default {
+    dicts: ['sys_label'],
     components: { GreyTopTitle, ImageUpload },
     data() {
         return {
-            options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        },],
-            form: {
-                userNameMock: "",
-                inkMock: "",
-                mockUser: "",
-                appUser: "",
-            }, rules: {
 
-                inkMock: [
+            form: {
+                name: "文章名称",
+                label: "1",
+                coverChart: "",
+                content: "文章内容",
+            },
+             rules: {
+
+                name: [
+                    {
+                        required: true,
+                        message: "Please Enter",
+                        trigger: "blur",
+                    },
+                ],
+                label: [
+                    {
+                        required: true,
+                        message: "Please Enter",
+                        trigger: "change",
+                    },
+                ],
+                content: [
                     {
                         required: true,
                         message: "Please Enter",
@@ -90,15 +91,15 @@ export default {
     },
     created() { },
     methods: {
-        // tagChange(e){
-        //     console.log(e,"111")
-        // },
         onSubmit(formName) {
             this.$refs.form.validate((valid) => {
                 if (valid) {
-                    alert("submit!");
-                    //   this.editFlag = false;
-                    this.$message.success("save successfully");
+                    this.form.label=this.form.label.join(',')
+                    add(this.form).then(res => {   
+                        this.$message.success("Posted successfully, please wait patiently for the platform to review.");
+                        this.$router.push({path:'/forums'})
+                    })
+                   
                 } else {
                     console.log("error submit!!");
                     return false;

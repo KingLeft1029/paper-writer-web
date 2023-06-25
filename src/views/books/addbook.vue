@@ -37,7 +37,7 @@
 <script>
 
 import GreyTopTitle from '../components/grey-top-title.vue'
-import ImageUpload from '@/components/ImageUpload'
+import ImageUpload from '@/components/ImageUpload/single.vue/'
 import { addApi } from "@/api/book"
 export default {
     components: { GreyTopTitle, ImageUpload },

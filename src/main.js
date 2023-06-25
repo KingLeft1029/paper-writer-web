@@ -20,6 +20,10 @@ import PopUp from "@/components/PopUp";
 import Btn from "@/components/Btn";
 // 富文本组件
 import Editor from "@/components/Editor";
+import { getDicts } from "@/api/system/dict/data"
+// 字典数据组件
+import DictData from '@/components/DictData'
+import DictTag from '@/components/DictTag'
 Vue.use(
   ElementUI,
   { locale },
@@ -32,7 +36,7 @@ import MetaInfo from "vue-meta-info";
 Vue.use(MetaInfo);
 // 滑动验证插件
 import SlideVerify from "vue-monoplasty-slide-verify";
-
+Vue.component('DictTag', DictTag)
 Vue.use(SlideVerify);
 Vue.component("Btn", Btn);
 Vue.component("PopUp", PopUp);
@@ -42,6 +46,10 @@ Vue.component("RightTo", RightTo);
 Vue.component("SortInput", SortInput);
 Vue.component("EmptyBox", EmptyBox);
 Vue.component("Editor", Editor);
+
+DictData.install()
+// 全局方法挂载
+Vue.prototype.getDicts = getDicts
 
 import "@/assets/styles/custom.scss";
 import "@/assets/styles/index.scss";

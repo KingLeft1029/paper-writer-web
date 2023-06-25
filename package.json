@@ -21,6 +21,7 @@
     "core-js": "3.25.3",
     "echarts": "5.4.0",
     "element-ui": "^2.15.13",
+    "file-saver": "2.0.5",
     "html-webpack-plugin": "^5.5.3",
     "js-cookie": "3.0.1",
     "prerender-spa-plugin": "^3.4.0",

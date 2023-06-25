@@ -24,7 +24,7 @@
     </div>
    <TabContentCourses></TabContentCourses>
     <!-- 弹窗组件 -->
-    <PopUp title="Lack of Ink" :width="420">
+    <PopUp title="Lack of Ink" width="420">
       <div class="flex">
         <div>
         <img src="@/assets/icon/info.png" alt="">

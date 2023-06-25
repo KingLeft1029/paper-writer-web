@@ -59,7 +59,7 @@
 <script>
 
 import GreyTopTitle from '../components/grey-top-title.vue'
-import ImageUpload from '@/components/ImageUpload'
+import ImageUpload from '@/components/ImageUpload/single.vue'
 import VideoUpload from '@/components/VideoUpload'
 export default {
     components: { GreyTopTitle, ImageUpload, VideoUpload },

@@ -90,6 +90,8 @@
 </template>
 
 <script>
+import { listApi } from '@/api/forums';
+
 
 export default {
     components: {
@@ -120,6 +122,7 @@ export default {
     },
     created() {
         this.routeName=this.$route.name
+        this.getList()
     },
     mounted() {
         window.addEventListener('resize', () => {
@@ -134,6 +137,11 @@ export default {
         this.scrollHeight = document.getElementById('app').clientHeight - document.getElementsByClassName('header')[0].clientHeight - document.getElementsByClassName('footer-block')[0].clientHeight - 90
     },
     methods: {
+        getList(){
+            listApi().then(res=>{
+
+            })
+        },
         load() {
             this.loading = true
             setTimeout(() => {

@@ -27,7 +27,7 @@
         </div>
 
             <!-- 弹窗组件 -->
-    <!-- <PopUp title="Rating this course" :width="420">
+    <!-- <PopUp title="Rating this course" width="420">
      <div class="flex align-center">
         <span>Rating this course：</span>
        <div class="mt5">
@@ -44,7 +44,7 @@
           </el-button>
         </div>
       </PopUp> -->
-      <PopUp title="Buy course" :width="420">
+      <PopUp title="Buy course" width="420">
       <div class="flex">
         <div>
         <img src="@/assets/icon/info.png" alt="">

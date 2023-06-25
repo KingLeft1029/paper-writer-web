@@ -1,17 +1,19 @@
 <template>
     <div class="component-upload-image" @mousemove="mouseImg(1)" @mouseleave="mouseImg(2)">
 
-        <el-upload class="avatar-uploader" :headers="headers" :action="uploadImgUrl" limit="limit"  :listType="listType"
-            :on-success="handleUploadSuccess" :before-upload="handleBeforeUpload" >
-            <div v-if="imageUrl&&listType==''" :style="{ backgroundImage: 'url(' + imageUrl + ')' }" class="avatar">
+        <el-upload class="avatar-uploader" :headers="headers" :action="uploadImgUrl" :limit="limit" :listType="listType"
+            :show-file-list="listType == 'picture' ? false : true" :on-success="handleUploadSuccess"
+            :before-upload="handleBeforeUpload">
+            <div v-if="imageUrl && listType == 'picture'" :style="{ backgroundImage: 'url(' +baseUrl+ imageUrl + ')' }"
+                class="avatar">
 
             </div>
-          
+
             <div v-else class="flex img-box flex-direction align-center justify-center">
                 <img src="@/assets/book/upload.png" alt="">
                 <span class="font12 text-grey">{{ text }}</span>
             </div>
-            <div class="img-mask flex justify-between align-center" v-if="maskFlag&&listType==''">
+            <div class="img-mask flex justify-between align-center" v-if="maskFlag && listType == 'picture'">
                 <img src="@/assets/book/prew.png" @click.stop="imgClick(1)" alt="">
                 <img src="@/assets/book/down.png" @click.stop="imgClick(2)" alt="">
                 <img src="@/assets/book/del.png" @click.stop="imgClick(3)" alt="">
@@ -27,37 +29,48 @@
   
 <script>
 import { getToken } from "@/utils/auth";
+import download from "@/utils/download"
 
 export default {
     props: {
-text:{
-    type:String,
-    default:()=>'Telephoto'
-},
-listType:{
-    type:String,
-    default:()=>''
-},
-limit:{
-    type:Number,
-    default:()=>1
-},
+        text: {
+            type: String,
+            default: () => 'Telephoto'
+        },
+        listType: {
+            type: String,
+            default: () => 'picture'
+        },
+        limit: {
+            type: Number,
+            default: () => 1
+        },
+        value: {
+            type: String,
+            default: () => ''
+        }
     },
     data() {
         return {
             imageUrl: "",
+            fileName: '',
             dialogVisible: false,
             maskFlag: false,
             baseUrl: process.env.VUE_APP_BASE_API,
             uploadImgUrl: process.env.VUE_APP_BASE_API + "/common/upload", // 上传的图片服务器地址
             headers: {
                 Authorization: "Bearer " + getToken(),
-              
+
             },
         };
     },
     watch: {
-
+        value(val) {
+            if (val) {
+                console.log(val,"vvvv")
+                this.imageUrl = val
+            }
+        }
     },
     computed: {
 
@@ -77,7 +90,11 @@ limit:{
             }
         },
         handleUploadSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
+            console.log(file,"cccc")
+            // this.imageUrl = URL.createObjectURL(file.raw);
+            this.imageUrl = file.response.fileName;
+            this.fileName = file.response.fileName
+            this.$emit('input', this.imageUrl )
         },
         handleBeforeUpload(file) {
             const isJPG = file.type === 'image/jpeg';
@@ -97,13 +114,15 @@ limit:{
                 this.dialogVisible = true;
             } else if (num == 2) {
                 // 下载
+                download.name(this.fileName)
+
             } else {
                 // 删除
                 this.imageUrl = ''
-
+                this.$emit('input', this.imageUrl )
             }
         },
-       
+
         // 上传失败
         handleUploadError() {
             this.$message({
@@ -125,13 +144,17 @@ limit:{
     display: flex;
     flex-wrap: wrap;
 
-    ::v-deep .el-upload-list__item{
+    ::v-deep .el-upload-list__item {
         width: 80px;
-height: 80px;
+        height: 80px;
     }
+
 }
 
 .avatar-uploader {
+    width: 80px;
+    height: 80px;
+
     ::v-deep .el-upload {
         border: 1px dashed #d9d9d9;
         border-radius: 6px;
@@ -162,7 +185,7 @@ height: 80px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
- 
+
 }
 
 .img-box {

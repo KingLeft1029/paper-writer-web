@@ -57,7 +57,7 @@
       </div>
     </div>
     <!-- 弹窗组件 -->
-    <PopUp title="hint" ref="hint" :width="420">
+    <PopUp title="hint" ref="hint" width="420">
       <div class="mt20 font12 text-black">
         Are you sure you want to log out?
       </div>

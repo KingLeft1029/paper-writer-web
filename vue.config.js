@@ -32,7 +32,7 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `https://shidai.demo.diandongmark.com/prod-api`,
+        target: `http://101.42.37.240:20014`,
         // target: `http://192.168.20.185:8089`,
         changeOrigin: true,
         pathRewrite: {
