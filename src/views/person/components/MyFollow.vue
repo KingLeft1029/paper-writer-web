@@ -1,34 +1,50 @@
 <template>
     <div class="mycourse-box">
-        <TabChange :navList="navList" width="366"></TabChange>
-        <!-- <el-tabs v-model="activeName" @tab-click="handleClick" >
-            <el-tab-pane label="Thread Collection" name="first"></el-tab-pane>
-            <el-tab-pane label="Course Collection" name="second"></el-tab-pane>
-        </el-tabs> -->
+        <TabChange :navList="navList" width="266"></TabChange>
 
         <div class="mycourse-content padding20">
-            <tab-courses-list :collectionFlag="true" btnText="Remove"></tab-courses-list>
+            <div class="flex justify-between align-center" v-for="item in list">
+                <div class="flex">
+                    <img class="follow-img mr20" src="../../../assets/images/img-error.png" alt="">
+                    <div class="flex flex-direction justify-around">
+                        <div class="font16 text-black ">Course Name</div>
+                        <div class="font12 text-grey">author</div>
+                    </div>
+                </div>
+                <btn btnText="Cross correlation" btnType="2"></btn>
+                <btn btnText="follow with interest" btnType="7"></btn>
+            </div>
         </div>
     </div>
 </template>
       
 <script>
-import TabCoursesList from '../../components/tab-courses-list.vue'
+
 import TabChange from '../../components/TabChange.vue'
+import { listApi } from "@/api/person"
 export default {
     components: {
-        TabCoursesList,
+
         TabChange
     },
+
     data() {
         return {
-            navList:['Thread Collection', 'Course Collection']
-     
+            navList: ['My attention', 'My fans'],
+            list: [{}]
+
 
         };
     },
+    created() {
+        this.getList()
+    },
     methods: {
+        getList() {
+            listApi().then(res => {
 
+            })
+        }
     }
 };
 </script>
@@ -39,9 +55,6 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-// height: 40px;
-// background: linear-gradient(131deg, rgba(255, 143, 0,0.2) 0%, rgba(220, 0, 37,0.2) 100%);
-// border-radius: 6px 6px 0px 0px;
 
     .row-line {
         width: 100%;
@@ -51,20 +64,19 @@ export default {
         margin-bottom: 14px;
 
     }
-   ::v-deep .el-tabs {
 
- 
-   }
+    ::v-deep .el-tabs {}
+
     ::v-deep .el-tabs__item {
 
         font-size: 14px;
-   
+
     }
 
     ::v-deep .el-tabs__header {
-       
+
         height: 40px;
-       
+
         border-radius: 6px 6px 0px 0px;
         padding-left: 20px;
 
@@ -75,12 +87,13 @@ export default {
         font-weight: 600;
         color: #969696;
         line-height: 36px;
-     
+
         background: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-    ::v-deep .el-tabs__active-bar{
+
+    ::v-deep .el-tabs__active-bar {
         width: 100px !important;
         height: 3px;
     }
@@ -99,8 +112,14 @@ export default {
 
 
     .mycourse-content {
-        // padding-top: 20px;
+        padding-top: 20px;
     }
+}
+
+.follow-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
 }
 </style>
       

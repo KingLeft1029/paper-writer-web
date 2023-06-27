@@ -24,6 +24,7 @@ import { getDicts } from "@/api/system/dict/data"
 // 字典数据组件
 import DictData from '@/components/DictData'
 import DictTag from '@/components/DictTag'
+import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
 Vue.use(
   ElementUI,
   { locale },
@@ -31,6 +32,7 @@ Vue.use(
     size: Cookies.get("size") || "medium", // set element-ui default size
   }
 );
+Vue.prototype.resetForm = resetForm
 
 import MetaInfo from "vue-meta-info";
 Vue.use(MetaInfo);
@@ -50,6 +52,7 @@ Vue.component("Editor", Editor);
 DictData.install()
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
+Vue.prototype.parseTime = parseTime
 
 import "@/assets/styles/custom.scss";
 import "@/assets/styles/index.scss";

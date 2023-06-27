@@ -53,7 +53,7 @@
                             <el-radio label="2">No Preview</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="Preview Time：" class="is-required" v-if="form.paymentType == 2">
+                    <el-form-item label="Preview Time：" class="is-required" v-if="form.paymentType == 2&&form.trialType!=2">
 
                         <div class="flex time-box">
                             <el-form-item prop="learnMinutes">
@@ -279,7 +279,7 @@ export default {
                             this.$router.go(-1)
                         } else {
                             this.$message.success("save successfully");
-                            this.$router.push({path:'/videos/managementcourse'})
+                            this.$router.push({path:'/videos/management'})
                         }
 
 

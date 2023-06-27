@@ -26,8 +26,9 @@ import videoform from "@/views/courses/videoform";
 import assingmentsform from "@/views/courses/assingmentsform";
 import otherinfo from "@/views/other";
 import routeView from "@/views/routeview";
-import groupchat from "@/views/im/groupchat"
-import reportchat from "@/views/im/reportchat"
+import groupchat from "@/views/im/groupchat";
+import reportchat from "@/views/im/reportchat";
+
 
 Vue.use(VueRouter);
 
@@ -103,7 +104,6 @@ const routes = [
         path: "index",
         name: "videos",
         component: videos,
-       
       },
       {
         path: "detail",
@@ -121,7 +121,7 @@ const routes = [
         component: addcourse,
       },
       {
-        path: "coursestable",
+        path: "table",
         name: "coursestable",
         component: coursestable,
       },
@@ -131,44 +131,47 @@ const routes = [
         component: videoform,
       },
       {
-        path: "managementcourse",
+        path: "management",
         name: "managementcourse",
         component: managementcourse,
       },
     ],
   },
 
- 
   {
     path: "/books",
-    name: "books",
-    component: books,
-  },
-  {
-    path: "/records",
-    name: "records",
-    component: records,
-  },
-  {
-    path: "/coupons",
-    name: "coupons",
-    component: coupons,
-  },
-  {
-    path: "/withdraw",
-    name: "withdraw",
-    component: withdraw,
-  },
-  {
-    path: "/addbook",
-    name: "addbook",
-    component: addbook,
+    component: routeView,
+    children: [
+      {
+        path: "index",
+        name: "books",
+        component: books,
+      },
+      {
+        path: "records",
+        name: "records",
+        component: records,
+      },
+      {
+        path: "coupons",
+        name: "coupons",
+        component: coupons,
+      },
+
+      {
+        path: "withdraw",
+        name: "withdraw",
+        component: withdraw,
+      },
+
+      {
+        path: "add",
+        name: "add",
+        component: addbook,
+      },
+    ],
   },
 
-
- 
-
- 
   {
     path: "/assingmentsform",
     name: "assingmentsform",
@@ -180,14 +183,14 @@ const routes = [
     component: otherinfo,
   },
   {
-    path: '/groupchat',
-    name: 'groupchat',
-    component:  groupchat
+    path: "/groupchat",
+    name: "groupchat",
+    component: groupchat,
   },
   {
-    path: '/reportchat',
-    name: 'reportchat',
-    component:  reportchat
+    path: "/reportchat",
+    name: "reportchat",
+    component: reportchat,
   },
   // {
   //   path: '/chat',

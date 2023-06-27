@@ -1,7 +1,8 @@
 <template>
     <div class="icons flex align-center">
-        <div  :class="{'noml':index==0}" v-for="(item,index) in iconList" :key="item.id">
-          <div :class="index==0?'':'ml20'"  v-if="index!=num">
+        <div   v-for="(item,index) in iconList" :key="item.id">
+          <div :class="{'mr20':index!=iconList.length-1}"  v-if="index!=num">
+            
             <img :src="item.src" alt="">
             <span>{{ item.label }}</span>
           </div>

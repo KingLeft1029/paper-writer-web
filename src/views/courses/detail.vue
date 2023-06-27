@@ -3,50 +3,50 @@
     <div class="flex align-center  justify-between">
       <div class="video-mask">
         <img src="@/assets/course/img.png" alt="">
-        <router-link :to="{name:'video',query:{id:1}}">
-        <el-button type="primary">Preview</el-button>
-      </router-link>
+        <router-link :to="{ name: 'video', query: { id: id } }">
+          <el-button type="primary">Preview</el-button>
+        </router-link>
       </div>
       <div class="course-detail-box flex flex-direction justify-between">
-        <span>Course Name</span>
+        <span>{{ info.courseName }}</span>
         <span>Tags：Virgil Abloh’s Off-White is a streetwear-inspired collection that continues to break
         </span>
         <span>9999Ink</span>
         <span>6 Episodes / 3h9m / 21 Learners</span>
-        <AprUserFollow :userInfo="{ num: 3, name: 'Zhang User', color: 'shadow' }"> </AprUserFollow>
+        <AprUserFollow :userInfo="{ num: 2, name: 'Zhang User', color: 'shadow' }"> </AprUserFollow>
         <IconsUserNum num="0"></IconsUserNum>
         <div class="flex align-end justify-between">
           <btn btnText="Buy Now" btnType="4"></btn>
-         
+
           <IconBorderBtn num="2"></IconBorderBtn>
         </div>
       </div>
     </div>
-   <TabContentCourses></TabContentCourses>
+    <TabContentCourses></TabContentCourses>
     <!-- 弹窗组件 -->
     <PopUp title="Lack of Ink" width="420">
       <div class="flex">
         <div>
-        <img src="@/assets/icon/info.png" alt="">
+          <img src="@/assets/icon/info.png" alt="">
+        </div>
+        <div class="ml10">
+          <div class="mt6 font12">
+            Recharge the Ink
+          </div>
+          <div class="mt20 font12 text-grey">
+            Current Ink balance 200
+          </div>
+        </div>
       </div>
-       <div class="ml10">
-        <div class="mt6 font12">
-          Recharge the Ink
-        </div>
-        <div class="mt20 font12 text-grey">
-          Current Ink balance 200
-        </div>
-       </div>
+      <div class="flex justify-end mt33">
+        <el-button type="primary" class="common-btn-deep">
+          Recharge Now
+        </el-button>
+        <el-button class="common-btn-border">
+          Cancel
+        </el-button>
       </div>
-        <div class="flex justify-end mt33">
-          <el-button type="primary" class="common-btn-deep">
-            Recharge Now
-          </el-button>
-          <el-button  class="common-btn-border">
-            Cancel
-          </el-button>
-        </div>
-      </PopUp>
+    </PopUp>
   </div>
 </template>
     
@@ -56,6 +56,7 @@ import IconBorderBtn from '../components/icon-border-btn.vue'
 import IconsUserNum from '../components/icons-user-num.vue'
 import TabContentCourses from './tab-content-courses.vue'
 import PopUp from "@/components/PopUp"
+import { courseDetail } from "@/api/home"
 export default {
   components: {
     AprUserFollow,
@@ -66,11 +67,20 @@ export default {
   },
   data() {
     return {
-     
+      id: '',
+      info: {}
     };
   },
+  created() {
+    this.id = this.$route.query.id
+    this.getInfo()
+  },
   methods: {
-
+    getInfo() {
+      courseDetail(this.id).then(res => {
+        this.info = res.data
+      })
+    }
   }
 };
 </script>
@@ -142,7 +152,5 @@ export default {
   }
 
 }
-
-
 </style>
     

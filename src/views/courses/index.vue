@@ -23,7 +23,7 @@
                 <course-list></course-list>
             </div>
             <div class="forums-right">
-                <div @click="$router.push({path:'/videos/coursestable'})" class="add-thread flex align-center justify-center">
+                <div @click="$router.push({path:'/videos/table'})" class="add-thread flex align-center justify-center">
                     <span>Course Management</span>
                     
                 </div>
@@ -45,6 +45,8 @@
       
 <script>
 import CourseList from '../components/CourseList.vue'
+
+
 export default {
     components: {
         CourseList

@@ -9,10 +9,10 @@
 
       <span class="left-user-name">Course Name </span>
       <span class="left-user-identity">User</span>
-      <div class="left-follow-box">
-        <span>Following：23</span>
+      <div class="left-follow-box" >
+        <span @click="toFollow(0)">Following：23</span>
         <div class="col-line"></div>
-        <span>Follers：23</span>
+        <span @click="toFollow(1)">Follers：23</span>
       </div>
       <div class="left-ink">
         <div class="left-ink-item" @click="toWallet(1)">
@@ -91,9 +91,10 @@ import CouponManagement from "./components/CouponManagement.vue";
 import ChangePassword from "./components/ChangePassword.vue";
 import CheckCoupons from './components/CheckCoupons.vue';
 import CheckWallet from './components/CheckWallet.vue';
+import MyFollow from './components/MyFollow.vue';
 import { mapGetters } from 'vuex'
 export default {
-  components: { VueCropper, Title, MyDashborad, Profile, Agency, MyCourses, MyCollections, CouponManagement, ChangePassword, CheckCoupons, CheckWallet },
+  components: { VueCropper, Title, MyDashborad, Profile, Agency, MyCourses, MyCollections, CouponManagement, ChangePassword, CheckCoupons, CheckWallet,MyFollow },
   data() {
     return {
       // 是否显示弹出层
@@ -169,6 +170,9 @@ export default {
           break;
         case 8:
           val = 'Wallet'
+          break;
+          case 9:
+          val = 'MyFollow'
           break;
       }
       return val
@@ -273,6 +277,7 @@ export default {
           this.titleFlag = true
           this.leftShow = true
           break;
+          
       }
     },
     // 查看优惠券
@@ -287,6 +292,13 @@ export default {
       this.currentComponent = CheckWallet
       this.titleFlag = true
       this.leftShow = true
+    },
+    toFollow(type) {
+      this.menuKey = 9
+      this.currentComponent = MyFollow
+      this.titleFlag = false
+      this.leftShow = true
+      localStorage.setItem('navActive', type);
     },
     collectClick(){
       this.collectKey==1? this.collectKey=2: this.collectKey=1
@@ -427,6 +439,7 @@ export default {
   border: 1px solid rgba(151, 151, 151, 0.18);
   padding: 28px 21px;
   position: relative;
+
 
   .row-line {
     width: 100%;

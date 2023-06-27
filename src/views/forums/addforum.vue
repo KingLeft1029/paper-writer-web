@@ -97,7 +97,7 @@ export default {
                     this.form.label=this.form.label.join(',')
                     add(this.form).then(res => {   
                         this.$message.success("Posted successfully, please wait patiently for the platform to review.");
-                        this.$router.push({path:'/forums'})
+                        this.$router.go(-1)
                     })
                    
                 } else {

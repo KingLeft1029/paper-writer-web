@@ -193,6 +193,9 @@ a {
 .ml147 {
   margin-left: 147px;
 }
+.ml60{
+  margin-left: 60px;
+}
 .mr5 {
   margin-right: 5px;
 }
@@ -493,4 +496,16 @@ a {
   border-radius: 3px;
   color: #61687c;
   border: 1px solid rgba(151, 151, 151, 0.5);
+}
+.hover-class{
+  &:hover{
+    color: #E93636;
+  }
+}
+.border-color{
+  border: 1px solid rgba(151,151,151,0.17);
+
+}
+.border-radius{
+  border-radius: 6px;
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <RightTo label="My courses" pathName="/managementcourse"></RightTo>
+        <RightTo label="My courses" pathName="/videos/table"></RightTo>
         <!-- <div class="my-empty-box">
             <EmptyBox emptyLabel="Add new!"></EmptyBox>
             <el-button type="primary">Submit</el-button>
@@ -8,7 +8,7 @@
         <div class="my-box">
              <div class="my-empty-box" :class="{'mt120':roles == 1}">
             <EmptyBox emptyLabel="Add new!"></EmptyBox>
-            <el-button type="primary" class="common-btn-submit">Submit</el-button>
+            <el-button type="primary" class="common-btn-submit" @click="$router.push({path:'/videos/table'})">Submit</el-button>
         </div>
             <!-- <course-list></course-list> -->
         </div>
@@ -16,7 +16,7 @@
         <div class="my-box" pathName="/forums">
             <threads-list></threads-list>
         </div>
-        <RightTo label="My Books" pathName="/books"></RightTo>
+        <RightTo label="My Books" pathName="/books/index"></RightTo>
         <div class="my-box">
             <book-list></book-list>
         </div>

@@ -15,6 +15,7 @@
 <script>
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 import { i18nChangeLanguage } from '@wangeditor/editor'
+import { getToken } from '@/utils/auth'
 // 切换语言 - 'en' 或者 'zh-CN'
 i18nChangeLanguage('en')
 
@@ -51,38 +52,45 @@ export default {
 
             },
             editorConfig: {
-                server: '/api/upload',
-                placeholder: "Please enter",
-                // autoFocus: false,
 
                 // 所有的菜单配置，都要在 MENU_CONF 属性下
                 MENU_CONF: {
                     uploadImage: {
+                        server: `${process.env.VUE_APP_BASE_API}/common/upload`,
                         // 单个文件的最大体积限制，默认为 2M
                         maxFileSize: 1 * 1024 * 1024, // 1M
+                        // 超时时间，默认为 10 秒
+                        timeout: 30 * 1000, // 5s
+                        fieldName: "file",
                         // 最多可上传几个文件，默认为 100
                         maxNumberOfFiles: 10,
                         // 自定义上传参数，例如传递验证的 token 等。参数会被添加到 formData 中，一起上传到服务端。
-                        meta: {
-                            token: 'xxx',
-                            otherKey: 'yyy'
-                        },
+                        // meta: {
+                        //     token: getToken,
+                        //     // otherKey: 'yyy'
+                        // },
                         // 将 meta 拼接到 url 参数中，默认 false
                         metaWithUrl: false,
 
                         // 自定义增加 http  header
                         headers: {
-                            Accept: 'text/x-json',
-                            otherKey: 'xxx'
+                            Authorization: "Bearer " + getToken(),
                         },
 
                         // 跨域是否传递 cookie ，默认为 false
                         withCredentials: true,
+                        customInsert(res, insertFn) {
+                            // JS 语法
+                            // res 即服务端的返回结果
+                            // 从 res 中找到 url alt href ，然后插图图片
+           
+                            insertFn(res.url);
+                        },
 
-                        // 超时时间，默认为 10 秒
-                        timeout: 5 * 1000, // 5 秒
                     },
                     uploadVideo: {
+                        server: `${process.env.VUE_APP_BASE_API}/common/upload`,
+                        fieldName: "file",
                         // form-data fieldName ，默认值 'wangeditor-uploaded-video'
                         fieldName: 'your-custom-name',
 
@@ -97,8 +105,8 @@ export default {
 
                         // 自定义上传参数，例如传递验证的 token 等。参数会被添加到 formData 中，一起上传到服务端。
                         meta: {
-                            token: 'xxx',
-                            otherKey: 'yyy'
+                            token: getToken,
+                            // otherKey: 'yyy'
                         },
 
                         // 将 meta 拼接到 url 参数中，默认 false
@@ -106,8 +114,7 @@ export default {
 
                         // 自定义增加 http  header
                         headers: {
-                            Accept: 'text/x-json',
-                            otherKey: 'xxx'
+                            Authorization: "Bearer " + getToken(),
                         },
 
                         // 跨域是否传递 cookie ，默认为 false
@@ -115,7 +122,13 @@ export default {
 
                         // 超时时间，默认为 30 秒
                         timeout: 15 * 1000, // 15 秒
-
+                        customInsert(res, insertFn) {
+                            // JS 语法
+                            // res 即服务端的返回结果
+                            // 从 res 中找到 url alt href ，然后插图图片
+           
+                            insertFn(res.url);
+                        },
                         // 视频不支持 base64 格式插入
                     }
                 },
@@ -125,8 +138,10 @@ export default {
     methods: {
         onCreated(editor) {
             this.editor = Object.seal(editor); // 【注意】一定要用 Object.seal() 否则会报错
-            console.log(this.editor, "ccc")
+            
+
         },
+     
         onChange(editor) {
             console.log("onChange", editor.getHtml()); // onChange 时获取编辑器最新内容
             this.$emit("input", editor.getHtml());

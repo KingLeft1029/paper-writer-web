@@ -7,4 +7,11 @@ export function addApi(data) {
       data,
     })
   }
-  
+  // 查
+export function listApi(query) {
+  return request({
+    url: "/business/book/list",
+    method: "get",
+    params: query,
+  });
+}

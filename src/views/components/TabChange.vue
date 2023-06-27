@@ -1,9 +1,9 @@
 <template>
-  <div :class=" navType== 1 ? 'no-nav' : 'nav'">
+  <div :class="navType == 1 ? 'no-nav' : 'nav'">
     <!-- 标题列表 -->
     <div class="nav-list" :style="{ 'width': width + 'px' }" ref="channels">
       <div v-for="(item, index) in navList" :key="item.id" @click="setUnderLine(index, $event)"
-        :class="{ 'nav-list--active': index === active }">
+        :class="{ 'nav-list--active': index == active }">
         <div class="channel-name" :ref="`channel${index}`">
           {{ item }}
         </div>
@@ -34,20 +34,20 @@ export default {
   },
   data() {
     return {
-
-      active: 0,
+      active:0,
       translateX: 0,
       lineWidth: ''
     };
   },
   computed: {
-
+    
   },
   created() {
 
   },
   mounted() {
-    this.setUnderLine(0);
+    this.active=localStorage.getItem('navActive') ? localStorage.getItem('navActive') : 0;
+    this.setUnderLine(this.active);
   },
   methods: {
     /** 
@@ -88,13 +88,14 @@ export default {
 </script>
 
 <style lang="scss">
-.cum-nav{
+.cum-nav {
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
   height: 40px;
 }
+
 .nav {
 
   background: linear-gradient(180deg, rgba(245, 103, 10, 0.2) 0%, rgba(220, 0, 37, 0.2) 100%);
@@ -107,13 +108,14 @@ export default {
 
 }
 
- .nav-list {
+.nav-list {
   //  width: 366px;
   padding-left: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 40px;
+  position: relative;
 }
 
 
@@ -121,7 +123,7 @@ export default {
 .nav-line {
   // margin: 0 auto;
 
-  
+
 }
 
 .nav-line>div {
@@ -150,7 +152,7 @@ export default {
 
 /* 新增激活状态样式 */
 
- .nav-list .nav-list--active {
+.nav-list .nav-list--active {
   font-family: PingFangSC-Semibold, PingFang SC, sans-serif;
   font-weight: bold;
   color: #333333;
@@ -159,4 +161,6 @@ export default {
   background-image: linear-gradient(131deg, #FF8F00 0%, #DC0025 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}</style>
+  height: 18px;
+}
+</style>

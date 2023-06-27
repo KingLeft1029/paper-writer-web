@@ -3,14 +3,14 @@
         <div class="border-line">
             <GreyTopTitle title="Add new" types="required"></GreyTopTitle>
             <div class="withdrawal-box">
-                <el-form :rules="rules" ref="form" :model="form" label-width="220px">
+                <el-form :rules="rules" ref="form" :model="form" label-width="110px">
 
                     <el-form-item label="Book Title：" prop="name">
                         <el-input v-model="form.name" placeholder="Please Enter"></el-input>
                     </el-form-item>
                     <el-form-item label="Cover：" prop="image">
                         <div class="flex align-end">
-                            <ImageUpload :limit="1" fileType="jpg" v-model="form.image"></ImageUpload>
+                            <ImageUpload :limit="1"  v-model="form.image"></ImageUpload>
                             <div class="flex flex-direction font12 text-grey line-height24 ml20">
                                 <span>Upload up to one image</span>
                                 <span>support format：JPG</span>
@@ -24,8 +24,8 @@
 
                 </el-form>
                 <div class="flex justify-center">
-                    <router-link :to="postPath" class="mr20"><el-button type="primary" class="common-btn-deepfix" @click="submit">Post</el-button></router-link>
-                   <router-link to=""> <el-button type="" class="common-btn-borderfix">Cancel</el-button></router-link>
+                   <el-button type="primary" class="common-btn-deepfix mr20" @click="submit">Post</el-button>
+                    <el-button type="" class="common-btn-borderfix">Cancel</el-button>
                 </div>
             </div>
 
@@ -76,7 +76,8 @@ export default {
                 if (valid) {
 
                     addApi(this.form).then(res => {
-                        this.$message.success("save successfully");
+                        this.$message.success("Done");
+                        this.$router.push({path:'/person'})
                   
                     })
 

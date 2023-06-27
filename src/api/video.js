@@ -15,3 +15,19 @@ export function listApi(query) {
     params: query,
   });
 }
+// 详细信息
+export function detailApi(id) {
+  return request({
+    url: '/business/course/'+id,
+    method: 'get'
+  })
+}
+// 添加章节
+export function addChapter(data) {
+  return request({
+    url: "/business/chapter",
+    method: "post",
+    data,
+  });
+}
+

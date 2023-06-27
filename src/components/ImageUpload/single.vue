@@ -1,14 +1,12 @@
 <template>
     <div class="component-upload-image" @mousemove="mouseImg(1)" @mouseleave="mouseImg(2)">
-
-        <el-upload class="avatar-uploader" :headers="headers" :action="uploadImgUrl" :limit="limit" :listType="listType"
+        <!-- <span>{{ baseUrl + imageUrl }}</span> -->
+        <el-upload class="avatar-uploader" ref="upload" :headers="headers" :action="uploadImgUrl" :limit="limit" :listType="listType"
             :show-file-list="listType == 'picture' ? false : true" :on-success="handleUploadSuccess"
             :before-upload="handleBeforeUpload">
-            <div v-if="imageUrl && listType == 'picture'" :style="{ backgroundImage: 'url(' +baseUrl+ imageUrl + ')' }"
-                class="avatar">
-
-            </div>
-
+          
+            <el-image class="avatar" v-if="imageUrl && listType == 'picture'" :src="baseUrl + imageUrl" fit="cover" lazy> </el-image>
+ 
             <div v-else class="flex img-box flex-direction align-center justify-center">
                 <img src="@/assets/book/upload.png" alt="">
                 <span class="font12 text-grey">{{ text }}</span>
@@ -67,7 +65,7 @@ export default {
     watch: {
         value(val) {
             if (val) {
-                console.log(val,"vvvv")
+   
                 this.imageUrl = val
             }
         }
@@ -90,8 +88,8 @@ export default {
             }
         },
         handleUploadSuccess(res, file) {
-            console.log(file,"cccc")
-            // this.imageUrl = URL.createObjectURL(file.raw);
+            this.$refs.upload.clearFiles();
+        //    this.imageUrl = URL.createObjectURL(file.raw);
             this.imageUrl = file.response.fileName;
             this.fileName = file.response.fileName
             this.$emit('input', this.imageUrl )

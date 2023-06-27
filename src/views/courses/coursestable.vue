@@ -56,21 +56,36 @@
             <el-table-column prop="nameMock" align="center" label="Newest" sortable width="120"
                 :show-overflow-tooltip="true">
             </el-table-column>
-            <!-- 1、“删除”按钮：仅审核驳回、状态有此按钮
-                 2、 “编辑”按钮：仅审核驳回 状态有此按钮；编辑保存成功，管理后台需审核，审核成功，其他用户可见。
-                 3、“驳回原因”按钮：仅审核驳回  状态有此按钮
-                 4、“查看”按钮：仅待审核、 发布成功  、状态有此按钮  待发布0 待审核1 s审核通过2 审核驳回3 发布成功9 -->
-            <el-table-column prop="nameMock" align="center" label="Opreate" width="155" :show-overflow-tooltip="true">
+
+            <!-- 
+                单课按钮:删除（审核驳回 ）
+                        编辑（审核驳回 编辑保存成功 管理后台需审核 审核成功 其他用户可见）
+                        查看（待审核 发布成功）
+                         驳回原因（审核驳回）
+
+               多课按钮: 删除（审核驳回 仅首次发布驳回有删除，已经发布成功对课程维护驳回的无删除按钮）
+                        编辑（待发布 审核驳回）
+                        查看（待审核 发布成功）
+                        驳回原因（审核驳回）
+                        发布（待发布 审核驳回 提交发布成功 管理后台审核）
+                        管理课程（待发布 审核驳回 发布成功）
+                       
+                        
+                       
+                待发布0 待审核1 s审核通过2 审核驳回3 发布成功9  更新审核驳回7  -->
+            <el-table-column prop="nameMock" align="center" label="Opreate" width="255" fixed="right" :show-overflow-tooltip="true">
                 <template slot-scope="scope">
                     <div class="flex justify-center">
-                        <span class="text-yellow pointer" @click="viewClick(scope.row)" v-if="scope.row.auditStatus == 1||scope.row.auditStatus == 9">View</span>
-                        <div class="col-line ml10 mr10" v-if="scope.$index == 0"></div>
-                        <span class="text-yellow pointer" v-if="scope.row.auditStatus == 3" @click="mangeClick(scope.row)">Course
-                            Management </span>
+                        <span class="text-yellow pointer hover-class" @click="viewClick(scope.row)" v-if="scope.row.auditStatus == 1 || scope.row.auditStatus == 9">View</span>
+
+                        <!-- <div class="col-line ml10 mr10" v-if="scope.$index == 0"></div> -->
+
+                        <span class="text-yellow pointer hover-class" v-if="scope.row.courseType==2&& (scope.row.auditStatus == 3||scope.row.auditStatus == 0)" @click="mangeClick(scope.row)"> Video management   </span>
                         <!-- <div class="col-line"></div> -->
-                        <span class="text-yellow pointer" v-if="scope.row.auditStatus == 3">Reason for rejection</span>
+                        <span class="text-yellow pointer hover-class" v-if="scope.row.auditStatus == 3">Reason for rejection</span>
                         <!-- <div class="col-line"></div> -->
-                        <span class="text-yellow pointer" v-if="scope.row.auditStatus == 3" @click="delClick(scope.row)">Delete</span>
+                        <span class="text-yellow pointer hover-class" v-if="scope.row.auditStatus == 3" @click="delClick(scope.row)">Delete</span>
+                        <span class="text-yellow pointer hover-class" v-if="scope.row.auditStatus == 3||scope.row.auditStatus == 0" @click="delClick(scope.row)">Edit</span>
                     </div>
                 </template>
             </el-table-column>
@@ -204,10 +219,10 @@ export default {
             this.$refs.hint.open(item)
         },
         viewClick(item) {
-            this.$router.push({ path: '/videos/video', query: { id: 1 } })
+            this.$router.push({ path: '/videos/video', query: { id: item.id } })
         },
         mangeClick(item) {
-            this.$router.push({ path: '/videos/managementcourse', query: { id: 1 } })
+            this.$router.push({ path: '/videos/management', query: { id: item.id } })
         },
         determine() {
 

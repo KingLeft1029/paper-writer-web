@@ -1,14 +1,14 @@
 <template>
     <div class="edit-scroll">
-        <div class="scroll-box" v-if="routeName == 'videos'" :style="{ 'height': scrollHeight + 'px' }"
+         <div class="scroll-box" v-if="routeName == 'videos'"  :style="{ 'height': scrollHeight + 'px' }"
             v-infinite-scroll="load" infinite-scroll-disabled="disabled">
             <div class="course-list">
-                <div class="course-item" v-for="(item, index) in count"
-                    @click="$router.push({ path: '/videos/detail', query: { id: 1 } })" :key="item.id">
-                    <div class="course-top" :style="{ backgroundImage: 'url(' + url + ')' }">
-                        <!-- <img src="../../assets/course/img.png" alt=""> -->
-                        <img class="status-img" src="../../assets/course/free.png" alt="">
-                        <!-- <img src="../../assets/course/paid.png" alt=""> -->
+                <div class="course-item" v-for="(item, index) in list"
+                    @click="$router.push({ path: '/videos/detail', query: { id: item.id } })" :key="item.id">
+                    <div class="course-top">
+                        <el-image class="course-top" :src="baseUrl + item.coverChart" fit="cover" lazy></el-image>
+                        <img class="status-img" v-if="item.paymentType==1" src="../../assets/course/free.png" alt="">
+                        <img class="status-img" v-else src="../../assets/course/paid.png" alt="">
                     </div>
                     <div class="course-bottom">
                         <div class="name text-cut text-cut2" title="Course Name Course nCourse Name Course">
@@ -35,9 +35,9 @@
                 <div class="course-item" @click="$router.push({ path: '/videos/detail', query: { id: 1 } })"
                     v-for="(item, index) in 6" :key="item.id">
                     <div class="course-top" :style="{ backgroundImage: 'url(' + url + ')' }">
-                        <!-- <img src="../../assets/course/img.png" alt=""> -->
+                      
                         <img class="status-img" src="../../assets/course/free.png" alt="">
-                        <!-- <img src="../../assets/course/paid.png" alt=""> -->
+ 
                     </div>
                     <div class="course-bottom">
                         <div class="name text-cut text-cut2" title="Course Name Course nCourse Name Course">
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { getCoursePage } from '@/api/home';
 
 export default {
     components: {
@@ -69,7 +70,7 @@ export default {
     },
     computed: {
         noMore() {
-            return this.count >= 20
+            return this.queryParams.pageNum*this.queryParams.pageSize>=this.total
         },
         disabled() {
             return this.loading || this.noMore
@@ -77,16 +78,22 @@ export default {
     },
     data() {
         return {
-            count: 12,
+            baseUrl: process.env.VUE_APP_BASE_API,
             loading: false,
             url: require('../../assets/course/img.png'),
             scrollHeight: '',
-            routeName: ''
+            routeName: '',
+            queryParams: {
+                pageNum: 1,
+                pageSize: 4,
+            },
+            total:0,
+            list: []
         };
     },
     created() {
         this.routeName = this.$route.name
-
+        this.getList()
     },
     mounted() {
         window.addEventListener('resize', () => {
@@ -100,12 +107,24 @@ export default {
         this.scrollHeight = document.getElementById('app').clientHeight - document.getElementsByClassName('header')[0].clientHeight - document.getElementsByClassName('footer-block')[0].clientHeight - 90
     },
     methods: {
-        load() {
+        getList() {
             this.loading = true
-            setTimeout(() => {
-                this.count += 2
+            getCoursePage(this.queryParams).then(res => {
+                this.total=res.data.total
+                if(this.queryParams.pageNum==1){
+                    this.list = res.data.records
+                }else{
+                    this.list = [...this.list,...res.data.records]
+                }
+              
                 this.loading = false
-            }, 2000)
+            })
+        },
+        load() {
+            if (this.queryParams.pageNum * this.queryParams.pageSize < this.total) {
+                this.queryParams.pageNum++
+                this.getList()
+            }
         },
         //点击标签 筛选
         toTag(item) {
@@ -121,11 +140,7 @@ export default {
     }
 
     ::-webkit-scrollbar-thumb {
-        // border-radius: 10px;
-        // /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
-        // opacity: 0.2;
-        // /* background: #FF8F00; */
-        // background: rgba($color: #FF8F00, $alpha: 0.6);
+     
         background: rgb(153, 169, 191,0.1);
     border-radius: 20px;
     }
@@ -164,7 +179,7 @@ export default {
         border-radius: 6px;
         border: 1px solid rgba(151, 151, 151, 0.18);
         cursor: pointer;
-        overflow: hidden;
+        // overflow: hidden;
 
         &:hover {
             border-color: #dc0025;
@@ -174,24 +189,22 @@ export default {
         .course-top {
             height: 184px;
             width: 100%;
-            transition: all 0.4s;
-            -moz-transition: all .4s;
-            -webkit-transition: all .4s;
-            -o-transition: all .4s;
-            background-repeat: no-repeat;
-            /* 不会重复 */
-            background-position: center;
-            /* 是为了让图片放大的时候从中部放大，不会偏移 */
-            background-size: 100% 100%;
-      
-
-            &:hover {
-                background-size: 110% 110%;
-            }
+            border-radius: 6px;
+            position: relative;
+          
 
             .status-img {
-                margin-top: -2px;
+    
+                position: absolute;
+                top: -2px;
+                left: 0;
+              
             }
+          .el-image{
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+          
         }
 
         .course-bottom {
@@ -241,8 +254,8 @@ export default {
 
 .loading-box {
     width: 100%;
-    height: 120px;
-
+    height: 40px;
+color: #999;
     display: flex;
     align-items: center;
     justify-content: center;

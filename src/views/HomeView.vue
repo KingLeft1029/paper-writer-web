@@ -1,22 +1,18 @@
 <template>
-  <div >
+  <div>
     <!-- 轮播图 -->
-    <el-carousel trigger="click"  :interval="10000"  loop>
-      <el-carousel-item v-for="item in 3" :key="item.id" >
-        <div class="carousel-item" :style="{ backgroundImage: 'url(' + url + ')' }" >
-          <!-- <img
-            class="item-img"
-            src="https://img1.baidu.com/it/u=1571832728,1330971037&fm=253&fmt=auto&app=138&f=JPEG?w=790&h=490"
-          /> -->
+    <el-carousel trigger="click" :interval="10000" loop>
+      <el-carousel-item v-for="item in slideList" :key="item.id" @click.native="openId(item.linkId)">
+        <div class="carousel-item" :style="{ backgroundImage: 'url(' + baseUrl+item.image + ')' }" >
           <div class="container flex align-center">
             <div class="flex-sub text-black">
               <div class="title-header flex align-center">
-                <span class="title-name">Popular posts</span>
-                <span class="title-text">course</span>
+                <span class="title-name">{{ item.name }}</span>
+                <span class="title-text">{{ item.linkMethod==1?'Forums':'Videos' }}</span>
               </div>
               <div class="author flex align-center justify-between">
-                <span>Author: Zhang User</span>
-                <span>Release time:2023.3.20</span>
+                <span>Author: {{ item.createName }}</span>
+                <span>Release time:{{ parseTime(item.createTime) }}</span>
               </div>
               <div class="info" title="ticle...">
                 Article descriptionArticle descriptionArticle descriptionArticle
@@ -32,104 +28,109 @@
     </el-carousel>
     <!-- 课程 -->
     <div class="course-block container">
-      <Title class="pointer" title="Videos" @click.native="$router.push({path:'/videos'})">  </Title>
-        <div class="course-list">
-          <router-link tag="div" :to="{path:'/videos/detail',query:{id:1}}" class="course-item pointer" v-for="(item, index) in 6" :key="item.id">
-            <div class="course-item-main flex">
-              <div class="item-img">
-                <span class="left-tag" :class="{ active: index == 0 }">{{
-                  index == 0 ? "Paid" : "Free"
-                }}</span>
-              </div>
-              <div
-                class="
+      <Title class="pointer" title="Videos" @click.native="$router.push({ path: '/videos' })"> </Title>
+      <div class="course-list">
+        <router-link tag="div" :to="{ path: '/videos/detail', query: { id: item.id } }" class="course-item pointer"
+          v-for="(item, index) in videoList" :key="item.id">
+          <div class="course-item-main flex">
+            <div class="item-img">
+              <el-image class="item-img" :src="baseUrl + item.coverChart" fit="cover" lazy>
+              </el-image>
+              <span class="left-tag" :class="{ active: index == 0 }">{{
+                item.paymentType == 2 ? "Paid" : "Free"
+              }}</span>
+            </div>
+
+            <div class="
                   item-content
                   flex-sub flex flex-direction
                   justify-between
-                "
-              >
-                <div class="item-title" title="e Name Course nam">
-                  Course Name Course name course name…
-                </div>
-                <div class="flex align-center">
-                  <span class="item-price">Free</span>
-                  <span class="item-line"></span>
-                  <span class="item-people">21 Learners</span>
-                </div>
+                ">
+              <div class="item-title" title="e Name Course nam">
+                {{ item.courseName }}
+              </div>
+              <div class="flex align-center">
+                <span class="item-price">{{ item.paymentType == 2 ? "Paid" : "Free" }}</span>
+                <span class="item-line"></span>
+                <span class="item-people">21 Learners</span>
               </div>
             </div>
-          </router-link>
-        </div>
-    
+          </div>
+        </router-link>
+      </div>
+
     </div>
 
     <div class="flex container">
       <!-- 文章 -->
       <div class="article-block">
-        <Title class="pointer"  title="Forums" @click.native="$router.push({path:'/forums'})"> </Title>
-         <div class="mt25">
+        <Title class="pointer" title="Forums" @click.native="$router.push({ path: '/forums' })"> </Title>
+        <div class="mt25">
           <threads-list></threads-list>
-          
-         </div>
-        
-         
-       
-        <router-link :to="{name:'forums',params:{type:1}}" class="more-box" >
-            More
-            <!-- <img src="../assets/person/right.png" alt="" /> -->
-            <i class="el-icon-arrow-right right-icon"></i>
-          </router-link>
+
+        </div>
+
+
+
+
       </div>
       <!-- 右侧推荐 -->
       <div class="right-block">
-        <div class="right-title">
-          <img src="@/assets/icon/hot.png" width="18px" height="22px" />
-          <div>Hot</div>
-          <div class="paging">
-            <img src="@/assets/icon/pageNum.png" width="120px" height="32px" />
+        <div class="right-title flex justify-between">
+          <div class="flex align-center">
+            <img src="@/assets/icon/hot.png" width="18px" height="22px" />
+            <div>Hot</div>
+          </div>
+          <div class="paging flex align-center">
+            <div :class="{ 'disabled-class': pageNum == 1 }" @click="prev">
+              <i class="el-icon-arrow-left"></i>
+            </div>
+            <div class="paging-num">
+              <span>{{ pageNum }}</span>
+              <span>/</span>
+              <span>{{ pageTotal(total, pageSize) }}</span>
+            </div>
+            <div :class="{ 'disabled-class': pageNum  >= pageTotal(total, pageSize)  }" @click="next">
+              <i class="el-icon-arrow-right"></i>
+            </div>
           </div>
         </div>
-        <div class="right-list ">
-          <div class="item-first pointer">
-            <div
-              class="item-first-main "
-              v-for="(item, index) in 1"
-              :key="index"
-              @click="toDetail(item)"
-            >
-              <div class="item-img">
-                <span class="left-tag" :class="{ active: index == 0 }">{{
-                  index == 0 ? "Paid" : "Free"
-                }}</span>
-              </div>
-              <div
-                class="
-                  item-content
-                  flex-sub flex flex-direction
-                  justify-between
-                "
-              >
-                <div class="item-title">
-                  Course Name Course name course name…
+        <div class="right-list">
+          <!-- 推荐的课程 -->
+          <div v-for="(item, index) in hotList" :key="index" @click="toDetail(item)">
+            <div class="item-first pointer" v-if="item.type == 2">
+              <div class="item-first-main ">
+                <div class="item-img">
+                  <el-image class="item-img" :src="baseUrl + item.coverChart" fit="cover" lazy>
+                  </el-image>
+                  <span class="left-tag" :class="{ active: index == 0 }">{{
+                    index == 0 ? "Paid" : "Free"
+                  }}</span>
                 </div>
-                <div class="flex align-center">
-                  <span class="item-price">Free</span>
-                  <span class="item-line"></span>
-                  <span class="item-people">21 Learners</span>
+                <div class="item-content flex-sub flex flex-direction justify-between">
+                  <div class="item-title">
+                    {{ item.name }}
+                  </div>
+                  <div class="flex align-center">
+                    <span class="item-price">Free</span>
+                    <span class="item-line"></span>
+                    <span class="item-people">21 Learners</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="item-left pointer" v-for="(item, index) in 2" :key="index">
-            <div class="item-title">
-              Post Name Post Name Post Name Post Name Post Name
-            </div>
-            <div class="item-content">
-              Article descriptionArticle descriptionArticle descriptionArticle …
-            </div>
-            <div class="item-user-box">
-              <div class="user-img"></div>
-              <div class="user-name">Zhang User</div>
+            <!-- 推荐的文章 -->
+            <div class="item-left pointer" v-else>
+              <div class="item-title">
+                {{ item.name }}
+              </div>
+              <div class="item-content">
+                Article descriptionArticle descriptionArticle descriptionArticle …
+              </div>
+              <div class="item-user-box">
+                <div class="user-img"></div>
+                <div class="user-name">Zhang User</div>
+              </div>
             </div>
           </div>
           <div class="right-item"></div>
@@ -147,9 +148,9 @@
 
     </div>
     <el-backtop :bottom="100">
-   <img class="top-img" src="@/assets/top.png" alt="">
-  </el-backtop>
-  <ReportDialog ref="report"></ReportDialog>
+      <img class="top-img" src="@/assets/top.png" alt="">
+    </el-backtop>
+    <ReportDialog ref="report"></ReportDialog>
 
   </div>
 </template>
@@ -161,6 +162,8 @@ import ThreadsList from './components/ThreadsList.vue'
 import ReportDialog from './im/report-dialog.vue'
 //im
 import chat from './im/chat.vue'
+
+import { getCoursePage, getArticlePage, getCarouseChartList, getTopRecommendationsPage } from '@/api/home'
 export default {
   components: {
     Title,
@@ -170,29 +173,98 @@ export default {
   },
   data() {
     return {
-      url:'https://img1.baidu.com/it/u=1571832728,1330971037&fm=253&fmt=auto&app=138&f=JPEG?w=790&h=490',
+      url: 'https://img1.baidu.com/it/u=1571832728,1330971037&fm=253&fmt=auto&app=138&f=JPEG?w=790&h=490',
       bannerData: {},
+      videoList: [],
+      slideList: [],
+      hotList: [],
+      baseUrl: process.env.VUE_APP_BASE_API,
+      pageNum: 1,
+      pageSize: 3,
+      total: 0,
+
     };
   },
-  methods:{
-    toDetail(item){
-      this.$router.push({path:'/forums/detail',query:1})
+  created() {
+    this.getList()
+    this.getHot()
+  },
+  methods: {
+    getList() {
+      // 课程列表
+
+      getCoursePage({ pageNum: 1, pageSize: 6 }).then(res => {
+        this.videoList = res.data.records
+
+      })
+      // 查文章列表
+      // getArticlePage().then(res => {
+      //   this.forumsList = res.data.records.slice(0,5)
+      // })
+      // 查轮播图列表
+      getCarouseChartList().then(res => {
+        this.slideList = res.data
+      })
+     
     },
-    imClick(){
+    getHot(){
+       // 查热门推荐 一页最多显示三条
+       let params = {
+        pageNum: this.pageNum,
+        pageSize: this.pageSize
+      }
+      getTopRecommendationsPage(params).then(res => {
+        this.hotList = res.data.records
+        this.total = res.data.total
+      })
+    },
+    toDetail(item) {
+      this.$router.push({ path: '/forums/detail', query: 1 })
+    },
+    imClick() {
       this.$refs.report.open()
+    },
+    // 求总页数
+    pageTotal(rowCount, pageSize) {
+      if (rowCount == null || rowCount == "") {
+        return 1;
+      } else {
+        if (pageSize != 0 && rowCount % pageSize == 0) {
+          return parseInt(rowCount / pageSize)
+        }
+        if (pageSize != 0 && rowCount % pageSize != 0) {
+          return parseInt(rowCount / pageSize) + 1;
+        }
+      }
+    },
+    prev() {
+      if (this.pageNum > 1) {
+        this.pageNum--
+        this.getHot()
+      }
+    },
+    next() {
+      let totalPage=this.pageTotal(this.total, this.pageSize)
+      if (this.pageNum < totalPage) {
+        this.pageNum++
+        this.getHot()
+      }
+    },
+    openId(id){
+      window.open(id, '_blank')
     }
   }
 };
 </script>
 <style>
-.el-carousel__container{
+.el-carousel__container {
   height: 360px;
 }
 </style>
 <style lang="scss" scoped>
-.top-img{
+.top-img {
   width: 72px;
-height: 72px;
+  height: 72px;
 
 }
 
@@ -200,11 +272,11 @@ height: 72px;
 //轮播图
 .carousel-item {
   width: 100%;
-   height: 360px;
+  height: 360px;
   min-width: 1200px;
-background-repeat: no-repeat;
-background-size: 100% 100%;
-background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
 
 
 
@@ -215,10 +287,10 @@ background-position: center;
 
   .container {
     // width: 100%;
-  //   height: 100%;
-  //   padding-top: 69px;
-  // padding-left: 360px;
-  // padding-bottom:43px ;
+    //   height: 100%;
+    //   padding-top: 69px;
+    // padding-left: 360px;
+    // padding-bottom:43px ;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -293,7 +365,6 @@ background-position: center;
         .item-img {
           width: 130px;
           height: 88px;
-          background: #d8d8d8;
           border-radius: 6px;
           margin-right: 15px;
           position: relative;
@@ -368,6 +439,7 @@ background-position: center;
     margin-bottom: 20px;
     height: 184px;
     display: flex;
+
     &:hover {
       border-color: #dc0025;
     }
@@ -466,32 +538,12 @@ background-position: center;
     }
   }
 
-  .more-box{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-color: #3E454E;
-margin-bottom: 60px;
-    
-.right-icon{
-      // width: 17px;
-       margin-top: 1px;
-      margin-left: 3px;
-    }
-    &:hover{
-      color: #dc0025 ;
-      .right-icon{
-        color: #dc0025 ;
-      }
-    }
-  }
+
 }
 
 .right-block {
   width: 358px;
-  height: 430px;
+  // height: 430px;
   margin-left: 20px;
 
   .right-title {
@@ -510,18 +562,43 @@ margin-bottom: 60px;
     .paging {
       margin-left: auto;
 
-      img {
-        margin-right: 0;
+      i {
+        font-size: 14px;
       }
+
+      >div {
+        width: 32px;
+        height: 32px;
+        text-align: center;
+        line-height: 32px;
+        background: #FFFFFF;
+        border-radius: 2px;
+        border: 1px solid #E4E4E4;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.65);
+        cursor: pointer;
+      }
+
+      .paging-num {
+        width: 46px;
+        margin: 0 8px;
+      }
+
+      .disabled-class {
+        cursor: not-allowed;
+        color: #999;
+      }
+
     }
   }
 
   .right-list {
-    height: 430px;
+    // height: 430px;
     border-radius: 6px;
     border: 1px solid rgba(151, 151, 151, 0.18);
     padding: 20px 12px;
-margin-top: 25px;
+    margin-top: 25px;
+
     .item-first {
       display: flex;
 
@@ -535,7 +612,7 @@ margin-top: 25px;
         .item-img {
           width: 130px;
           height: 88px;
-          background: #d8d8d8;
+
           border-radius: 6px;
           margin-right: 15px;
           position: relative;
@@ -656,7 +733,7 @@ margin-top: 25px;
 
 // 覆盖轮播图组件样式
 ::v-deep .el-carousel__indicators--horizontal {
-  bottom: 30px;
+  bottom: 20px;
   width: 1200px;
 
   .el-carousel__button {
