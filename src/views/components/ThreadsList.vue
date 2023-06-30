@@ -4,7 +4,7 @@
         <div class="scroll-box" v-if="routeName == 'forums'" :style="{ 'height': scrollHeight + 'px' }"
             v-infinite-scroll="load" infinite-scroll-disabled="disabled">
             <div class="threads-box">
-                <router-link tag="div" :to="{ name: 'forumsdetail', query: { id: 1 } }"
+                <router-link tag="div" :to="{ name: 'forumsdetail', query: { id: item.id }  }"
                     class="threads-item mb20 flex justify-between" v-for="item in list">
                     <div class="left flex flex-direction justify-between">
                         <div class="name text-cut2 text-cut " title="">
@@ -36,7 +36,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="right ml20">
                         <img src="@/assets/person/forum-img.png" alt="">
                     </div>

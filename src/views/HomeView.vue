@@ -150,7 +150,7 @@
     <el-backtop :bottom="100">
       <img class="top-img" src="@/assets/top.png" alt="">
     </el-backtop>
-    <ReportDialog ref="report"></ReportDialog>
+
 
   </div>
 </template>
@@ -158,8 +158,8 @@
 <script>
 import Title from "@/components/Title";
 import ThreadsList from './components/ThreadsList.vue'
-//im举报
-import ReportDialog from './im/report-dialog.vue'
+
+
 //im
 import chat from './im/chat.vue'
 
@@ -168,7 +168,7 @@ export default {
   components: {
     Title,
     ThreadsList,
-    ReportDialog,
+
     chat
   },
   data() {
@@ -222,7 +222,7 @@ export default {
       this.$router.push({ path: '/forums/detail', query: 1 })
     },
     imClick() {
-      this.$refs.report.open()
+     
     },
     // 求总页数
     pageTotal(rowCount, pageSize) {

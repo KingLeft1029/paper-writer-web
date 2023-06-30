@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 const TokenKey = 'Admin-Token'
 
 export function getToken() {
-  return 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6Ijg3YTE4MGQ5LTg0YWYtNGNmZS1hMGJlLWFlYjgzY2Y2YzE5OSJ9.7DMLrmIDAGCkVokLK5J2b8J_mVrbGyf5SwKTCPq-jGPQYrhXld96i8P7-YYEQWXwx66xgpYLd7aji1N8G7nI8w'
+  return 'eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjAzMjZmMmY2LTc2OWYtNDdjZS1iN2VkLWRjNjA3OTYzOTYxYiJ9.6dtSP0rlzFmq3Ssr-29-cOyK2G1Y56APhCHgh-cso2dRumrEMUDMxijwzVXW7XDzW5L2zPGyGpapAnIY_hfSjQ'
   // return Cookies.get(TokenKey)
 }
 

@@ -104,7 +104,15 @@ export default {
 
 .no-nav {
   background-color: transparent;
+ 
+  .nav-list {
+     padding-left:25px;
+  }
+  .nav-line {
+ height: 2px;
+ background-color: #EFEFEF;
 
+}
 
 }
 
@@ -120,11 +128,7 @@ export default {
 
 
 
-.nav-line {
-  // margin: 0 auto;
 
-
-}
 
 .nav-line>div {
 

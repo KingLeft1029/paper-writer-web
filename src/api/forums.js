@@ -15,3 +15,20 @@ export function listApi(query) {
     params: query,
   });
 }
+// 详细信息
+export function detailApi(id) {
+  return request({
+    url: `/business/article/${id}`,
+    method: "get",
+
+  });
+}
+//打赏墨水
+export function inkApi(query) {
+  return request({
+    url: "/business/article/rewardInk",
+    method: "get",
+    params: query,
+  });
+}
+

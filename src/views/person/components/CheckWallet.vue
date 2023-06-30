@@ -6,7 +6,7 @@
           <span>Recharge</span>
         </div>
         <div class="ink-title">Ink</div>
-        <div class="ink-num">10</div>
+        <div class="ink-num">{{ ink }}</div>
       </div>
       <div class="right-income">
         <router-link to="/withdraw" class="ink-btn-bot">
@@ -60,6 +60,7 @@
 import TabChange from "../../components/TabChange.vue";
 import RechargeWalletDialog from "./recharge-wallet-dialog.vue"
 import MoreTo from '@/components/MoreTo'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     TabChange,
@@ -97,7 +98,10 @@ export default {
       ],
     }
   },
-
+  computed: {
+    ...mapGetters(["ink"]),
+   
+  },
   methods: {
     changeTab(num) { 
         if(num==0){

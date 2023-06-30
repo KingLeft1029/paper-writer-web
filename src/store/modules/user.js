@@ -1,5 +1,6 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import {  getApi} from '@/api/recharge'
 
 const user = {
   state: {
@@ -7,7 +8,8 @@ const user = {
     name: '',
     avatar: '',
     roles: 2,
-    permissions: []
+    permissions: [],
+    ink:'',
   },
 
   mutations: {
@@ -26,7 +28,10 @@ const user = {
     },
     SET_PERMISSIONS: (state, permissions) => {
       state.permissions = permissions
-    }
+    },
+    SET_INK: (state, ink) => {
+      state.ink = ink
+    },
   },
 
   actions: {
@@ -80,6 +85,18 @@ const user = {
           commit('SET_PERMISSIONS', [])
           removeToken()
           resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获取墨水余额
+    GetInk({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        getApi().then(res => {
+        
+          commit('SET_INK',res.data.ink)
+          resolve(res)
         }).catch(error => {
           reject(error)
         })

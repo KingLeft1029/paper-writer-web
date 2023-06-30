@@ -1,10 +1,13 @@
 <template>
     <div class="component-upload-image">
-        <el-upload :action="uploadImgUrl" list-type="picture-card" :on-success="handleUploadSuccess"
+        <el-upload  class="avatar-uploader" :action="uploadImgUrl" list-type="picture-card" :on-success="handleUploadSuccess"
             :before-upload="handleBeforeUpload" :limit="limit" :on-error="handleUploadError" :on-exceed="handleExceed"
             name="file" :on-remove="handleRemove" :show-file-list="true" :headers="headers" :file-list="fileList"
             :on-preview="handlePictureCardPreview" :class="{ hide: this.fileList.length >= this.limit }">
-            <i class="el-icon-plus"></i>
+           <div class="flex img-box flex-direction align-center justify-center">
+            <img src="@/assets/book/upload.png" alt="">
+            <span class="font12 text-grey">Pictures</span>
+           </div>
         </el-upload>
 
 
@@ -187,12 +190,40 @@ export default {
     }
 }
 </script>
-<style>
-
-</style>
+<style></style>
 <style scoped lang="scss">
-.component-upload-image {
+component-upload-image {
+    // width: 80px;
+    // height: 80px;
+    position: relative;
     display: flex;
+    flex-wrap: wrap;
+
+    ::v-deep .el-upload-list__item {
+        width: 80px;
+        height: 80px;
+    }
+
+}
+.avatar-uploader {
+    width: 80px;
+    height: 80px;
+
+    ::v-deep .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        width: 80px;
+        height: 80px;
+    }
+}
+.img-box {
+    width: 100%;
+    height: 100%;
+    padding-top: 10px;
+    line-height: 26px;
 }
 
 // .el-upload--picture-card 控制加号部分

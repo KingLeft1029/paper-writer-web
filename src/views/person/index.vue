@@ -16,7 +16,7 @@
       </div>
       <div class="left-ink">
         <div class="left-ink-item" @click="toWallet(1)">
-          <span class="yellow">1009999ink</span>
+          <span class="yellow">{{ink}}ink</span>
           <span>Wallet</span>
         </div>
         <div class="left-ink-item" @click="toCoupons(1)">
@@ -140,7 +140,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["roles"]),
+    ...mapGetters(["roles","ink"]),
     MenuTitle() {
       let val = ''
       switch (this.menuKey) {
@@ -178,6 +178,9 @@ export default {
       return val
 
     }
+  },
+  created(){
+    this.$store.dispatch("GetInk")
   },
   methods: {
     // 编辑头像

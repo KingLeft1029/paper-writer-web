@@ -27,7 +27,7 @@
         
 <script>
 import PopUp from '@/components/PopUp'
-import ImageUpload from '@/components/ImageUpload/single.vue'
+import ImageUpload from '@/components/ImageUpload/multiple.vue'
 export default {
     components: { PopUp,ImageUpload },
     data() {

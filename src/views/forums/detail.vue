@@ -1,7 +1,7 @@
 <template>
     <div class="container  mt41">
         <div class="forums-detail-box">
-            <span class="detail-name">Course Name Course name course name</span>
+            <span class="detail-name">{{ info.name }}</span>
             <div class="user flex align-center">
                 <span>3 apr </span>
                 <div class="col-line mlr"></div>
@@ -10,24 +10,24 @@
                     <span>Zhang User</span>
                 </div>
                 <btn btnText="Follow" btnType="9"></btn>
-             
+
             </div>
             <div class="flex align-center justify-between mt15">
                 <div class="text-grey">
                     Tags： A、Label B、Labe
                 </div>
-                <IconsUserNum ></IconsUserNum>
-          
+                <IconsUserNum></IconsUserNum>
+
             </div>
             <div class="border-dotted mt15"></div>
-            <div class="mt15 text-grey" v-html="value"> </div>
+            <div class="mt15 text-grey" v-html="info.content"> </div>
             <div class="flex flex-direction align-center justify-center mt41 inkjet-btn">
-       
-                <btn btnText="Inkjet" btnType="5"></btn>
+                <!-- 打赏墨水 -->
+                <btn btnText="Inkjet" btnType="5" @click.native="inkject"></btn>
                 <span>Nice Point! Inkjet to the author!</span>
             </div>
             <IconBorderBtn></IconBorderBtn>
-           
+
         </div>
         <div class="forums-detail-box">
             <Title title="Comments" />
@@ -39,24 +39,24 @@
             </div>
             <div class="flex justify-end mt20">
                 <btn btnText="Comments" btnType="6"></btn>
-               
+
             </div>
             <div class="flex justify-center text-grey mt20">No comments yet, waiting for you to leave a discussion!（to
                 discuss）</div>
         </div>
         <!-- 弹窗组件 -->
-        <PopUp title="Inkjet to the Author" :width="600">
+        <PopUp title="Inkjet to the Author" ref="pop" width="600">
 
             <div class="inkjet-grid">
-                <div class="inkjet-grid-item" v-for="x in 8">
-                    200
+                <div class="inkjet-grid-item" :class="{'active-ink':inkKey==inkIndex}" v-for="(inkItem,inkIndex) in inkList" @click="inkClick(inkItem,inkIndex)">
+                    {{ inkItem }}
                 </div>
             </div>
             <div class="flex justify-end mt33">
-                <el-button type="primary" class="common-btn-deep">
+                <el-button type="primary" class="common-btn-deep" @click="inkSubmit">
                     Inkjet
                 </el-button>
-                <el-button class="common-btn-border">
+                <el-button class="common-btn-border" @click="cancel">
                     Cancel
                 </el-button>
             </div>
@@ -68,6 +68,7 @@
 import PopUp from "@/components/PopUp"
 import IconsUserNum from '../components/icons-user-num.vue'
 import IconBorderBtn from '../components/icon-border-btn.vue'
+import { detailApi ,inkApi } from "@/api/forums"
 export default {
     components: {
         PopUp,
@@ -76,13 +77,50 @@ export default {
     },
     data() {
         return {
-            textarea2:'',
-          
-            value: '21dsfsdfsdfd'
+            textarea2: '',
+    
+            id: '',
+            info: {},
+            inkList:['200','300','400','500','600','800','1000','1200'],
+            inkKey:0,
+            inkReceivable:''
+            
         };
     },
+    created() {
+        this.id = this.$route.query.id
+        this.getInfo()
+    },
     methods: {
-
+        getInfo() {
+            detailApi(this.id).then(res => {
+                this.info = res.data
+            })
+        },
+        // 1、打赏墨水，额度为固定值，系统写死，管理后台不可调配
+        // 2、用户账户墨水购买，余额不足弹窗提示
+        // 3、打赏成功，toast弹窗文本提示“恭喜您，打赏成功！花费XX墨水~”
+        inkject() {
+            this.$refs.pop.open()
+        },
+        inkClick(item,index){
+            this.inkKey=index
+            this.inkReceivable=item
+        },
+        inkSubmit(){
+            let params={
+                id:this.id,
+                inkReceivable:this.inkReceivable
+            }
+            inkApi(params).then(res=>{
+                this.$message.success("Posted successfully.");
+                this.cancel()
+            })
+        },
+        cancel(){
+        this.$refs.pop.closest()
+            this.inkReceivable=''
+        }
     }
 };
 </script>
@@ -141,7 +179,7 @@ export default {
     }
 
     .inkjet-btn {
-       
+
         span {
             font-size: 12px;
             color: #FF8F00;
@@ -156,7 +194,7 @@ export default {
         }
     }
 
-   
+
 }
 
 .inkjet-grid {
@@ -181,6 +219,10 @@ export default {
             color: #DC0025;
             border-image: linear-gradient(180deg, rgba(248, 115, 8, 1), rgba(221, 2, 37, 1)) 2 2;
         }
+    }
+    .active-ink{
+        color: #DC0025;
+            border-image: linear-gradient(180deg, rgba(248, 115, 8, 1), rgba(221, 2, 37, 1)) 2 2;
     }
 }
 </style>
